@@ -7,21 +7,30 @@
 //
 
 import Foundation
+import Moya
 
-class SearchRepository: Repository {
-  typealias ServiceT = SearchServcice
+class SearchRepository {
 
-  typealias DomainEntityT = Photos
+//  typealias ServiceT = SearchService
+//  typealias DomainEntityT = Photos
+  typealias Dependencies = HasSearchRemoteService & HasCoreDataService
 
+  //let service: SearchService
 
-  var service: SearchServcice
+  let dependencies: Dependencies
 
-  required init(service: SearchServcice) {
-    self.service = service
+  init(dependencies: Dependencies) {
+    self.dependencies = dependencies
   }
 
-  func get(id: Int, completionHandler: @escaping (Photos?, Error?) -> Void) {
+  @discardableResult
+  func request(search: String, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable {
 
+    let query = PhotosQuery(searchText: search, perPage: 3, page: 1)
+
+    return dependencies.searchService.request(targetType: .searchPhotos(parameter: query)) { returnValues in
+      completionHandler(returnValues.domain, returnValues.error)
+    }
   }
 
 }

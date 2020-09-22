@@ -46,6 +46,7 @@
 		FE897F5E251441B2008DC307 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5D251441B2008DC307 /* Repository.swift */; };
 		FE897F6125144639008DC307 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F6025144639008DC307 /* UseCase.swift */; };
 		FE897F64251447A9008DC307 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F63251447A9008DC307 /* SearchRepository.swift */; };
+		FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9BCB422519CAA500754DF6 /* AppDependency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		FE897F5D251441B2008DC307 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		FE897F6025144639008DC307 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		FE897F63251447A9008DC307 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
+		FE9BCB422519CAA500754DF6 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				FE311F3C2511BE4200EE8400 /* AppDelegate.swift */,
 				FE311F512511BFE600EE8400 /* AppFlowCoordinator.swift */,
 				FE311F532511C01A00EE8400 /* AppDIContainer.swift */,
+				FE9BCB422519CAA500754DF6 /* AppDependency.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				FE86BD822512F28A00234949 /* FavoriteDIContainer.swift in Sources */,
 				FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */,
 				FE311F522511BFE600EE8400 /* AppFlowCoordinator.swift in Sources */,
+				FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */,
 				FE897F6125144639008DC307 /* UseCase.swift in Sources */,
 				FE311F6A2511E11300EE8400 /* FavoriteViewController.swift in Sources */,
 				FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */,

@@ -19,6 +19,6 @@ protocol BaseService {
   init(provider: MoyaProvider<TargetTypeBase>)
 
   @discardableResult
-  func request(targetType: TargetTypeBase, completion: @escaping (ReturnValueBase?) -> Void) -> CancellableBase
+  func request(targetType: TargetTypeBase, completion: @escaping (ReturnValueBase) -> Void) -> CancellableBase
 }
 

@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-final class SearchServcice: DefaultService<FlickrAPIType, SearchResponseDTO, Photos> {
+final class SearchService: DefaultService<FlickrAPIType, SearchResponseDTO, Photos> {
 
   // Override request method to do something you want of the subclass of DefaultService.
   /*

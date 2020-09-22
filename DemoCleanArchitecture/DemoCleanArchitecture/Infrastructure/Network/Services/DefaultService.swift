@@ -28,7 +28,7 @@ class DefaultService<TargetTypeT: TargetType,
    }
 
   @discardableResult
-  func request(targetType: TargetTypeT, completion: @escaping (ReturnValueBase?) -> Void) -> Cancellable {
+  func request(targetType: TargetTypeT, completion: @escaping (ReturnValueBase) -> Void) -> Cancellable {
     return provider.request(targetType) { (result) in
       completion(self.handle(result))
     }

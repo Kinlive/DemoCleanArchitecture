@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - Each use case executes a single business unit.
 protocol UseCase {
 
   associatedtype ImplementedRepository

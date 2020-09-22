@@ -15,12 +15,16 @@ protocol TabBarDIContainerMakeScenesContainer {
 
 class TabBarDIContainer: TabBarDIContainerMakeScenesContainer {
 
-  init() {
-    // dependencies
+  typealias Dependencies = AppDependency
+
+  private let dependencies: Dependencies
+
+  init(dependencies: Dependencies) {
+    self.dependencies = dependencies
   }
 
   func makeSearchContainer() -> SearchDIContainer {
-    return SearchDIContainer()
+    return SearchDIContainer(dependencies: dependencies)
   }
 
   func makeFavoriteContainer() -> FavoriteDIContainer {

@@ -10,9 +10,12 @@ import UIKit
 
 class SearchDIContainer {
 
+  typealias Dependencies = HasSearchRemoteService & HasCoreDataService
   // let service:
-  init() {
-    
+  private let dependencies: Dependencies
+
+  init(dependencies: Dependencies) {
+    self.dependencies = dependencies
   }
 
   func makeSearchCoordinator(navigationController: UINavigationController) -> SearchCoordinator {

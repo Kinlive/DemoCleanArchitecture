@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 protocol AppDIContainerMakeScenes {
   func makeTabBarContainer() -> TabBarDIContainer
@@ -18,6 +19,12 @@ class AppDIContainer: AppDIContainerMakeScenes {
   // lazy storageService
 
   func makeTabBarContainer() -> TabBarDIContainer {
-    return TabBarDIContainer() // <-- dependencies injection
+    // Why initialized remote service here because I wanted to
+    //  import frameworks Moya but not put it in the AppDependency.
+    let remoteService = SearchService(provider: MoyaProvider<FlickrAPIType>(plugins: [NetworkLoggerPlugin()]))
+    let appDependency = AppDependency(remoteService: remoteService)
+
+    return TabBarDIContainer(dependencies: appDependency) // <-- dependencies injection
   }
+
 }

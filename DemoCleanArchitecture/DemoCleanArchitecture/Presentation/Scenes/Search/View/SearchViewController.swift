@@ -45,17 +45,17 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
     // Sample use with service request
     let searchTexts = ["cat", "dog", "car", "bus", "coffee", "fruit"]
 
-    let secondService = SearchServcice(provider: MoyaProvider<FlickrAPIType>(plugins: [NetworkLoggerPlugin()]))
+    let secondService = SearchService(provider: MoyaProvider<FlickrAPIType>(plugins: [NetworkLoggerPlugin()]))
 
     for text in searchTexts {
       let query = PhotosQuery(searchText: text, perPage: 3, page: 1)
       secondService.request(targetType: .searchPhotos(parameter: query)) { [weak self] returnValue in
-        if let error = returnValue?.error {
+        if let error = returnValue.error {
           print(error.localizedDescription)
           return
         }
 
-        guard let domain = returnValue?.domain else { print("Not get domain"); return }
+        guard let domain = returnValue.domain else { print("Not get domain"); return }
         print("I got it: \n\(domain)\n")
       }
     }

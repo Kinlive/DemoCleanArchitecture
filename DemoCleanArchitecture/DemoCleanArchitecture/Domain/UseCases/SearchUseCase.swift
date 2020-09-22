@@ -7,15 +7,29 @@
 //
 
 import Foundation
+import Moya
 
-class SearchUseCase: UseCase {
-  typealias ImplementedRepository = SearchRepository
+protocol SearchRemoteUseCaseProtocol {
+  associatedtype RequestValueT
+  associatedtype ResponseValueT
+  func search(requestValue: RequestValueT, completionHandler: (ResponseValueT)) -> Cancellable
 
-  var repository: SearchRepository
+}
 
-  required init(repo: SearchRepository) {
+class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
+
+  typealias RequestValueT = String
+
+  typealias ResponseValueT = (Photos?, Error?) -> Void
+
+  let repository: SearchRepository
+
+  init(repo: SearchRepository) {
     self.repository = repo
+  }
 
+  func search(requestValue: String, completionHandler: (@escaping (Photos?, Error?) -> Void)) -> Cancellable {
+    return repository.request(search: requestValue, completionHandler: completionHandler)
   }
 
 }
