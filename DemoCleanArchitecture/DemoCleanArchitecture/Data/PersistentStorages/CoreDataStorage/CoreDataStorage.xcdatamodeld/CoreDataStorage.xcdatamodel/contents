@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PhotoResponseEntity" representedClassName="PhotoResponseEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="farm" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isfamily" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isfriend" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ispublic" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="owner" optional="YES" attributeType="String"/>
+        <attribute name="secret" optional="YES" attributeType="String"/>
+        <attribute name="server" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotosResponseEntity" inverseName="photos" inverseEntity="PhotosResponseEntity"/>
+    </entity>
+    <entity name="PhotosResponseEntity" representedClassName="PhotosResponseEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pages" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="perpage" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="total" optional="YES" attributeType="String"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PhotoResponseEntity" inverseName="photo" inverseEntity="PhotoResponseEntity"/>
+    </entity>
+    <elements>
+        <element name="PhotosResponseEntity" positionX="-63" positionY="-18" width="128" height="133"/>
+        <element name="PhotoResponseEntity" positionX="142.171875" positionY="113.19921875" width="128" height="193"/>
+    </elements>
+</model>

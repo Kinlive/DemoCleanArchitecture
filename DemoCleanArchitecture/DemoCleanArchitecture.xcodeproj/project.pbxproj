@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8DFC74DCD54F8B6BBD1E5576 /* Pods_DemoCleanArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA723CC6CC3001247D01A199 /* Pods_DemoCleanArchitecture.framework */; };
 		FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE03AD0D25145F42001FF520 /* FlickrAPIType.swift */; };
+		FE19371C252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */; };
+		FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE19371D252C452F003A6B04 /* CoreDataStorage.swift */; };
 		FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE311F3C2511BE4200EE8400 /* AppDelegate.swift */; };
 		FE311F462511BE4B00EE8400 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE311F452511BE4B00EE8400 /* Assets.xcassets */; };
 		FE311F492511BE4B00EE8400 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE311F472511BE4B00EE8400 /* LaunchScreen.storyboard */; };
@@ -54,6 +56,8 @@
 		C69D1DD54B136976DE37BD79 /* Pods-DemoCleanArchitecture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoCleanArchitecture.debug.xcconfig"; path = "Target Support Files/Pods-DemoCleanArchitecture/Pods-DemoCleanArchitecture.debug.xcconfig"; sourceTree = "<group>"; };
 		DA723CC6CC3001247D01A199 /* Pods_DemoCleanArchitecture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoCleanArchitecture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE03AD0D25145F42001FF520 /* FlickrAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrAPIType.swift; sourceTree = "<group>"; };
+		FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataStorage.xcdatamodel; sourceTree = "<group>"; };
+		FE19371D252C452F003A6B04 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		FE311F392511BE4200EE8400 /* DemoCleanArchitecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCleanArchitecture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE311F3C2511BE4200EE8400 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FE311F452511BE4B00EE8400 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,6 +135,23 @@
 				FE03AD0D25145F42001FF520 /* FlickrAPIType.swift */,
 			);
 			path = APIs;
+			sourceTree = "<group>";
+		};
+		FE193719252C1594003A6B04 /* PersistentStorages */ = {
+			isa = PBXGroup;
+			children = (
+				FE19371F252C499C003A6B04 /* CoreDataStorage */,
+			);
+			path = PersistentStorages;
+			sourceTree = "<group>";
+		};
+		FE19371F252C499C003A6B04 /* CoreDataStorage */ = {
+			isa = PBXGroup;
+			children = (
+				FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */,
+				FE19371D252C452F003A6B04 /* CoreDataStorage.swift */,
+			);
+			path = CoreDataStorage;
 			sourceTree = "<group>";
 		};
 		FE311F302511BE4200EE8400 = {
@@ -438,6 +459,7 @@
 		FE897F4725133EFC008DC307 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				FE193719252C1594003A6B04 /* PersistentStorages */,
 				FE897F6225144797008DC307 /* Repositories */,
 				FE897F4A2513477A008DC307 /* Network */,
 			);
@@ -623,6 +645,7 @@
 				FE7E827D2511F3FB00983B54 /* SearchDIContainer.swift in Sources */,
 				FE897F4E251349F2008DC307 /* Photos.swift in Sources */,
 				FE897F64251447A9008DC307 /* SearchRepository.swift in Sources */,
+				FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */,
 				FE86BD872512F84200234949 /* TabBarCoordinator.swift in Sources */,
 				FE311F542511C01A00EE8400 /* AppDIContainer.swift in Sources */,
 				FE4038A625183E850008B297 /* DefaultService.swift in Sources */,
@@ -638,6 +661,7 @@
 				FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */,
 				FE7CE0B025184113005D3338 /* BaseService.swift in Sources */,
 				FE897F4C251347B2008DC307 /* SearchResponseDTO+Mapping.swift in Sources */,
+				FE19371C252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld in Sources */,
 				FE86BD822512F28A00234949 /* FavoriteDIContainer.swift in Sources */,
 				FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */,
 				FE311F522511BFE600EE8400 /* AppFlowCoordinator.swift in Sources */,
@@ -836,6 +860,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */,
+			);
+			currentVersion = FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */;
+			path = CoreDataStorage.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FE311F312511BE4200EE8400 /* Project object */;
 }
