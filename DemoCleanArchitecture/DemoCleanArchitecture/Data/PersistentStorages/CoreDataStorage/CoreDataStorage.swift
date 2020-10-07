@@ -30,13 +30,15 @@ final class CoreDataStorage {
   }()
 
   // MARK: - Core data saving support
-  func saveContext() {
+  /// Use on UIAppdelegate func applicationDidEnterBackground by shared.
+  func saveContext() throws {
     let context = persistentContainer.viewContext
     if context.hasChanges {
       do {
         try context.save()
+
       } catch {
-        assertionFailure("CoreDataStorage unresolve error \(error), \((error as NSError).userInfo)")
+        throw error
       }
     }
   }

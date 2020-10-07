@@ -33,4 +33,14 @@ class SearchRepository {
     }
   }
 
+  func storage(search: String, completionHandler: @escaping (Photos?, Error?) -> Void) {
+    let query = PhotosQuery(searchText: search, perPage: 10, page: 1)
+
+    dependencies.photosStorage.getResponse(for: SearchRequestDTO(query: query)) { (result) in
+      switch result {
+      case .success(let responseDTO): completionHandler(responseDTO?.toDomain(), nil)
+      case .failure(let error): completionHandler(nil, error)
+      }
+    }
+  }
 }

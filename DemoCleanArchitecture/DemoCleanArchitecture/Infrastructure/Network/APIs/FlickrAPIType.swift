@@ -27,8 +27,13 @@ extension FlickrAPIType: TargetType {
     switch self {
     case .searchPhotos(let parameter):
       let dto = SearchRequestDTO(query: parameter)
-      let dic = (try? dto.asDictionary()) ?? [:]
+      var dic = (try? dto.asDictionary()) ?? [:]
 
+      // additional query parameter
+      dic["method"] = "flickr.photos.search"
+      dic["api_key"] = "2d56edc1b27ddecc287336edac52ddba"
+      dic["format"] = "json"
+      dic["nojsoncallback"] = "1"
       return .requestCompositeParameters(bodyParameters: [:], bodyEncoding: JSONEncoding.default, urlParameters: dic)
     }
   }

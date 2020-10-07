@@ -13,7 +13,7 @@ struct Photos: BaseEntities {
 
   let id: Identifier
   let page, pages, perpage: Int
-  let total: String
+  let total: String?
   let photo: [Photo]
 }
 
@@ -21,8 +21,36 @@ struct Photos: BaseEntities {
 struct Photo: BaseEntities {
   typealias Identifier = String
   let id: Identifier
-  let owner, secret, server: String
+  let owner, secret, server: String?
   let farm: Int
-  let title: String
+  let title: String?
   let ispublic, isfriend, isfamily: Int
+}
+
+extension Photos {
+  func toDTO() -> SearchResponseDTO.PhotosDTO {
+    return .init(
+      page: page,
+      pages: pages,
+      perpage: perpage,
+      total: total,
+      photo: photo.map { $0.toDTO() }
+    )
+  }
+}
+
+extension Photo {
+  func toDTO() -> SearchResponseDTO.PhotosDTO.PhotoDTO {
+    return .init(
+      id: id,
+      owner: owner,
+      secret: secret,
+      server: server,
+      farm: farm,
+      title: title,
+      ispublic: ispublic,
+      isfriend: isfriend,
+      isfamily: isfamily
+    )
+  }
 }

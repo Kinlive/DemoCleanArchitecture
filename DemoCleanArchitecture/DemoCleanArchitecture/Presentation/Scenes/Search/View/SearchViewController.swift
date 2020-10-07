@@ -39,6 +39,7 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
     makeUIsConstraints()
     makeUIs()
   }
+  let storage = CoreDataPhotosStorage()
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -48,8 +49,9 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
 
     let secondService = SearchService(provider: MoyaProvider<FlickrAPIType>(plugins: [NetworkLoggerPlugin()]))
 
-    for text in searchTexts {
+    for (i, text) in searchTexts.enumerated() {
       let query = PhotosQuery(searchText: text, perPage: 3, page: 1)
+
       secondService.request(targetType: .searchPhotos(parameter: query)) { [weak self] returnValue in
         if let error = returnValue.error {
           print(error.localizedDescription)
@@ -58,6 +60,15 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
 
         guard let domain = returnValue.domain else { print("Not get domain"); return }
         print("I got it: \n\(domain)\n")
+      }
+
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1 + Double(i)) {
+
+        self.storage.getResponse(for: .init(query: query)) { (result) in
+          print("======================== get response from coredata================")
+          print(result)
+          print("\n")
+        }
       }
     }
 

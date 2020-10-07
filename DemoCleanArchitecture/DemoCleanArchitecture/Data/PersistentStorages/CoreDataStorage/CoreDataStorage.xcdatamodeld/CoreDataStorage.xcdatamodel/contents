@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PhotoResponseEntity" representedClassName="PhotoResponseEntity" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="SearchPhotoResponseEntity" representedClassName="SearchPhotoResponseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="farm" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="isfamily" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isfriend" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ispublic" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -10,18 +10,31 @@
         <attribute name="secret" optional="YES" attributeType="String"/>
         <attribute name="server" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotosResponseEntity" inverseName="photos" inverseEntity="PhotosResponseEntity"/>
+        <relationship name="searchPhotos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchPhotosResponseEntity" inverseName="photo" inverseEntity="SearchPhotosResponseEntity"/>
     </entity>
-    <entity name="PhotosResponseEntity" representedClassName="PhotosResponseEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    <entity name="SearchPhotosResponseEntity" representedClassName="SearchPhotosResponseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="pages" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="perpage" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="total" optional="YES" attributeType="String"/>
-        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PhotoResponseEntity" inverseName="photo" inverseEntity="PhotoResponseEntity"/>
+        <relationship name="photo" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SearchPhotoResponseEntity" inverseName="searchPhotos" inverseEntity="SearchPhotoResponseEntity"/>
+        <relationship name="searchResponse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchResponseEntity" inverseName="photos" inverseEntity="SearchResponseEntity"/>
+    </entity>
+    <entity name="SearchRequestEntity" representedClassName="SearchRequestEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="perPage" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="response" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchResponseEntity" inverseName="request" inverseEntity="SearchResponseEntity"/>
+    </entity>
+    <entity name="SearchResponseEntity" representedClassName="SearchResponseEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="stat" optional="YES" attributeType="String"/>
+        <relationship name="photos" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchPhotosResponseEntity" inverseName="searchResponse" inverseEntity="SearchPhotosResponseEntity"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchRequestEntity" inverseName="response" inverseEntity="SearchRequestEntity"/>
     </entity>
     <elements>
-        <element name="PhotosResponseEntity" positionX="-63" positionY="-18" width="128" height="133"/>
-        <element name="PhotoResponseEntity" positionX="142.171875" positionY="113.19921875" width="128" height="193"/>
+        <element name="SearchPhotoResponseEntity" positionX="-153.8671875" positionY="387.1640625" width="128" height="193"/>
+        <element name="SearchPhotosResponseEntity" positionX="-327.23046875" positionY="261.8359375" width="128" height="133"/>
+        <element name="SearchResponseEntity" positionX="-479.109375" positionY="155.9296875" width="128" height="88"/>
+        <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="103"/>
     </elements>
 </model>

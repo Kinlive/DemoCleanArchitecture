@@ -13,7 +13,7 @@ protocol HasSearchRemoteService {
 }
 
 protocol HasCoreDataService {
-  var demoService: String { get }
+  var photosStorage: CoreDataPhotosStorage { get }
 }
 
 protocol HasSQLService {
@@ -27,17 +27,17 @@ protocol HasCachedService {
 // MARK: - Handle all services by AppDependency.
 struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService, HasCachedService {
 
-  // MARK: HasSearchRemoteService dependencies.
+  /// HasSearchRemoteService dependencies.
   var searchService: SearchService
 
-  // MARK: HasCorDataService dependencies.
-  var demoService: String
+  /// HasCorDataService dependencies.
+  var photosStorage: CoreDataPhotosStorage
 
 
   init(remoteService: SearchService) {
     self.searchService = remoteService
 
-    self.demoService = "You got a Service with core data."
+    self.photosStorage = CoreDataPhotosStorage()
 
   }
 

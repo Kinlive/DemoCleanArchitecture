@@ -12,7 +12,7 @@ import Foundation
 struct SearchResponseDTO: BaseResponseDTO {
   typealias DomainT = Photos
 
-  let photos: PhotosDTO
+  let photos: PhotosDTO?
   let stat: String
 }
 
@@ -22,7 +22,7 @@ extension SearchResponseDTO {
     typealias DomainT = Photos
 
     let page, pages, perpage: Int
-    let total: String
+    let total: String?
     let photo: [PhotoDTO]
   }
 }
@@ -32,9 +32,10 @@ extension SearchResponseDTO.PhotosDTO {
   struct PhotoDTO: BaseResponseDTO {
     typealias DomainT = Photo
 
-    let id, owner, secret, server: String
+    let id: String
+    let owner, secret, server: String?
     let farm: Int
-    let title: String
+    let title: String?
     let ispublic, isfriend, isfamily: Int
   }
 }
@@ -42,7 +43,7 @@ extension SearchResponseDTO.PhotosDTO {
 // MARK: - Mapping to domain's entities
 extension SearchResponseDTO {
   func toDomain<T>() -> T where T : BaseEntities {
-    return photos.toDomain()
+    return photos!.toDomain()
   }
 }
 

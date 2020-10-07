@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		8DFC74DCD54F8B6BBD1E5576 /* Pods_DemoCleanArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA723CC6CC3001247D01A199 /* Pods_DemoCleanArchitecture.framework */; };
 		FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE03AD0D25145F42001FF520 /* FlickrAPIType.swift */; };
-		FE19371C252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */; };
+		FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E249F252C5C8D00064230 /* PhotosStorage.swift */; };
+		FE0E24A2252C5CB600064230 /* CoreDataPhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */; };
+		FE0E24A5252C5D6700064230 /* PhotosResponseEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */; };
 		FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE19371D252C452F003A6B04 /* CoreDataStorage.swift */; };
 		FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE311F3C2511BE4200EE8400 /* AppDelegate.swift */; };
 		FE311F462511BE4B00EE8400 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE311F452511BE4B00EE8400 /* Assets.xcassets */; };
@@ -28,8 +30,10 @@
 		FE311F762511E18F00EE8400 /* ResultViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE311F732511E18F00EE8400 /* ResultViewController.storyboard */; };
 		FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE311F7B2511E62700EE8400 /* BaseCoordinator.swift */; };
 		FE4038A625183E850008B297 /* DefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4038A525183E850008B297 /* DefaultService.swift */; };
+		FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE4D2518252D5353007E4265 /* CoreDataStorage.xcdatamodeld */; };
+		FE4D251D252D5F02007E4265 /* SearchLocalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */; };
 		FE7CE0B025184113005D3338 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0AF25184113005D3338 /* BaseService.swift */; };
-		FE7CE0B225184C6E005D3338 /* EncoableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0B125184C6E005D3338 /* EncoableExtension.swift */; };
+		FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */; };
 		FE7D58D52514541600B09B58 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7D58D42514541600B09B58 /* SearchService.swift */; };
 		FE7E827D2511F3FB00983B54 /* SearchDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7E827C2511F3FB00983B54 /* SearchDIContainer.swift */; };
 		FE7E82802511F43200983B54 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7E827F2511F43200983B54 /* SearchCoordinator.swift */; };
@@ -43,7 +47,7 @@
 		FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5125134CD9008DC307 /* PhotosQuery.swift */; };
 		FE897F5525134E43008DC307 /* BaseEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5425134E43008DC307 /* BaseEntities.swift */; };
 		FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5725134E7B008DC307 /* BaseDataTransferObject.swift */; };
-		FE897F5A251356E0008DC307 /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F59251356E0008DC307 /* SearchUseCase.swift */; };
+		FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */; };
 		FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */; };
 		FE897F5E251441B2008DC307 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5D251441B2008DC307 /* Repository.swift */; };
 		FE897F6125144639008DC307 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F6025144639008DC307 /* UseCase.swift */; };
@@ -56,7 +60,9 @@
 		C69D1DD54B136976DE37BD79 /* Pods-DemoCleanArchitecture.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoCleanArchitecture.debug.xcconfig"; path = "Target Support Files/Pods-DemoCleanArchitecture/Pods-DemoCleanArchitecture.debug.xcconfig"; sourceTree = "<group>"; };
 		DA723CC6CC3001247D01A199 /* Pods_DemoCleanArchitecture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoCleanArchitecture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE03AD0D25145F42001FF520 /* FlickrAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrAPIType.swift; sourceTree = "<group>"; };
-		FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataStorage.xcdatamodel; sourceTree = "<group>"; };
+		FE0E249F252C5C8D00064230 /* PhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosStorage.swift; sourceTree = "<group>"; };
+		FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPhotosStorage.swift; sourceTree = "<group>"; };
+		FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosResponseEntity+Mapping.swift"; sourceTree = "<group>"; };
 		FE19371D252C452F003A6B04 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		FE311F392511BE4200EE8400 /* DemoCleanArchitecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCleanArchitecture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE311F3C2511BE4200EE8400 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -77,8 +83,10 @@
 		FE311F732511E18F00EE8400 /* ResultViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ResultViewController.storyboard; sourceTree = "<group>"; };
 		FE311F7B2511E62700EE8400 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		FE4038A525183E850008B297 /* DefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultService.swift; sourceTree = "<group>"; };
+		FE4D2519252D5353007E4265 /* CoreDataStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataStorage.xcdatamodel; sourceTree = "<group>"; };
+		FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocalUseCase.swift; sourceTree = "<group>"; };
 		FE7CE0AF25184113005D3338 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
-		FE7CE0B125184C6E005D3338 /* EncoableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncoableExtension.swift; sourceTree = "<group>"; };
+		FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		FE7D58D42514541600B09B58 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		FE7E827C2511F3FB00983B54 /* SearchDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDIContainer.swift; sourceTree = "<group>"; };
 		FE7E827F2511F43200983B54 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
@@ -92,7 +100,7 @@
 		FE897F5125134CD9008DC307 /* PhotosQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosQuery.swift; sourceTree = "<group>"; };
 		FE897F5425134E43008DC307 /* BaseEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntities.swift; sourceTree = "<group>"; };
 		FE897F5725134E7B008DC307 /* BaseDataTransferObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataTransferObject.swift; sourceTree = "<group>"; };
-		FE897F59251356E0008DC307 /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
+		FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRemoteUseCase.swift; sourceTree = "<group>"; };
 		FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteUseCase.swift; sourceTree = "<group>"; };
 		FE897F5D251441B2008DC307 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		FE897F6025144639008DC307 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
@@ -137,9 +145,18 @@
 			path = APIs;
 			sourceTree = "<group>";
 		};
+		FE0E24A3252C5D4C00064230 /* EntityMapping */ = {
+			isa = PBXGroup;
+			children = (
+				FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */,
+			);
+			path = EntityMapping;
+			sourceTree = "<group>";
+		};
 		FE193719252C1594003A6B04 /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				FE9D3669252C512D00059495 /* PhotosStorage */,
 				FE19371F252C499C003A6B04 /* CoreDataStorage */,
 			);
 			path = PersistentStorages;
@@ -148,7 +165,7 @@
 		FE19371F252C499C003A6B04 /* CoreDataStorage */ = {
 			isa = PBXGroup;
 			children = (
-				FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */,
+				FE4D2518252D5353007E4265 /* CoreDataStorage.xcdatamodeld */,
 				FE19371D252C452F003A6B04 /* CoreDataStorage.swift */,
 			);
 			path = CoreDataStorage;
@@ -328,11 +345,20 @@
 		FE311F7A2511E1F600EE8400 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				FE7CE0B125184C6E005D3338 /* EncoableExtension.swift */,
+				FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */,
 				FE7CE0B3251850C4005D3338 /* Services */,
 				FE03AD0F25145FDA001FF520 /* APIs */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		FE4D251B252D5ED7007E4265 /* SearchUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */,
+				FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */,
+			);
+			path = SearchUseCase;
 			sourceTree = "<group>";
 		};
 		FE7CE0AE251840EF005D3338 /* Protocol */ = {
@@ -380,8 +406,8 @@
 		FE86BD7C25120D2000234949 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				FE4D251B252D5ED7007E4265 /* SearchUseCase */,
 				FE897F5F2514462A008DC307 /* Protocol */,
-				FE897F59251356E0008DC307 /* SearchUseCase.swift */,
 				FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */,
 			);
 			path = UseCases;
@@ -516,6 +542,16 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
+		FE9D3669252C512D00059495 /* PhotosStorage */ = {
+			isa = PBXGroup;
+			children = (
+				FE0E24A3252C5D4C00064230 /* EntityMapping */,
+				FE0E249F252C5C8D00064230 /* PhotosStorage.swift */,
+				FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */,
+			);
+			path = PhotosStorage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -635,10 +671,12 @@
 			files = (
 				FE311F6B2511E11300EE8400 /* FavoriteViewModel.swift in Sources */,
 				FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */,
-				FE897F5A251356E0008DC307 /* SearchUseCase.swift in Sources */,
+				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
+				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
 				FE897F5E251441B2008DC307 /* Repository.swift in Sources */,
 				FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */,
 				FE311F5D2511DF9700EE8400 /* SearchViewModel.swift in Sources */,
+				FE0E24A5252C5D6700064230 /* PhotosResponseEntity+Mapping.swift in Sources */,
 				FE897F5525134E43008DC307 /* BaseEntities.swift in Sources */,
 				FE311F5C2511DF9700EE8400 /* SearchViewController.swift in Sources */,
 				FE311F752511E18F00EE8400 /* ResultViewModel.swift in Sources */,
@@ -649,19 +687,21 @@
 				FE86BD872512F84200234949 /* TabBarCoordinator.swift in Sources */,
 				FE311F542511C01A00EE8400 /* AppDIContainer.swift in Sources */,
 				FE4038A625183E850008B297 /* DefaultService.swift in Sources */,
-				FE7CE0B225184C6E005D3338 /* EncoableExtension.swift in Sources */,
+				FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */,
 				FE7E82802511F43200983B54 /* SearchCoordinator.swift in Sources */,
 				FE7D58D52514541600B09B58 /* SearchService.swift in Sources */,
 				FE86BD842512F2A100234949 /* FavoriteCoordinator.swift in Sources */,
 				FE897F5025134B6F008DC307 /* SearchRequestDTO+Mapping.swift in Sources */,
 				FE311F742511E18F00EE8400 /* ResultViewController.swift in Sources */,
 				FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */,
+				FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */,
 				FE311F622511E02E00EE8400 /* StoryboardInstantiable.swift in Sources */,
 				FE86BD8B2512F8C100234949 /* TabBarDIContainer.swift in Sources */,
 				FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */,
+				FE4D251D252D5F02007E4265 /* SearchLocalUseCase.swift in Sources */,
 				FE7CE0B025184113005D3338 /* BaseService.swift in Sources */,
 				FE897F4C251347B2008DC307 /* SearchResponseDTO+Mapping.swift in Sources */,
-				FE19371C252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld in Sources */,
+				FE0E24A2252C5CB600064230 /* CoreDataPhotosStorage.swift in Sources */,
 				FE86BD822512F28A00234949 /* FavoriteDIContainer.swift in Sources */,
 				FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */,
 				FE311F522511BFE600EE8400 /* AppFlowCoordinator.swift in Sources */,
@@ -862,12 +902,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		FE19371A252C1A2B003A6B04 /* CoreDataStorage.xcdatamodeld */ = {
+		FE4D2518252D5353007E4265 /* CoreDataStorage.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */,
+				FE4D2519252D5353007E4265 /* CoreDataStorage.xcdatamodel */,
 			);
-			currentVersion = FE19371B252C1A2B003A6B04 /* CoreDataStorage.xcdatamodel */;
+			currentVersion = FE4D2519252D5353007E4265 /* CoreDataStorage.xcdatamodel */;
 			path = CoreDataStorage.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
