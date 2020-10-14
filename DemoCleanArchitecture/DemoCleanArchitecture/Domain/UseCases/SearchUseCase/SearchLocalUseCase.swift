@@ -11,11 +11,11 @@ import Foundation
 protocol SearchLocalUseCaseProtocol {
   associatedtype RequestValueT
   associatedtype ResponseValueT
-  func search(requestValue: RequestValueT, completionHandler: (ResponseValueT))
+  func search(query: RequestValueT, completionHandler: (ResponseValueT))
 }
 
 final class DefaultSearchLocalUseCase: SearchLocalUseCaseProtocol {
-  typealias RequestValueT = String
+  typealias RequestValueT = PhotosQuery
 
   typealias ResponseValueT = (Photos?, Error?) -> Void
 
@@ -25,8 +25,8 @@ final class DefaultSearchLocalUseCase: SearchLocalUseCaseProtocol {
     self.repository = repo
   }
 
-  func search(requestValue: String, completionHandler: @escaping ((Photos?, Error?) -> Void)) {
-    repository.storage(search: requestValue, completionHandler: completionHandler)
+  func search(query: PhotosQuery, completionHandler: @escaping ((Photos?, Error?) -> Void)) {
+    repository.storage(searchQuery: query, completionHandler: completionHandler)
   }
 
 }

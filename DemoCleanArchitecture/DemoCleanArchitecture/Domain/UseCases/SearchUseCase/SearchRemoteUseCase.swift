@@ -12,13 +12,13 @@ import Moya
 protocol SearchRemoteUseCaseProtocol {
   associatedtype RequestValueT
   associatedtype ResponseValueT
-  func search(requestValue: RequestValueT, completionHandler: (ResponseValueT)) -> Cancellable
+  func search(query: RequestValueT, completionHandler: (ResponseValueT)) -> Cancellable
 
 }
 
 final class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
 
-  typealias RequestValueT = String
+  typealias RequestValueT = PhotosQuery
 
   typealias ResponseValueT = (Photos?, Error?) -> Void
 
@@ -28,8 +28,8 @@ final class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
     self.repository = repo
   }
 
-  func search(requestValue: String, completionHandler: (@escaping (Photos?, Error?) -> Void)) -> Cancellable {
-    return repository.request(search: requestValue, completionHandler: completionHandler)
+  func search(query: PhotosQuery, completionHandler: (@escaping (Photos?, Error?) -> Void)) -> Cancellable {
+    return repository.request(searchQuery: query, completionHandler: completionHandler)
   }
 
 }

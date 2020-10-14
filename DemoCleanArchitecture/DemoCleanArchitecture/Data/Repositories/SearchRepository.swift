@@ -24,16 +24,14 @@ final class SearchRepository {
   }
 
   @discardableResult
-  func request(search: String, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable {
+  func request(searchQuery: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable {
 
-    let query = PhotosQuery(searchText: search, perPage: 3, page: 1)
-
-    return dependencies.searchService.request(targetType: .searchPhotos(parameter: query)) { [weak self] returnValues in
+    return dependencies.searchService.request(targetType: .searchPhotos(parameter: searchQuery)) { [weak self] returnValues in
       // storage search response
       if let responseDTO = returnValues.domain?.toDTO() {
         self?.dependencies.photosStorage.save(
           response: .init(photos: responseDTO, stat: "storaged"),
-          for: .init(query: query)
+          for: .init(query: searchQuery)
         )
       }
 
@@ -41,10 +39,9 @@ final class SearchRepository {
     }
   }
 
-  func storage(search: String, completionHandler: @escaping (Photos?, Error?) -> Void) {
-    let query = PhotosQuery(searchText: search, perPage: 10, page: 1)
+  func storage(searchQuery: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) {
 
-    dependencies.photosStorage.getResponse(for: SearchRequestDTO(query: query)) { (result) in
+    dependencies.photosStorage.getResponse(for: SearchRequestDTO(query: searchQuery)) { (result) in
       switch result {
       case .success(let responseDTO): completionHandler(responseDTO?.toDomain(), nil)
       case .failure(let error): completionHandler(nil, error)
