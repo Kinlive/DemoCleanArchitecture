@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-class SearchRepository {
+final class SearchRepository {
 
 //  typealias ServiceT = SearchService
 //  typealias DomainEntityT = Photos
@@ -28,7 +28,15 @@ class SearchRepository {
 
     let query = PhotosQuery(searchText: search, perPage: 3, page: 1)
 
-    return dependencies.searchService.request(targetType: .searchPhotos(parameter: query)) { returnValues in
+    return dependencies.searchService.request(targetType: .searchPhotos(parameter: query)) { [weak self] returnValues in
+      // storage search response
+      if let responseDTO = returnValues.domain?.toDTO() {
+        self?.dependencies.photosStorage.save(
+          response: .init(photos: responseDTO, stat: "storaged"),
+          for: .init(query: query)
+        )
+      }
+
       completionHandler(returnValues.domain, returnValues.error)
     }
   }

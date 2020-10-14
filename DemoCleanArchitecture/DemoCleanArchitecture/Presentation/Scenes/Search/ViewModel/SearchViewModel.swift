@@ -8,6 +8,7 @@
 
 import Foundation
 
+// ViewModel Actions which tells to coordinator when to present another views.
 struct SearchViewModelActions {
   
 }
@@ -17,23 +18,35 @@ protocol SearchViewModelInput {
 }
 
 protocol SearchViewModelOutput {
-  var testTitle: String { get }
+
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
 
 final class DefaultSearchViewModel: SearchViewModel {
-    
-    // MARK: - OUTPUT
-  var testTitle: String
 
-  init(testTitle: String) {
-    self.testTitle = testTitle
+  // MARK: - Use cases
+  // Tells viewModel which use case needs.
+  typealias SearchUseCases = HasPhotosLocalSearchUseCase & HasPhotosRemoteSearchUseCase
+  private let useCases: SearchUseCases
+
+  // MARK: - Actions
+  private let actions: SearchViewModelActions?
+  
+  // MARK: - Input
+
+  // MARK: - OUTPUT
+
+
+  init(actions: SearchViewModelActions? = nil, useCases: SearchUseCases) {
+    self.useCases = useCases
+    self.actions = actions
+
   }
 }
 
 // MARK: - INPUT. View event methods
 extension DefaultSearchViewModel {
-    func viewDidLoad() {
-    }
+  func viewDidLoad() {
+  }
 }

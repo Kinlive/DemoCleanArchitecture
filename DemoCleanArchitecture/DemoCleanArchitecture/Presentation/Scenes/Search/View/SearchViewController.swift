@@ -76,7 +76,7 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
 
   func bind(to viewModel: SearchViewModel) {
 
-    aTestLabel.text = viewModel.testTitle
+    
   }
 
   private func addSubviews() {

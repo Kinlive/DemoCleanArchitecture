@@ -27,7 +27,7 @@ class TabBarCoordinator: BaseCoordinator {
 
     let searchNavigation = UINavigationController()
     searchNavigation.tabBarItem = UITabBarItem(title: "Search", image:  nil, selectedImage: nil)
-    searchCoordinator = searchContainer.makeSearchCoordinator(navigationController: searchNavigation)
+    searchCoordinator = searchContainer.makeSearchCoordinator(at: searchNavigation)
     searchCoordinator?.start()
 
     let favoriteContainer = tabBarDIContainer.makeFavoriteContainer()

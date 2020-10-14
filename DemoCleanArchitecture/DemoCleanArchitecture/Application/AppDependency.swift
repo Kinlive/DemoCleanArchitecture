@@ -13,7 +13,7 @@ protocol HasSearchRemoteService {
 }
 
 protocol HasCoreDataService {
-  var photosStorage: CoreDataPhotosStorage { get }
+  var photosStorage: PhotosStorage { get }
 }
 
 protocol HasSQLService {
@@ -31,7 +31,7 @@ struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService,
   var searchService: SearchService
 
   /// HasCorDataService dependencies.
-  var photosStorage: CoreDataPhotosStorage
+  var photosStorage: PhotosStorage
 
 
   init(remoteService: SearchService) {

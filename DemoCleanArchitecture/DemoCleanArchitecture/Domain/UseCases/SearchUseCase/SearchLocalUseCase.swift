@@ -14,12 +14,12 @@ protocol SearchLocalUseCaseProtocol {
   func search(requestValue: RequestValueT, completionHandler: (ResponseValueT))
 }
 
-class DefaultSearchLocalUseCase: SearchLocalUseCaseProtocol {
+final class DefaultSearchLocalUseCase: SearchLocalUseCaseProtocol {
   typealias RequestValueT = String
 
   typealias ResponseValueT = (Photos?, Error?) -> Void
 
-  let repository: SearchRepository
+  private let repository: SearchRepository
 
   init(repo: SearchRepository) {
     self.repository = repo

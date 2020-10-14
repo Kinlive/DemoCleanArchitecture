@@ -16,13 +16,13 @@ protocol SearchRemoteUseCaseProtocol {
 
 }
 
-class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
+final class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
 
   typealias RequestValueT = String
 
   typealias ResponseValueT = (Photos?, Error?) -> Void
 
-  let repository: SearchRepository
+  private let repository: SearchRepository
 
   init(repo: SearchRepository) {
     self.repository = repo
