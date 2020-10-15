@@ -54,7 +54,7 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
     }
   }
 
-  func loadAll(completion: @escaping (Result<[Photo], CoreDataStorageError>) -> Void) {
+  func fetchAllFavorite(completion: @escaping (Result<[Photo], CoreDataStorageError>) -> Void) {
     coreDataStorage.performBackgroundTask { context in
       do {
         let fetchAllRequest = self.fetchAllRequest()
