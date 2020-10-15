@@ -4,6 +4,7 @@
         <attribute name="farm" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String"/>
         <attribute name="isfamily" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isfriend" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ispublic" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="owner" optional="YES" attributeType="String"/>
@@ -32,9 +33,9 @@
         <relationship name="request" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchRequestEntity" inverseName="response" inverseEntity="SearchRequestEntity"/>
     </entity>
     <elements>
-        <element name="SearchPhotoResponseEntity" positionX="-153.8671875" positionY="387.1640625" width="128" height="193"/>
+        <element name="SearchPhotoResponseEntity" positionX="-127.8828125" positionY="383.84765625" width="128" height="208"/>
         <element name="SearchPhotosResponseEntity" positionX="-327.23046875" positionY="261.8359375" width="128" height="133"/>
-        <element name="SearchResponseEntity" positionX="-479.109375" positionY="155.9296875" width="128" height="88"/>
         <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="103"/>
+        <element name="SearchResponseEntity" positionX="-479.109375" positionY="155.9296875" width="128" height="88"/>
     </elements>
 </model>

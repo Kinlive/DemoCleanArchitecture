@@ -55,6 +55,9 @@
 		FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9BCB422519CAA500754DF6 /* AppDependency.swift */; };
 		FEAB26452537F10000779B59 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26432537F10000779B59 /* CacheManager.swift */; };
 		FEAB26462537F10100779B59 /* AnyCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26442537F10000779B59 /* AnyCache.swift */; };
+		FEAB26492537FBC600779B59 /* UIImageView+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26482537FBC600779B59 /* UIImageView+Download.swift */; };
+		FEAB264D25381DCA00779B59 /* FavoritesPhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB264C25381DCA00779B59 /* FavoritesPhotosStorage.swift */; };
+		FEAB264F25381E6A00779B59 /* CoreDataFavoritesPhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB264E25381E6A00779B59 /* CoreDataFavoritesPhotosStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +113,9 @@
 		FE9BCB422519CAA500754DF6 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		FEAB26432537F10000779B59 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		FEAB26442537F10000779B59 /* AnyCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCache.swift; sourceTree = "<group>"; };
+		FEAB26482537FBC600779B59 /* UIImageView+Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Download.swift"; sourceTree = "<group>"; };
+		FEAB264C25381DCA00779B59 /* FavoritesPhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPhotosStorage.swift; sourceTree = "<group>"; };
+		FEAB264E25381E6A00779B59 /* CoreDataFavoritesPhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFavoritesPhotosStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,7 @@
 		FE193719252C1594003A6B04 /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				FEAB264B25381DAB00779B59 /* FavoriteStorage */,
 				FE9D3669252C512D00059495 /* PhotosStorage */,
 				FE19371F252C499C003A6B04 /* CoreDataStorage */,
 			);
@@ -243,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				FE311F7B2511E62700EE8400 /* BaseCoordinator.swift */,
+				FEAB26472537FBC600779B59 /* UIKitExtension */,
 				FE311F642511E0DF00EE8400 /* Protocol */,
 			);
 			path = Utils;
@@ -566,6 +574,23 @@
 			path = AnyCache;
 			sourceTree = "<group>";
 		};
+		FEAB26472537FBC600779B59 /* UIKitExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FEAB26482537FBC600779B59 /* UIImageView+Download.swift */,
+			);
+			path = UIKitExtension;
+			sourceTree = "<group>";
+		};
+		FEAB264B25381DAB00779B59 /* FavoriteStorage */ = {
+			isa = PBXGroup;
+			children = (
+				FEAB264C25381DCA00779B59 /* FavoritesPhotosStorage.swift */,
+				FEAB264E25381E6A00779B59 /* CoreDataFavoritesPhotosStorage.swift */,
+			);
+			path = FavoriteStorage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -683,6 +708,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEAB264D25381DCA00779B59 /* FavoritesPhotosStorage.swift in Sources */,
 				FE311F6B2511E11300EE8400 /* FavoriteViewModel.swift in Sources */,
 				FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */,
 				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
@@ -709,6 +735,7 @@
 				FE897F5025134B6F008DC307 /* SearchRequestDTO+Mapping.swift in Sources */,
 				FE311F742511E18F00EE8400 /* ResultViewController.swift in Sources */,
 				FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */,
+				FEAB26492537FBC600779B59 /* UIImageView+Download.swift in Sources */,
 				FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */,
 				FEAB26452537F10000779B59 /* CacheManager.swift in Sources */,
 				FE311F622511E02E00EE8400 /* StoryboardInstantiable.swift in Sources */,
@@ -716,6 +743,7 @@
 				FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */,
 				FE4D251D252D5F02007E4265 /* SearchLocalUseCase.swift in Sources */,
 				FE7CE0B025184113005D3338 /* BaseService.swift in Sources */,
+				FEAB264F25381E6A00779B59 /* CoreDataFavoritesPhotosStorage.swift in Sources */,
 				FE897F4C251347B2008DC307 /* SearchResponseDTO+Mapping.swift in Sources */,
 				FE0E24A2252C5CB600064230 /* CoreDataPhotosStorage.swift in Sources */,
 				FE86BD822512F28A00234949 /* FavoriteDIContainer.swift in Sources */,

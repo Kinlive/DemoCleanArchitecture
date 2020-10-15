@@ -41,7 +41,8 @@ extension SearchPhotoResponseEntity {
       title: title,
       ispublic: Int(ispublic),
       isfriend: Int(isfriend),
-      isfamily: Int(isfamily)
+      isfamily: Int(isfamily),
+      isFavorite: isFavorite
     )
   }
 }
@@ -79,6 +80,14 @@ extension SearchResponseDTO.PhotosDTO.PhotoDTO {
     entity.secret = secret
     entity.server = server
     entity.title = title
+    entity.isFavorite = false
+    return entity
+  }
+
+  @discardableResult
+  func toFavoriteEntity(in context: NSManagedObjectContext) -> SearchPhotoResponseEntity {
+    let entity: SearchPhotoResponseEntity = toEntity(in: context)
+    entity.isFavorite = true
     return entity
   }
 }

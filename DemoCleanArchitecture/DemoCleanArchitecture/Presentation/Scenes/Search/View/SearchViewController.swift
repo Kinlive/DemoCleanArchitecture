@@ -70,7 +70,7 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
   private func bindViewModel() {
     self.viewModel.onLocalPhotosCompletion = { photos in
       // refresh UIs
-      print("\n>>>>>>>>>>>>>>> Local >>>>>>>>>>>>>>>>>>\n \(photos) \n")
+      print("\n>>>>>>>>>>>>>>> Local >>>>>>>>>>>>>>>>>>\n \\(photos) \n")
     }
 
     self.viewModel.onRemotePhotosCompletion = { photos in
@@ -113,7 +113,7 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
   // MARK: - Actions viewModel.Input
   @objc private func remoteTapped() {
     // Sample use with service request
-    let searchTexts = ["cat", "dog", "car", "bus", "coffee", "fruit"]
+    let searchTexts = ["cat"]//, "dog", "car", "bus", "coffee", "fruit"]
 
     for (i, text) in searchTexts.enumerated() {
       let query = PhotosQuery(searchText: text, perPage: 3, page: i + 1)
@@ -125,7 +125,7 @@ class SearchViewController: UIViewController, StoryboardInstantiable {
 
   @objc private func localTapped() {
 
-    let searchTexts = ["cat", "dog", "car"]
+    let searchTexts = ["cat"]//, "dog", "car"]
     for (i, text) in searchTexts.enumerated() {
       let query = PhotosQuery(searchText: text, perPage: 3, page: i + 1)
       viewModel.fetchLocal(query: query)
