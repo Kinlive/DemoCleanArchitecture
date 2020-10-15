@@ -53,6 +53,8 @@
 		FE897F6125144639008DC307 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F6025144639008DC307 /* UseCase.swift */; };
 		FE897F64251447A9008DC307 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F63251447A9008DC307 /* SearchRepository.swift */; };
 		FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9BCB422519CAA500754DF6 /* AppDependency.swift */; };
+		FEAB26452537F10000779B59 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26432537F10000779B59 /* CacheManager.swift */; };
+		FEAB26462537F10100779B59 /* AnyCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26442537F10000779B59 /* AnyCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		FE897F6025144639008DC307 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
 		FE897F63251447A9008DC307 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
 		FE9BCB422519CAA500754DF6 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
+		FEAB26432537F10000779B59 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		FEAB26442537F10000779B59 /* AnyCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +386,7 @@
 		FE7D58D32514538200B09B58 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				FEAB26422537F10000779B59 /* AnyCache */,
 				FE311F7A2511E1F600EE8400 /* Network */,
 			);
 			path = Infrastructure;
@@ -552,6 +557,15 @@
 			path = PhotosStorage;
 			sourceTree = "<group>";
 		};
+		FEAB26422537F10000779B59 /* AnyCache */ = {
+			isa = PBXGroup;
+			children = (
+				FEAB26432537F10000779B59 /* CacheManager.swift */,
+				FEAB26442537F10000779B59 /* AnyCache.swift */,
+			);
+			path = AnyCache;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -672,6 +686,7 @@
 				FE311F6B2511E11300EE8400 /* FavoriteViewModel.swift in Sources */,
 				FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */,
 				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
+				FEAB26462537F10100779B59 /* AnyCache.swift in Sources */,
 				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
 				FE897F5E251441B2008DC307 /* Repository.swift in Sources */,
 				FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */,
@@ -695,6 +710,7 @@
 				FE311F742511E18F00EE8400 /* ResultViewController.swift in Sources */,
 				FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */,
 				FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */,
+				FEAB26452537F10000779B59 /* CacheManager.swift in Sources */,
 				FE311F622511E02E00EE8400 /* StoryboardInstantiable.swift in Sources */,
 				FE86BD8B2512F8C100234949 /* TabBarDIContainer.swift in Sources */,
 				FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */,

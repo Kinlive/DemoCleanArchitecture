@@ -12,9 +12,6 @@ protocol SearchDIContainerMakeFactory {
   /// coordinator maker
   func makeSearchCoordinator(at navigationController: UINavigationController) -> SearchCoordinator
 
-  /// Search ViewModel action maker
-  func makeSearchViewModelActions() -> SearchViewModelActions
-
   /// SearchViewModel use cases maker
   func makeSearchViewModelUseCases() -> UseCases
 
@@ -35,10 +32,6 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
   // MARK: - Factory makes
   func makeSearchCoordinator(at navigationController: UINavigationController) -> SearchCoordinator {
     return SearchCoordinator(navigationController: navigationController, dependencies: self)
-  }
-
-  func makeSearchViewModelActions() -> SearchViewModelActions {
-    return SearchViewModelActions()
   }
 
   func makeSearchViewModelUseCases() -> UseCases {

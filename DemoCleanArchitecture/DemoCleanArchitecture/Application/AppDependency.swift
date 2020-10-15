@@ -21,7 +21,7 @@ protocol HasSQLService {
 }
 
 protocol HasCachedService {
-
+  var cacheManager: CacheManager { get }
 }
 
 // MARK: - Handle all services by AppDependency.
@@ -33,12 +33,15 @@ struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService,
   /// HasCorDataService dependencies.
   var photosStorage: PhotosStorage
 
+  let cacheManager: CacheManager
+
 
   init(remoteService: SearchService) {
-    self.searchService = remoteService
+    searchService = remoteService
 
-    self.photosStorage = CoreDataPhotosStorage()
+    photosStorage = CoreDataPhotosStorage()
 
+    cacheManager = CacheManager.shared
   }
 
 }

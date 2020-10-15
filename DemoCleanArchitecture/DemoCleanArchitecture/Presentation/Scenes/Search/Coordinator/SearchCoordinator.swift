@@ -28,12 +28,19 @@ class SearchCoordinator: BaseCoordinator {
 
   override func start() {
 
-    let searchActions = SearchViewModelActions()
+    // Action make on coordinator
+    let searchActions = SearchViewModelActions(
+      showResult: showResult
+    )
+
     let searchVC = dependencies.makeSearchViewController(actions: searchActions)
     navigationController?.pushViewController(searchVC, animated: true)
 
-    // let viewModel = SearchViewModel(useCase: searchDIContainer.makeUseCase(), actions: searchDIContainer.makeActions())
-    // let vc = SearchViewController.create(with: ViewModel)
-    // self.navigationController.pushViewController(vc, animated: true)
+  }
+
+  private func showResult(_ photos: Photos) {
+
+//    let resultVC = dependencies.makeSearchResultViewController()
+//    navigationController?.pushViewController(resultVC, animated: true)
   }
 }

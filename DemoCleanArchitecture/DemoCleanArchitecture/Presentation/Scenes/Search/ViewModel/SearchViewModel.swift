@@ -10,7 +10,7 @@ import Foundation
 
 // ViewModel Actions which tells to coordinator when to present another views.
 struct SearchViewModelActions {
-  
+  let showResult: (Photos) -> Void
 }
 
 protocol SearchViewModelInput {
@@ -63,6 +63,7 @@ extension DefaultSearchViewModel {
       guard let photos = domain else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
 
       self?.onRemotePhotosCompletion?(photos)
+      self?.actions?.showResult(photos)
     })
   }
 
