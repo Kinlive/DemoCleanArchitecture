@@ -48,9 +48,8 @@
 		FE897F5525134E43008DC307 /* BaseEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5425134E43008DC307 /* BaseEntities.swift */; };
 		FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5725134E7B008DC307 /* BaseDataTransferObject.swift */; };
 		FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */; };
-		FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */; };
 		FE897F5E251441B2008DC307 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F5D251441B2008DC307 /* Repository.swift */; };
-		FE897F6125144639008DC307 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F6025144639008DC307 /* UseCase.swift */; };
+		FE897F6125144639008DC307 /* UseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F6025144639008DC307 /* UseCases.swift */; };
 		FE897F64251447A9008DC307 /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE897F63251447A9008DC307 /* SearchRepository.swift */; };
 		FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9BCB422519CAA500754DF6 /* AppDependency.swift */; };
 		FEAB26452537F10000779B59 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAB26432537F10000779B59 /* CacheManager.swift */; };
@@ -62,6 +61,10 @@
 		FEDDF6C62538480300AC2294 /* FavoriteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6C52538480300AC2294 /* FavoriteRepository.swift */; };
 		FEDDF6C925384D2300AC2294 /* SaveFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6C825384D2300AC2294 /* SaveFavoriteUseCase.swift */; };
 		FEDDF6CB25384D3200AC2294 /* FetchFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6CA25384D3200AC2294 /* FetchFavoriteUseCase.swift */; };
+		FEDDF6CF25384FF300AC2294 /* ResultCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6CE25384FF300AC2294 /* ResultCoordinator.swift */; };
+		FEDDF6D12538500000AC2294 /* ResultDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */; };
+		FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D2253947E000AC2294 /* AppPassValues.swift */; };
+		FEDDF6D625396C8000AC2294 /* ShowResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,9 +113,8 @@
 		FE897F5425134E43008DC307 /* BaseEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntities.swift; sourceTree = "<group>"; };
 		FE897F5725134E7B008DC307 /* BaseDataTransferObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataTransferObject.swift; sourceTree = "<group>"; };
 		FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRemoteUseCase.swift; sourceTree = "<group>"; };
-		FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteUseCase.swift; sourceTree = "<group>"; };
 		FE897F5D251441B2008DC307 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		FE897F6025144639008DC307 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
+		FE897F6025144639008DC307 /* UseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCases.swift; sourceTree = "<group>"; };
 		FE897F63251447A9008DC307 /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
 		FE9BCB422519CAA500754DF6 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		FEAB26432537F10000779B59 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
@@ -124,6 +126,10 @@
 		FEDDF6C52538480300AC2294 /* FavoriteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRepository.swift; sourceTree = "<group>"; };
 		FEDDF6C825384D2300AC2294 /* SaveFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFavoriteUseCase.swift; sourceTree = "<group>"; };
 		FEDDF6CA25384D3200AC2294 /* FetchFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFavoriteUseCase.swift; sourceTree = "<group>"; };
+		FEDDF6CE25384FF300AC2294 /* ResultCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCoordinator.swift; sourceTree = "<group>"; };
+		FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDIContainer.swift; sourceTree = "<group>"; };
+		FEDDF6D2253947E000AC2294 /* AppPassValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPassValues.swift; sourceTree = "<group>"; };
+		FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowResultUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +234,7 @@
 				FE311F512511BFE600EE8400 /* AppFlowCoordinator.swift */,
 				FE311F532511C01A00EE8400 /* AppDIContainer.swift */,
 				FE9BCB422519CAA500754DF6 /* AppDependency.swift */,
+				FEDDF6D2253947E000AC2294 /* AppPassValues.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -284,6 +291,8 @@
 		FE311F652511E0F200EE8400 /* Result */ = {
 			isa = PBXGroup;
 			children = (
+				FEDDF6CD25384FE100AC2294 /* DIContainer */,
+				FEDDF6CC25384FD700AC2294 /* Coordinator */,
 				FE311F782511E19900EE8400 /* View */,
 				FE311F772511E19400EE8400 /* ViewModel */,
 			);
@@ -427,10 +436,10 @@
 		FE86BD7C25120D2000234949 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				FE897F6025144639008DC307 /* UseCases.swift */,
+				FEDDF6D425396C6C00AC2294 /* ResultUseCase */,
 				FEDDF6C725384D0000AC2294 /* FavoriteUseCase */,
 				FE4D251B252D5ED7007E4265 /* SearchUseCase */,
-				FE897F5F2514462A008DC307 /* Protocol */,
-				FE897F5B25135B07008DC307 /* FavoriteUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -548,14 +557,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		FE897F5F2514462A008DC307 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				FE897F6025144639008DC307 /* UseCase.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		FE897F6225144797008DC307 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -617,6 +618,30 @@
 				FEDDF6CA25384D3200AC2294 /* FetchFavoriteUseCase.swift */,
 			);
 			path = FavoriteUseCase;
+			sourceTree = "<group>";
+		};
+		FEDDF6CC25384FD700AC2294 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				FEDDF6CE25384FF300AC2294 /* ResultCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		FEDDF6CD25384FE100AC2294 /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
+		FEDDF6D425396C6C00AC2294 /* ResultUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */,
+			);
+			path = ResultUseCase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -739,7 +764,6 @@
 				FEAB264D25381DCA00779B59 /* FavoritesPhotosStorage.swift in Sources */,
 				FEDDF6CB25384D3200AC2294 /* FetchFavoriteUseCase.swift in Sources */,
 				FE311F6B2511E11300EE8400 /* FavoriteViewModel.swift in Sources */,
-				FE897F5C25135B07008DC307 /* FavoriteUseCase.swift in Sources */,
 				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
 				FEAB26462537F10100779B59 /* AnyCache.swift in Sources */,
 				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
@@ -755,6 +779,7 @@
 				FE7E827D2511F3FB00983B54 /* SearchDIContainer.swift in Sources */,
 				FE897F4E251349F2008DC307 /* Photos.swift in Sources */,
 				FE897F64251447A9008DC307 /* SearchRepository.swift in Sources */,
+				FEDDF6D625396C8000AC2294 /* ShowResultUseCase.swift in Sources */,
 				FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */,
 				FE86BD872512F84200234949 /* TabBarCoordinator.swift in Sources */,
 				FE311F542511C01A00EE8400 /* AppDIContainer.swift in Sources */,
@@ -762,11 +787,13 @@
 				FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */,
 				FE7E82802511F43200983B54 /* SearchCoordinator.swift in Sources */,
 				FE7D58D52514541600B09B58 /* SearchService.swift in Sources */,
+				FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */,
 				FE86BD842512F2A100234949 /* FavoriteCoordinator.swift in Sources */,
 				FE897F5025134B6F008DC307 /* SearchRequestDTO+Mapping.swift in Sources */,
 				FE311F742511E18F00EE8400 /* ResultViewController.swift in Sources */,
 				FEDDF6C925384D2300AC2294 /* SaveFavoriteUseCase.swift in Sources */,
 				FE03AD0E25145F42001FF520 /* FlickrAPIType.swift in Sources */,
+				FEDDF6CF25384FF300AC2294 /* ResultCoordinator.swift in Sources */,
 				FEAB26492537FBC600779B59 /* UIImageView+Download.swift in Sources */,
 				FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */,
 				FEAB26452537F10000779B59 /* CacheManager.swift in Sources */,
@@ -782,8 +809,9 @@
 				FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */,
 				FE311F522511BFE600EE8400 /* AppFlowCoordinator.swift in Sources */,
 				FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */,
-				FE897F6125144639008DC307 /* UseCase.swift in Sources */,
+				FE897F6125144639008DC307 /* UseCases.swift in Sources */,
 				FE311F6A2511E11300EE8400 /* FavoriteViewController.swift in Sources */,
+				FEDDF6D12538500000AC2294 /* ResultDIContainer.swift in Sources */,
 				FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,18 +9,12 @@
 import Foundation
 import Moya
 
-protocol SearchRemoteUseCaseProtocol {
-  associatedtype RequestValueT
-  associatedtype ResponseValueT
-  func search(query: RequestValueT, completionHandler: (ResponseValueT)) -> Cancellable
+protocol SearchRemoteUseCase {
+  func search(query: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable
 
 }
 
-final class DefaultSearchRemoteUseCase: SearchRemoteUseCaseProtocol {
-
-  typealias RequestValueT = PhotosQuery
-
-  typealias ResponseValueT = (Photos?, Error?) -> Void
+final class DefaultSearchRemoteUseCase: SearchRemoteUseCase {
 
   private let repository: SearchRepository
 

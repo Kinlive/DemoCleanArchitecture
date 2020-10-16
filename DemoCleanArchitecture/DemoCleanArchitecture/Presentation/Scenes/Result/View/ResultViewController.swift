@@ -26,6 +26,8 @@ class ResultViewController: UIViewController, StoryboardInstantiable {
     }
     
     func bind(to viewModel: ResultViewModel) {
-
+      self.viewModel.onPhotosPrepared = { strings in
+        print(strings)
+      }
     }
 }

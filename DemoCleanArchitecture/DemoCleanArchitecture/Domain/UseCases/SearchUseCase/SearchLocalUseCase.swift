@@ -8,16 +8,11 @@
 
 import Foundation
 
-protocol SearchLocalUseCaseProtocol {
-  associatedtype RequestValueT
-  associatedtype ResponseValueT
-  func search(query: RequestValueT, completionHandler: (ResponseValueT))
+protocol SearchLocalUseCase {
+  func search(query: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void)
 }
 
-final class DefaultSearchLocalUseCase: SearchLocalUseCaseProtocol {
-  typealias RequestValueT = PhotosQuery
-
-  typealias ResponseValueT = (Photos?, Error?) -> Void
+final class DefaultSearchLocalUseCase: SearchLocalUseCase {
 
   private let repository: SearchRepository
 

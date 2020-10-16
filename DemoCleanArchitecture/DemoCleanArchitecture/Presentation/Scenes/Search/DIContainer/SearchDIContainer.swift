@@ -21,7 +21,7 @@ protocol SearchDIContainerMakeFactory {
 
 final class SearchDIContainer: SearchDIContainerMakeFactory {
   // Define which depencies needed.
-  typealias Dependencies = HasSearchRemoteService & HasCoreDataService
+  typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasFavoritesPhotosStorage
 
   private let dependencies: Dependencies
 
@@ -46,15 +46,14 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
 
 // MARK: - Serach coordinator dependencies protocol methods
 extension SearchDIContainer: SearchCoordinatorDependencies {
+  func makeResultDIContainer(passValues: AppPassValues) -> ResultDIContainer {
+    return ResultDIContainer(dependencies: dependencies, passValues: passValues)
+  }
+
   func makeSearchViewController(actions: SearchViewModelActions) -> SearchViewController {
     let viewModel = DefaultSearchViewModel(actions: actions, useCases: makeSearchViewModelUseCases())
 
     return SearchViewController.create(with: viewModel)
   }
-
-  func makeSearchResultViewController() -> ResultViewController {
-    return ResultViewController.create(with: DefaultResultViewModel())
-  }
-
 
 }

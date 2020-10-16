@@ -10,7 +10,7 @@ import UIKit
 
 protocol SearchCoordinatorDependencies {
   func makeSearchViewController(actions: SearchViewModelActions) -> SearchViewController
-  func makeSearchResultViewController() -> ResultViewController
+  func makeResultDIContainer(passValues: AppPassValues) -> ResultDIContainer
 }
 
 class SearchCoordinator: BaseCoordinator {
@@ -38,9 +38,9 @@ class SearchCoordinator: BaseCoordinator {
 
   }
 
-  private func showResult(_ photos: Photos) {
-
-//    let resultVC = dependencies.makeSearchResultViewController()
-//    navigationController?.pushViewController(resultVC, animated: true)
+  private func showResult(_ photos: [Photo]) {
+    let resultDIContainer = dependencies.makeResultDIContainer(passValues: AppPassValues(photos: photos))
+    let resultCoordinator = resultDIContainer.makeResultCoordinator(at: navigationController)
+    resultCoordinator.start()
   }
 }
