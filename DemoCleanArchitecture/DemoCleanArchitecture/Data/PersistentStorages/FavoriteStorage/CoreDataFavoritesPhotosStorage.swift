@@ -39,7 +39,9 @@ class CoreDataFavoritesPhotosStorage {
 }
 
 extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
-  func save(response: SearchResponseDTO.PhotosDTO.PhotoDTO) {
+  func save(response: SearchResponseDTO.PhotosDTO.PhotoDTO,
+            completion: @escaping (CoreDataStorageError?) -> Void) {
+
     coreDataStorage.performBackgroundTask { [weak self] context in
       do {
         try self?.deleteResponse(for: response, in: context)
@@ -47,9 +49,10 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
         response.toFavoriteEntity(in: context)
 
         try context.save()
+        completion(nil)
 
       } catch {
-        debugPrint("CoreDataFavoritePhotos error \(error), \((error as NSError).userInfo)")
+        completion(.saveError(error))
       }
     }
   }
