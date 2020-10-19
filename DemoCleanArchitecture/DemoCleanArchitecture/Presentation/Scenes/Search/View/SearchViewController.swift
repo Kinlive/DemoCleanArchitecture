@@ -10,7 +10,7 @@ import UIKit
 import Moya
 
 
-class SearchViewController: UIViewController, StoryboardInstantiable {
+class SearchViewController: UIViewController {
 
   var viewModel: SearchViewModel!
 

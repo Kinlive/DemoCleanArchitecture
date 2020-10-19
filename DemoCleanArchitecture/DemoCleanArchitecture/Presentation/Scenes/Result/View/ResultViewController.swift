@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ResultViewController: UIViewController, StoryboardInstantiable {
+class ResultViewController: UIViewController {
     
     var viewModel: ResultViewModel!
     

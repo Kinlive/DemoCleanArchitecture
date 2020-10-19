@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoriteViewController: UIViewController, StoryboardInstantiable {
+class FavoriteViewController: UIViewController {
     
   var viewModel: FavoriteViewModel!
 
