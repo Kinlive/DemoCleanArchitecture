@@ -65,6 +65,8 @@
 		FEDDF6D12538500000AC2294 /* ResultDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */; };
 		FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D2253947E000AC2294 /* AppPassValues.swift */; };
 		FEDDF6D625396C8000AC2294 /* ShowResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */; };
+		FEDDF6D925398C3600AC2294 /* NSConstraintLayoutSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D825398C3600AC2294 /* NSConstraintLayoutSet.swift */; };
+		FEDDF6E725399D6D00AC2294 /* BaseAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6DF25399D6D00AC2294 /* BaseAccessoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,6 +132,8 @@
 		FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDIContainer.swift; sourceTree = "<group>"; };
 		FEDDF6D2253947E000AC2294 /* AppPassValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPassValues.swift; sourceTree = "<group>"; };
 		FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowResultUseCase.swift; sourceTree = "<group>"; };
+		FEDDF6D825398C3600AC2294 /* NSConstraintLayoutSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSConstraintLayoutSet.swift; sourceTree = "<group>"; };
+		FEDDF6DF25399D6D00AC2294 /* BaseAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseAccessoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +269,8 @@
 			isa = PBXGroup;
 			children = (
 				FE311F7B2511E62700EE8400 /* BaseCoordinator.swift */,
+				FEDDF6DA25399D6D00AC2294 /* InputAccessoryView */,
+				FEDDF6D725398C3600AC2294 /* NSConstraintLayoutSet */,
 				FEAB26472537FBC600779B59 /* UIKitExtension */,
 				FE311F642511E0DF00EE8400 /* Protocol */,
 			);
@@ -644,6 +650,22 @@
 			path = ResultUseCase;
 			sourceTree = "<group>";
 		};
+		FEDDF6D725398C3600AC2294 /* NSConstraintLayoutSet */ = {
+			isa = PBXGroup;
+			children = (
+				FEDDF6D825398C3600AC2294 /* NSConstraintLayoutSet.swift */,
+			);
+			path = NSConstraintLayoutSet;
+			sourceTree = "<group>";
+		};
+		FEDDF6DA25399D6D00AC2294 /* InputAccessoryView */ = {
+			isa = PBXGroup;
+			children = (
+				FEDDF6DF25399D6D00AC2294 /* BaseAccessoryView.swift */,
+			);
+			path = InputAccessoryView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -809,7 +831,9 @@
 				FE897F5825134E7B008DC307 /* BaseDataTransferObject.swift in Sources */,
 				FE311F522511BFE600EE8400 /* AppFlowCoordinator.swift in Sources */,
 				FE9BCB432519CAA500754DF6 /* AppDependency.swift in Sources */,
+				FEDDF6D925398C3600AC2294 /* NSConstraintLayoutSet.swift in Sources */,
 				FE897F6125144639008DC307 /* UseCases.swift in Sources */,
+				FEDDF6E725399D6D00AC2294 /* BaseAccessoryView.swift in Sources */,
 				FE311F6A2511E11300EE8400 /* FavoriteViewController.swift in Sources */,
 				FEDDF6D12538500000AC2294 /* ResultDIContainer.swift in Sources */,
 				FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */,
