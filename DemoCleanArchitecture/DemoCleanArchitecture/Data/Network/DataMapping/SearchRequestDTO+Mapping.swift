@@ -20,11 +20,23 @@ struct SearchRequestDTO: BaseRequestDTO {
   let text: String
   let perPage: Int
   let page: Int
+  var createDate: Date?
 
   init(query: PhotosQuery) {
     self.text = query.searchText
     self.perPage = query.perPage
     self.page = query.page
+    self.createDate = query.createDate
   }
 
+}
+
+extension SearchRequestDTO {
+  func toDomain() -> PhotosQuery {
+    return PhotosQuery(
+      searchText: text,
+      perPage: perPage,
+      page: page,
+      createDate: createDate)
+  }
 }

@@ -20,6 +20,10 @@ protocol HasFavoritesPhotosStorage {
   var favoritesPhotosStorage: FavoritesPhotosStorage { get }
 }
 
+protocol HasQuerysStorage {
+  var querysStorage: QuerysStorage { get }
+}
+
 protocol HasSQLService {
 
 }
@@ -29,7 +33,7 @@ protocol HasCachedService {
 }
 
 // MARK: - Handle all services by AppDependency.
-struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService, HasCachedService, HasFavoritesPhotosStorage {
+struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService, HasCachedService, HasFavoritesPhotosStorage, HasQuerysStorage {
 
   /// HasSearchRemoteService dependencies.
   var searchService: SearchService
@@ -41,6 +45,8 @@ struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService,
 
   let favoritesPhotosStorage: FavoritesPhotosStorage
 
+  let querysStorage: QuerysStorage
+
 
   init(remoteService: SearchService) {
     searchService = remoteService
@@ -50,6 +56,8 @@ struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService,
     cacheManager = CacheManager.shared
 
     favoritesPhotosStorage = CoreDataFavoritesPhotosStorage()
+
+    querysStorage = CoreDataQuerysStorage()
   }
 
 }

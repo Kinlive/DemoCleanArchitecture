@@ -84,7 +84,6 @@ class SearchViewController: UIViewController {
 
   let inputBaseView: UIView = {
     let view = UIView()
-//    view.backgroundColor = .darkGray
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }()
@@ -102,6 +101,17 @@ class SearchViewController: UIViewController {
     btn.setTitleColor(.red, for: .normal)
     btn.addTarget(self, action: #selector(onEdited(sender:)), for: .touchUpInside)
     return btn
+  }()
+
+  // Search Record.
+  lazy var recordTableView: UITableView = {
+    let tableView = UITableView()
+    tableView.separatorStyle = .none
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView.register(SearchRecordCell.self, forCellReuseIdentifier: SearchRecordCell.storyboardIdentifier)
+    return tableView
   }()
 
   private let constraints: Constraints = Constraints()
@@ -126,6 +136,7 @@ class SearchViewController: UIViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    viewModel.viewWillAppear()
   }
 
   // Bind viewModel
@@ -144,6 +155,12 @@ class SearchViewController: UIViewController {
       // show error message.
       print("\n !!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!\n \(error)\n")
     }
+
+    viewModel.onRecordQuerysCompletion = { [weak self] in
+      DispatchQueue.main.async {
+        self?.recordTableView.reloadData()
+      }
+    }
     
   }
 
@@ -151,11 +168,13 @@ class SearchViewController: UIViewController {
   private func addSubviews() {
     view.addSubview(startFetchButton)
     view.addSubview(clearButton)
-
+    view.addSubview(recordTableView)
     view.addSubview(inputBaseView)
+
     inputBaseView.addSubview(searchTextField)
     inputBaseView.addSubview(pageTextField)
     inputBaseView.addSubview(perPageTextField)
+
   }
 
   private func makeUIs() {
@@ -170,6 +189,12 @@ class SearchViewController: UIViewController {
     inputBaseView.layer.shadowPath = UIBezierPath(rect: inputBaseView.bounds).cgPath
     inputBaseView.layer.masksToBounds = true
      */
+
+    recordTableView.layer.borderWidth = 1.5
+    recordTableView.layer.borderColor = UIColor.orange.cgColor
+    recordTableView.layer.cornerRadius = 10
+    recordTableView.layer.masksToBounds = true
+    recordTableView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.3)
   }
 
   private func makeUIsConstraints() {
@@ -211,10 +236,16 @@ class SearchViewController: UIViewController {
     constraints.startFetch.left = startFetchButton.leadingAnchor.constraint(equalTo: inputBaseView.leadingAnchor)
 
     // clear button
-    constraints.clear.top = clearButton.topAnchor.constraint(equalTo: startFetchButton.bottomAnchor, constant: 10)
+    constraints.clear.top = clearButton.topAnchor.constraint(equalTo: startFetchButton.topAnchor)
     constraints.clear.right = clearButton.trailingAnchor.constraint(equalTo: inputBaseView.trailingAnchor)
     constraints.clear.width = clearButton.widthAnchor.constraint(equalToConstant: 100)
-    constraints.clear.height = clearButton.heightAnchor.constraint(equalToConstant: 50)
+    constraints.clear.height = clearButton.heightAnchor.constraint(equalTo: startFetchButton.heightAnchor)
+
+    // record tableView
+    constraints.recordTable.top = recordTableView.topAnchor.constraint(equalTo: startFetchButton.bottomAnchor, constant: 20)
+    constraints.recordTable.left = recordTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+    constraints.recordTable.right = recordTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+    constraints.recordTable.bottom = recordTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
 
     constraints.activateAll()
   }
@@ -277,9 +308,10 @@ extension SearchViewController {
     let inputBase: NSLayoutConstraintSet = NSLayoutConstraintSet()
     let startFetch: NSLayoutConstraintSet = NSLayoutConstraintSet()
     let clear: NSLayoutConstraintSet = NSLayoutConstraintSet()
+    let recordTable: NSLayoutConstraintSet = NSLayoutConstraintSet()
 
     var all: [NSLayoutConstraintSet] {
-      [searchText, page, perPage, inputBase, startFetch, clear]
+      [searchText, page, perPage, inputBase, startFetch, clear, recordTable]
     }
 
   }
@@ -297,6 +329,38 @@ extension SearchViewController: UITextFieldDelegate {
 
     print(textField.text ?? "")
     return true
+  }
+
+}
+
+// MARK: - UITableView delegate & dataSource
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return viewModel.recordQuerys?.count ?? 0
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell: SearchRecordCell = tableView.dequeueReusableCell(for: indexPath)
+    if let query = viewModel.recordQuerys?[indexPath.row] {
+      cell.configure(
+        with: .init(recordQuery: query, indexPath: indexPath),
+        and: .init()
+      )
+    }
+    return cell
+  }
+
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 50
+  }
+
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    guard let selectedQuery = viewModel.recordQuerys?[indexPath.row] else { return }
+    tableView.deselectRow(at: indexPath, animated: true)
+    print(selectedQuery.searchText)
   }
 
 }

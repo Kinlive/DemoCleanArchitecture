@@ -32,6 +32,11 @@
 		FE4038A625183E850008B297 /* DefaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4038A525183E850008B297 /* DefaultService.swift */; };
 		FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FE4D2518252D5353007E4265 /* CoreDataStorage.xcdatamodeld */; };
 		FE4D251D252D5F02007E4265 /* SearchLocalUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */; };
+		FE7075D7253D73DE00C8B378 /* SearchRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075D6253D73DE00C8B378 /* SearchRecordCell.swift */; };
+		FE7075D9253D846300C8B378 /* SearchRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075D8253D846300C8B378 /* SearchRecordUseCase.swift */; };
+		FE7075DC253D85D900C8B378 /* QuerysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075DB253D85D900C8B378 /* QuerysStorage.swift */; };
+		FE7075DE253D85F300C8B378 /* CoreDataQuerysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075DD253D85F300C8B378 /* CoreDataQuerysStorage.swift */; };
+		FE7075E1253D87A800C8B378 /* SearchRequestEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */; };
 		FE7CE0B025184113005D3338 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0AF25184113005D3338 /* BaseService.swift */; };
 		FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */; };
 		FE7D58D52514541600B09B58 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7D58D42514541600B09B58 /* SearchService.swift */; };
@@ -99,6 +104,11 @@
 		FE4038A525183E850008B297 /* DefaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultService.swift; sourceTree = "<group>"; };
 		FE4D2519252D5353007E4265 /* CoreDataStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataStorage.xcdatamodel; sourceTree = "<group>"; };
 		FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocalUseCase.swift; sourceTree = "<group>"; };
+		FE7075D6253D73DE00C8B378 /* SearchRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordCell.swift; sourceTree = "<group>"; };
+		FE7075D8253D846300C8B378 /* SearchRecordUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRecordUseCase.swift; sourceTree = "<group>"; };
+		FE7075DB253D85D900C8B378 /* QuerysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerysStorage.swift; sourceTree = "<group>"; };
+		FE7075DD253D85F300C8B378 /* CoreDataQuerysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataQuerysStorage.swift; sourceTree = "<group>"; };
+		FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchRequestEntity+Mapping.swift"; sourceTree = "<group>"; };
 		FE7CE0AF25184113005D3338 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		FE7D58D42514541600B09B58 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
@@ -184,6 +194,7 @@
 		FE193719252C1594003A6B04 /* PersistentStorages */ = {
 			isa = PBXGroup;
 			children = (
+				FE7075DA253D85B900C8B378 /* QuerysStorage */,
 				FEAB264B25381DAB00779B59 /* FavoriteStorage */,
 				FE9D3669252C512D00059495 /* PhotosStorage */,
 				FE19371F252C499C003A6B04 /* CoreDataStorage */,
@@ -344,6 +355,7 @@
 		FE311F702511E13600EE8400 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FE7075D5253D739800C8B378 /* SearchRecord */,
 				FE311F592511DF9700EE8400 /* SearchViewController.swift */,
 				FE311F5B2511DF9700EE8400 /* SearchViewController.storyboard */,
 			);
@@ -392,8 +404,35 @@
 			children = (
 				FE897F59251356E0008DC307 /* SearchRemoteUseCase.swift */,
 				FE4D251C252D5F02007E4265 /* SearchLocalUseCase.swift */,
+				FE7075D8253D846300C8B378 /* SearchRecordUseCase.swift */,
 			);
 			path = SearchUseCase;
+			sourceTree = "<group>";
+		};
+		FE7075D5253D739800C8B378 /* SearchRecord */ = {
+			isa = PBXGroup;
+			children = (
+				FE7075D6253D73DE00C8B378 /* SearchRecordCell.swift */,
+			);
+			path = SearchRecord;
+			sourceTree = "<group>";
+		};
+		FE7075DA253D85B900C8B378 /* QuerysStorage */ = {
+			isa = PBXGroup;
+			children = (
+				FE7075DF253D876900C8B378 /* EntityMapping */,
+				FE7075DB253D85D900C8B378 /* QuerysStorage.swift */,
+				FE7075DD253D85F300C8B378 /* CoreDataQuerysStorage.swift */,
+			);
+			path = QuerysStorage;
+			sourceTree = "<group>";
+		};
+		FE7075DF253D876900C8B378 /* EntityMapping */ = {
+			isa = PBXGroup;
+			children = (
+				FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */,
+			);
+			path = EntityMapping;
 			sourceTree = "<group>";
 		};
 		FE7CE0AE251840EF005D3338 /* Protocol */ = {
@@ -788,6 +827,7 @@
 				FE311F6B2511E11300EE8400 /* FavoriteViewModel.swift in Sources */,
 				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
 				FEAB26462537F10100779B59 /* AnyCache.swift in Sources */,
+				FE7075DC253D85D900C8B378 /* QuerysStorage.swift in Sources */,
 				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
 				FE897F5E251441B2008DC307 /* Repository.swift in Sources */,
 				FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */,
@@ -796,6 +836,7 @@
 				FE897F5525134E43008DC307 /* BaseEntities.swift in Sources */,
 				FE311F5C2511DF9700EE8400 /* SearchViewController.swift in Sources */,
 				FEDDF6C62538480300AC2294 /* FavoriteRepository.swift in Sources */,
+				FE7075E1253D87A800C8B378 /* SearchRequestEntity+Mapping.swift in Sources */,
 				FE311F752511E18F00EE8400 /* ResultViewModel.swift in Sources */,
 				FEDDF6C42538469300AC2294 /* PhotoResponseEntity+Mapping.swift in Sources */,
 				FE7E827D2511F3FB00983B54 /* SearchDIContainer.swift in Sources */,
@@ -809,6 +850,7 @@
 				FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */,
 				FE7E82802511F43200983B54 /* SearchCoordinator.swift in Sources */,
 				FE7D58D52514541600B09B58 /* SearchService.swift in Sources */,
+				FE7075D9253D846300C8B378 /* SearchRecordUseCase.swift in Sources */,
 				FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */,
 				FE86BD842512F2A100234949 /* FavoriteCoordinator.swift in Sources */,
 				FE897F5025134B6F008DC307 /* SearchRequestDTO+Mapping.swift in Sources */,
@@ -818,7 +860,9 @@
 				FEDDF6CF25384FF300AC2294 /* ResultCoordinator.swift in Sources */,
 				FEAB26492537FBC600779B59 /* UIImageView+Download.swift in Sources */,
 				FE4D251A252D5353007E4265 /* CoreDataStorage.xcdatamodeld in Sources */,
+				FE7075D7253D73DE00C8B378 /* SearchRecordCell.swift in Sources */,
 				FEAB26452537F10000779B59 /* CacheManager.swift in Sources */,
+				FE7075DE253D85F300C8B378 /* CoreDataQuerysStorage.swift in Sources */,
 				FE311F622511E02E00EE8400 /* StoryboardInstantiable.swift in Sources */,
 				FE86BD8B2512F8C100234949 /* TabBarDIContainer.swift in Sources */,
 				FE311F7C2511E62700EE8400 /* BaseCoordinator.swift in Sources */,

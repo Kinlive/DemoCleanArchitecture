@@ -11,11 +11,7 @@ import Moya
 
 final class SearchRepository {
 
-//  typealias ServiceT = SearchService
-//  typealias DomainEntityT = Photos
-  typealias Dependencies = HasSearchRemoteService & HasCoreDataService
-
-  //let service: SearchService
+  typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasQuerysStorage
 
   let dependencies: Dependencies
 
@@ -45,6 +41,15 @@ final class SearchRepository {
       switch result {
       case .success(let responseDTO): completionHandler(responseDTO?.toDomain(), nil)
       case .failure(let error): completionHandler(nil, error)
+      }
+    }
+  }
+
+  func recordQuerys(completionHandler: @escaping ([PhotosQuery], Error?) -> Void) {
+    dependencies.querysStorage.getSearchRecord { (result) in
+      switch result {
+      case .success(let querysDTO): completionHandler(querysDTO?.compactMap { $0.toDomain() } ?? [], nil)
+      case .failure(let error): completionHandler([], error)
       }
     }
   }

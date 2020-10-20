@@ -90,6 +90,7 @@ extension SearchRequestDTO {
     entity.page = Int32(page)
     entity.perPage = Int32(perPage)
     entity.text = text
+    entity.createTime = Date()
 
     return entity
   }

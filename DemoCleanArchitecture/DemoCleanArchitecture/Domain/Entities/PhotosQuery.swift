@@ -13,5 +13,6 @@ struct PhotosQuery: Equatable {
   let searchText: String
   let perPage: Int
   let page: Int
+  var createDate: Date?
 
 }

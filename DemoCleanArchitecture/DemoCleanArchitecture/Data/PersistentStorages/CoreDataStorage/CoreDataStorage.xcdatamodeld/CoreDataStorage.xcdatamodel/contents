@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="SearchPhotoResponseEntity" representedClassName="SearchPhotoResponseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="farm" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String"/>
@@ -22,6 +22,7 @@
         <relationship name="searchResponse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchResponseEntity" inverseName="photos" inverseEntity="SearchResponseEntity"/>
     </entity>
     <entity name="SearchRequestEntity" representedClassName="SearchRequestEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="createTime" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="perPage" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
@@ -35,7 +36,7 @@
     <elements>
         <element name="SearchPhotoResponseEntity" positionX="-127.8828125" positionY="383.84765625" width="128" height="208"/>
         <element name="SearchPhotosResponseEntity" positionX="-327.23046875" positionY="261.8359375" width="128" height="133"/>
-        <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="103"/>
+        <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="118"/>
         <element name="SearchResponseEntity" positionX="-479.109375" positionY="155.9296875" width="128" height="88"/>
     </elements>
 </model>

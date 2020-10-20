@@ -21,7 +21,7 @@ protocol SearchDIContainerMakeFactory {
 
 final class SearchDIContainer: SearchDIContainerMakeFactory {
   // Define which depencies needed.
-  typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasFavoritesPhotosStorage
+  typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasFavoritesPhotosStorage & HasQuerysStorage
 
   private let dependencies: Dependencies
 
@@ -36,7 +36,8 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
 
   func makeSearchViewModelUseCases() -> UseCases {
     return UseCases(searchRemoteUseCase: .init(repo: makeSearchRepository()),
-                    searchLocalUseCase: .init(repo: makeSearchRepository()))
+                    searchLocalUseCase: .init(repo: makeSearchRepository()),
+                    searchRecordUseCase: .init(repo: makeSearchRepository()))
   }
 
   func makeSearchRepository() -> SearchRepository {
