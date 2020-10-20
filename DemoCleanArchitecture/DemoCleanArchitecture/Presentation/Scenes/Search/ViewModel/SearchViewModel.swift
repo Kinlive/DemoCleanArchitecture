@@ -18,6 +18,7 @@ protocol SearchViewModelInput {
   func viewWillAppear()
   func fetchRemote(query: PhotosQuery)
   func fetchLocal(query: PhotosQuery)
+  func onSelectedRecord(at indexPath: IndexPath)
 }
 
 protocol SearchViewModelOutput {
@@ -98,6 +99,24 @@ extension DefaultSearchViewModel {
       guard let photos = domain else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
 
       self?.onLocalPhotosCompletion?(photos)
+    })
+  }
+
+  func onSelectedRecord(at indexPath: IndexPath) {
+    guard let query = self.recordQuerys?[indexPath.row] else { return }
+
+    useCases.searchLocalUseCase?.search(query: query, completionHandler: { [weak self] (photos, error) in
+      if let error = error {
+        self?.onSearchError?(error)
+        return
+      }
+
+      guard let photos = photos else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
+
+      DispatchQueue.main.async {
+        self?.actions?.showResult(photos.photo)
+      }
+
     })
   }
 }

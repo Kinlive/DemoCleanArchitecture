@@ -358,9 +358,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    guard let selectedQuery = viewModel.recordQuerys?[indexPath.row] else { return }
+    viewModel.onSelectedRecord(at: indexPath)
     tableView.deselectRow(at: indexPath, animated: true)
-    print(selectedQuery.searchText)
+
   }
 
 }
