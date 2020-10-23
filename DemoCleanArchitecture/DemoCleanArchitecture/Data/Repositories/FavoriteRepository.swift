@@ -27,4 +27,10 @@ final class FavoriteRepository {
   func fetchAllFavorites(completion: @escaping (Result<[Photo], CoreDataStorageError>) -> Void) {
     dependencies.favoritesPhotosStorage.fetchAllFavorite(completion: completion)
   }
+
+  func removeFavorite(photoDTO: SearchResponseDTO.PhotosDTO.PhotoDTO,
+                      completion: @escaping (CoreDataStorageError?) -> Void) {
+
+    dependencies.favoritesPhotosStorage.remove(response: photoDTO, completion: completion)
+  }
 }

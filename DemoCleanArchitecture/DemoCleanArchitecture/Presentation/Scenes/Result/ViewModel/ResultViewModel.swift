@@ -15,6 +15,7 @@ struct ResultViewModelActions {
 protocol ResultViewModelInput {
   func viewDidLoad()
   func addFavorite(of indexPath: IndexPath)
+  func removeFavorite(of indexPath: IndexPath)
 }
 
 protocol ResultViewModelOutput {
@@ -31,7 +32,7 @@ protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
 class DefaultResultViewModel: ResultViewModel {
 
   typealias PassValues = HasResultValues
-  typealias ResultUseCase = HasSaveFavoriteUseCase & HasShowResultUseCase & HasFetchFavoriteUseCase
+  typealias ResultUseCase = HasSaveFavoriteUseCase & HasShowResultUseCase & HasFetchFavoriteUseCase & HasRemoveFavoriteUseCase
   
   private let actions: ResultViewModelActions
   private let useCase: ResultUseCase
@@ -88,6 +89,16 @@ extension DefaultResultViewModel {
       self?.fetchPhotosAndFavorites(indexPath: indexPath)
 
     }
+  }
 
+  func removeFavorite(of indexPath: IndexPath) {
+
+    guard let photo = photos?[indexPath.row] else { return }
+
+    useCase.removeFavoriteUseCase?.remove(favorite: photo.toDTO(), completion: { [weak self] error in
+      guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
+      // refresh data for update cells
+      self?.fetchPhotosAndFavorites(indexPath: indexPath)
+    })
   }
 }

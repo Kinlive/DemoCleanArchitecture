@@ -71,4 +71,17 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
       }
     }
   }
+
+  func remove(response: SearchResponseDTO.PhotosDTO.PhotoDTO, completion: @escaping (CoreDataStorageError?) -> Void) {
+    coreDataStorage.performBackgroundTask { [weak self] context in
+      do {
+        try self?.deleteResponse(for: response, in: context)
+        try context.save()
+
+        completion(nil)
+      } catch {
+        completion(.deleteError(error))
+      }
+    }
+  }
 }

@@ -12,6 +12,7 @@
 		FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E249F252C5C8D00064230 /* PhotosStorage.swift */; };
 		FE0E24A2252C5CB600064230 /* CoreDataPhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */; };
 		FE0E24A5252C5D6700064230 /* PhotosResponseEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */; };
+		FE108DAE2542841E00D949FB /* RemoveFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE108DAD2542841E00D949FB /* RemoveFavoriteUseCase.swift */; };
 		FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE19371D252C452F003A6B04 /* CoreDataStorage.swift */; };
 		FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE311F3C2511BE4200EE8400 /* AppDelegate.swift */; };
 		FE311F462511BE4B00EE8400 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE311F452511BE4B00EE8400 /* Assets.xcassets */; };
@@ -83,6 +84,7 @@
 		FE0E249F252C5C8D00064230 /* PhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosStorage.swift; sourceTree = "<group>"; };
 		FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPhotosStorage.swift; sourceTree = "<group>"; };
 		FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosResponseEntity+Mapping.swift"; sourceTree = "<group>"; };
+		FE108DAD2542841E00D949FB /* RemoveFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFavoriteUseCase.swift; sourceTree = "<group>"; };
 		FE19371D252C452F003A6B04 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		FE311F392511BE4200EE8400 /* DemoCleanArchitecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCleanArchitecture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE311F3C2511BE4200EE8400 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 			children = (
 				FEDDF6C825384D2300AC2294 /* SaveFavoriteUseCase.swift */,
 				FEDDF6CA25384D3200AC2294 /* FetchFavoriteUseCase.swift */,
+				FE108DAD2542841E00D949FB /* RemoveFavoriteUseCase.swift */,
 			);
 			path = FavoriteUseCase;
 			sourceTree = "<group>";
@@ -839,6 +842,7 @@
 				FE897F5A251356E0008DC307 /* SearchRemoteUseCase.swift in Sources */,
 				FEAB26462537F10100779B59 /* AnyCache.swift in Sources */,
 				FE7075DC253D85D900C8B378 /* QuerysStorage.swift in Sources */,
+				FE108DAE2542841E00D949FB /* RemoveFavoriteUseCase.swift in Sources */,
 				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
 				FE897F5E251441B2008DC307 /* Repository.swift in Sources */,
 				FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */,

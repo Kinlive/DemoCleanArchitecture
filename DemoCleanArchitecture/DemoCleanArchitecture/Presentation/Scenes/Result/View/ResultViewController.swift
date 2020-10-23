@@ -140,6 +140,6 @@ extension ResultViewController: UICollectionViewDataSource, UICollectionViewDele
     viewModel.addFavorite(of: input.indexPath)
   }
   private func onFavoriteCancel(input: PhotosResultCell.Input) {
-
+    viewModel.removeFavorite(of: input.indexPath)
   }
 }
