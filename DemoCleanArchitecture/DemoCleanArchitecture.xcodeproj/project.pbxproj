@@ -37,6 +37,7 @@
 		FE7075DC253D85D900C8B378 /* QuerysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075DB253D85D900C8B378 /* QuerysStorage.swift */; };
 		FE7075DE253D85F300C8B378 /* CoreDataQuerysStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075DD253D85F300C8B378 /* CoreDataQuerysStorage.swift */; };
 		FE7075E1253D87A800C8B378 /* SearchRequestEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */; };
+		FE7075E4253EE39800C8B378 /* PhotosResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7075E3253EE39700C8B378 /* PhotosResultCell.swift */; };
 		FE7CE0B025184113005D3338 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0AF25184113005D3338 /* BaseService.swift */; };
 		FE7CE0B225184C6E005D3338 /* EncodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */; };
 		FE7D58D52514541600B09B58 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7D58D42514541600B09B58 /* SearchService.swift */; };
@@ -109,6 +110,7 @@
 		FE7075DB253D85D900C8B378 /* QuerysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuerysStorage.swift; sourceTree = "<group>"; };
 		FE7075DD253D85F300C8B378 /* CoreDataQuerysStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataQuerysStorage.swift; sourceTree = "<group>"; };
 		FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchRequestEntity+Mapping.swift"; sourceTree = "<group>"; };
+		FE7075E3253EE39700C8B378 /* PhotosResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosResultCell.swift; sourceTree = "<group>"; };
 		FE7CE0AF25184113005D3338 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		FE7CE0B125184C6E005D3338 /* EncodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodableExtension.swift; sourceTree = "<group>"; };
 		FE7D58D42514541600B09B58 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 		FE311F782511E19900EE8400 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FE7075E2253EE36900C8B378 /* PhotoCell */,
 				FE311F712511E18F00EE8400 /* ResultViewController.swift */,
 				FE311F732511E18F00EE8400 /* ResultViewController.storyboard */,
 			);
@@ -433,6 +436,14 @@
 				FE7075E0253D87A800C8B378 /* SearchRequestEntity+Mapping.swift */,
 			);
 			path = EntityMapping;
+			sourceTree = "<group>";
+		};
+		FE7075E2253EE36900C8B378 /* PhotoCell */ = {
+			isa = PBXGroup;
+			children = (
+				FE7075E3253EE39700C8B378 /* PhotosResultCell.swift */,
+			);
+			path = PhotoCell;
 			sourceTree = "<group>";
 		};
 		FE7CE0AE251840EF005D3338 /* Protocol */ = {
@@ -831,6 +842,7 @@
 				FE0E24A0252C5C8D00064230 /* PhotosStorage.swift in Sources */,
 				FE897F5E251441B2008DC307 /* Repository.swift in Sources */,
 				FE897F5225134CD9008DC307 /* PhotosQuery.swift in Sources */,
+				FE7075E4253EE39800C8B378 /* PhotosResultCell.swift in Sources */,
 				FE311F5D2511DF9700EE8400 /* SearchViewModel.swift in Sources */,
 				FE0E24A5252C5D6700064230 /* PhotosResponseEntity+Mapping.swift in Sources */,
 				FE897F5525134E43008DC307 /* BaseEntities.swift in Sources */,

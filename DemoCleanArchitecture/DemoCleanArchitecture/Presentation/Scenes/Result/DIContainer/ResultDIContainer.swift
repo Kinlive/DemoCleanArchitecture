@@ -34,8 +34,11 @@ final class ResultDIContainer: ResultDIContainerMakeFactory {
   func makeResultUseCase() -> UseCases {
     let showResultUseCase = DefaultShowResultUseCase(passValues: passValues)
     let saveFavoriteUseCase = DefaultSaveFavoriteUseCase(repo: makeFavoriteRepository())
+    let fetchFavoriteUseCase = DefaultFetchFavoriteUseCase(repo: makeFavoriteRepository())
     
-    return UseCases(showResultUseCase: showResultUseCase, saveFavoriteUseCase: saveFavoriteUseCase)
+    return UseCases(showResultUseCase: showResultUseCase,
+                    saveFavoriteUseCase: saveFavoriteUseCase,
+                    fetchFavoriteUseCase: fetchFavoriteUseCase)
   }
 
   func makeFavoriteRepository() -> FavoriteRepository {

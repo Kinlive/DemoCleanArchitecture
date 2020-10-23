@@ -14,13 +14,16 @@ struct ResultViewModelActions {
 
 protocol ResultViewModelInput {
   func viewDidLoad()
-  func addFavorite(photo: Photo, of indexPath: IndexPath)
+  func addFavorite(of indexPath: IndexPath)
 }
 
 protocol ResultViewModelOutput {
   var onPhotosPrepared: ((String) -> Void)? { get set }
   var onPhotoSaved: ((IndexPath) -> Void)? { get set }
   var onPhotoSavedError: ((String) -> Void)? { get set }
+
+  var photos: [Photo]? { get set }
+  var favoritePhotos: [Photo]? { get set }
 }
 
 protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
@@ -28,7 +31,7 @@ protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
 class DefaultResultViewModel: ResultViewModel {
 
   typealias PassValues = HasResultValues
-  typealias ResultUseCase = HasSaveFavoriteUseCase & HasShowResultUseCase
+  typealias ResultUseCase = HasSaveFavoriteUseCase & HasShowResultUseCase & HasFetchFavoriteUseCase
   
   private let actions: ResultViewModelActions
   private let useCase: ResultUseCase
@@ -37,10 +40,33 @@ class DefaultResultViewModel: ResultViewModel {
   var onPhotosPrepared: ((String) -> Void)?
   var onPhotoSaved: ((IndexPath) -> Void)?
   var onPhotoSavedError: ((String) -> Void)?
+  var onFetchFavoritesError: ((Error) -> Void)?
+  var photos: [Photo]?
+  var favoritePhotos: [Photo]?
 
   init(useCase: ResultUseCase, actions: ResultViewModelActions) {
     self.useCase = useCase
     self.actions = actions
+  }
+
+  private func fetchPhotosAndFavorites(indexPath: IndexPath? = nil) {
+
+    useCase.fetchFavoriteUseCase?.fetchFavorite(completion: { [weak self] result in
+      switch result {
+      case .success(let favorites):
+        self?.favoritePhotos = favorites
+        self?.photos = self?.useCase.showResultUseCase?.fetchResult().photos
+        self?.onPhotosPrepared?("")
+
+        // trigger when saved success.
+        if let indexPath = indexPath {
+          self?.onPhotoSaved?(indexPath)
+        }
+
+      case .failure(let error):
+        self?.onFetchFavoritesError?(error)
+      }
+    })
   }
 }
 
@@ -48,24 +74,20 @@ class DefaultResultViewModel: ResultViewModel {
 extension DefaultResultViewModel {
   func viewDidLoad() {
     // photos
-    var allStrings: String = ""
-
-    useCase.showResultUseCase?
-      .fetchResult()
-      .photos
-      .map { "id: \($0.id), owner: \($0.owner ?? ""), title: \($0.title ?? "")" }
-      .forEach { allStrings.append($0 + "\n") }
-
-    onPhotosPrepared?(allStrings)
+    fetchPhotosAndFavorites()
   }
 
-  func addFavorite(photo: Photo, of indexPath: IndexPath) {
+  func addFavorite(of indexPath: IndexPath) {
+    guard let photo = photos?[indexPath.row] else { return }
+
     useCase.saveFavoriteUseCase?.save(favorite: photo.toDTO()) { [weak self ] error in
 
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
 
-      // trigger when saved success.
-      self?.onPhotoSaved?(indexPath)
+      // refresh data
+      self?.fetchPhotosAndFavorites(indexPath: indexPath)
+
     }
+
   }
 }
