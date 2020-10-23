@@ -91,6 +91,7 @@ class SearchViewController: UIViewController {
   // Keyboard support views
   lazy var baseAccessoryView: BaseAccessoryView = {
     let accessoryView = BaseAccessoryView()
+    accessoryView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.9)
     accessoryView.insertCustomToTopStackView(view: doneButton, completion: nil)
     return accessoryView
   }()
@@ -98,7 +99,7 @@ class SearchViewController: UIViewController {
   lazy var doneButton: UIButton = {
     let btn = UIButton()
     btn.setTitle("done", for: .normal)
-    btn.setTitleColor(.red, for: .normal)
+    btn.setTitleColor(.blue, for: .normal)
     btn.addTarget(self, action: #selector(onEdited(sender:)), for: .touchUpInside)
     return btn
   }()
@@ -253,11 +254,11 @@ class SearchViewController: UIViewController {
   // MARK: - Actions viewModel.Input
   @objc private func remoteTapped() {
     resignSubviewsFirstResponder()
-
+    guard let searchText = searchTextField.text, !searchText.isEmpty else { return}
     let perPage = Int(perPageTextField.text ?? "0") ?? 0
     let page = Int(pageTextField.text ?? "0") ?? 0
     let photoQuery = PhotosQuery(
-      searchText: searchTextField.text ?? "",
+      searchText: searchText,
       perPage: perPage,
       page: page)
 
