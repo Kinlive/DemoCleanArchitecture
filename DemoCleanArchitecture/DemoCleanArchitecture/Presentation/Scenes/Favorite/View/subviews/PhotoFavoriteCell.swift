@@ -33,6 +33,7 @@ class PhotoFavoriteCell: UITableViewCell {
     let image = UIImageView()
     image.translatesAutoresizingMaskIntoConstraints = false
     image.contentMode = .scaleToFill
+    image.backgroundColor = .systemIndigo
     return image
   }()
 
@@ -89,6 +90,8 @@ class PhotoFavoriteCell: UITableViewCell {
   func configure(input: Input, output: Output) {
     self.input = input
     self.output = output
+
+    titleLabel.text = input.photo.title
 
   }
 

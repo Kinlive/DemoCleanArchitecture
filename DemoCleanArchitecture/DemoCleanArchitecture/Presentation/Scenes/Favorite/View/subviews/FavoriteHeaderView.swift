@@ -11,10 +11,11 @@ import UIKit
 extension FavoriteHeaderView {
   struct Input {
     let title: String
+    let section: Int
   }
 
   struct Output {
-    let onTappedHeader: () -> Void
+    let onTappedHeader: (_ isExpanding: Bool, _ section: Int) -> Void
   }
 
   private struct Constraints: LayoutConstraints {
@@ -30,6 +31,7 @@ class FavoriteHeaderView: UIView {
   lazy var titleLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
+    label.textColor = .black
     return label
   }()
 
@@ -37,6 +39,7 @@ class FavoriteHeaderView: UIView {
   private let subviewConstraints = Constraints()
   private var input: Input?
   private var output: Output?
+  private var isExpanding: Bool = true
 
   // MARK: - Initialize
   override init(frame: CGRect) {
@@ -51,6 +54,7 @@ class FavoriteHeaderView: UIView {
 
     addSubviews()
     makeUIsBehavior()
+    configure()
   }
 
   required init?(coder: NSCoder) {
@@ -86,8 +90,10 @@ class FavoriteHeaderView: UIView {
   }
 
   @objc private func tapGesture(recognizer: UITapGestureRecognizer) {
-    print("On tapped header")
-    output?.onTappedHeader()
+    output?.onTappedHeader(!isExpanding, input?.section ?? 1)
   }
 
+  private func configure() {
+    titleLabel.text = input?.title
+  }
 }
