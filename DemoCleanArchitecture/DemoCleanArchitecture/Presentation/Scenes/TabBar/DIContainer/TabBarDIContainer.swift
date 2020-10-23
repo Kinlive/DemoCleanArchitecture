@@ -28,7 +28,7 @@ class TabBarDIContainer: TabBarDIContainerMakeScenesContainer {
   }
 
   func makeFavoriteContainer() -> FavoriteDIContainer {
-    return FavoriteDIContainer()
+    return FavoriteDIContainer(dependencies: dependencies)
   }
 
 

@@ -8,12 +8,34 @@
 
 import UIKit
 
-class FavoriteDIContainer {
+protocol FavoriteDIContainerMakeFactory {
+  func makeFavoriteCoordinator(navigationController: UINavigationController) -> FavoriteCoordinator
+  func makeFavoriteViewModelUseCases() -> UseCases
+  func makeFavoriteRepository() -> FavoriteRepository
+}
 
-  // service / usecase / dependencies
+class FavoriteDIContainer: FavoriteDIContainerMakeFactory {
 
+  typealias Dependencies = HasFavoritesPhotosStorage
+
+  private let dependencies: Dependencies
+
+  init(dependencies: Dependencies) {
+    self.dependencies = dependencies
+  }
+
+  // MARK: - Make factory methods
   func makeFavoriteCoordinator(navigationController: UINavigationController) -> FavoriteCoordinator {
     return FavoriteCoordinator(navigationController: navigationController, dependencies: self)
+  }
+
+  func makeFavoriteViewModelUseCases() -> UseCases {
+    return UseCases(removeFavoriteUseCase: DefaultRemoveFavoriteUseCase(repo: makeFavoriteRepository()),
+                    fetchFavoriteUseCase: DefaultFetchFavoriteUseCase(repo: makeFavoriteRepository()))
+  }
+
+  func makeFavoriteRepository() -> FavoriteRepository {
+    return FavoriteRepository(dependencies: dependencies)
   }
 
 }
