@@ -13,6 +13,7 @@
 		FE0E24A2252C5CB600064230 /* CoreDataPhotosStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */; };
 		FE0E24A5252C5D6700064230 /* PhotosResponseEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */; };
 		FE108DAE2542841E00D949FB /* RemoveFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE108DAD2542841E00D949FB /* RemoveFavoriteUseCase.swift */; };
+		FE108DB12542B44B00D949FB /* FavoriteHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE108DB02542B44B00D949FB /* FavoriteHeaderView.swift */; };
 		FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE19371D252C452F003A6B04 /* CoreDataStorage.swift */; };
 		FE311F3D2511BE4200EE8400 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE311F3C2511BE4200EE8400 /* AppDelegate.swift */; };
 		FE311F462511BE4B00EE8400 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE311F452511BE4B00EE8400 /* Assets.xcassets */; };
@@ -85,6 +86,7 @@
 		FE0E24A1252C5CB600064230 /* CoreDataPhotosStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPhotosStorage.swift; sourceTree = "<group>"; };
 		FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosResponseEntity+Mapping.swift"; sourceTree = "<group>"; };
 		FE108DAD2542841E00D949FB /* RemoveFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFavoriteUseCase.swift; sourceTree = "<group>"; };
+		FE108DB02542B44B00D949FB /* FavoriteHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteHeaderView.swift; sourceTree = "<group>"; };
 		FE19371D252C452F003A6B04 /* CoreDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		FE311F392511BE4200EE8400 /* DemoCleanArchitecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCleanArchitecture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE311F3C2511BE4200EE8400 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +195,14 @@
 				FE0E24A4252C5D6700064230 /* PhotosResponseEntity+Mapping.swift */,
 			);
 			path = EntityMapping;
+			sourceTree = "<group>";
+		};
+		FE108DAF2542B43800D949FB /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				FE108DB02542B44B00D949FB /* FavoriteHeaderView.swift */,
+			);
+			path = subviews;
 			sourceTree = "<group>";
 		};
 		FE193719252C1594003A6B04 /* PersistentStorages */ = {
@@ -342,6 +352,7 @@
 		FE311F6E2511E12000EE8400 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FE108DAF2542B43800D949FB /* subviews */,
 				FE311F672511E11300EE8400 /* FavoriteViewController.swift */,
 				FE311F692511E11300EE8400 /* FavoriteViewController.storyboard */,
 			);
@@ -867,6 +878,7 @@
 				FE7E82802511F43200983B54 /* SearchCoordinator.swift in Sources */,
 				FE7D58D52514541600B09B58 /* SearchService.swift in Sources */,
 				FE7075D9253D846300C8B378 /* SearchRecordUseCase.swift in Sources */,
+				FE108DB12542B44B00D949FB /* FavoriteHeaderView.swift in Sources */,
 				FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */,
 				FE86BD842512F2A100234949 /* FavoriteCoordinator.swift in Sources */,
 				FE897F5025134B6F008DC307 /* SearchRequestDTO+Mapping.swift in Sources */,
