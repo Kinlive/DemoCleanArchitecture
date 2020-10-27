@@ -137,6 +137,18 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     )
   }
 
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    switch editingStyle {
+    case .delete:
+      viewModel.onDeleteFavorite(at: indexPath)
+    default: break
+    }
+  }
+
   private func inputForCell(at indexPath: IndexPath) -> PhotoFavoriteCell.Input {
     let photo = viewModel.photo(at: indexPath)
 

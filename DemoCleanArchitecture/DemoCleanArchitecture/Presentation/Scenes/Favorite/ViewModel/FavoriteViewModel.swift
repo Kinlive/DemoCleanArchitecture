@@ -16,6 +16,7 @@ protocol FavoriteViewModelInput {
   func viewDidLoad()
   func viewWillAppear()
   func onTappedHeader(isExpanding: Bool, of section: Int)
+  func onDeleteFavorite(at indexPath: IndexPath)
 }
 
 protocol FavoriteViewModelOutput {
@@ -87,10 +88,15 @@ extension DefaultFavoriteViewModel {
 
       switch result {
       case .success(let photos):
-        photos.enumerated().forEach { (index, element ) in
-          self?.fetchFavorites.append((element.key, element.value))
-          // according count of photos, base set each to false.
-          self?.expandsIndex[index] = true
+
+        photos
+          .sorted(by: { $0.key > $1.key })
+          .enumerated()
+          .forEach { (index, element ) in
+
+            self?.fetchFavorites.append((element.key, element.value))
+            // according count of photos, base set each to false.
+            self?.expandsIndex[index] = true
         }
 
         // trigger favorites prepared for reload table.
@@ -112,5 +118,14 @@ extension DefaultFavoriteViewModel {
       .map { IndexPath(item: $0, section: section) }
 
     tappedHeaderOn?(isExpanding, indexPaths)
+  }
+
+  func onDeleteFavorite(at indexPath: IndexPath) {
+
+    let deletePhoto = fetchFavorites[indexPath.section].photos[indexPath.row]
+    useCases.removeFavoriteUseCase?.remove(favorite: deletePhoto.toDTO(), completion: { [weak self] error in
+      guard let error = error else { self?.viewWillAppear(); return }
+      self?.onFetchError?(error.localizedDescription)
+    })
   }
 }
