@@ -42,6 +42,11 @@ class FavoriteViewController: UIViewController {
     viewModel.viewDidLoad()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.viewWillAppear()
+  }
+
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
     makeUIsConstraints()
@@ -50,6 +55,12 @@ class FavoriteViewController: UIViewController {
 
   func bind(to viewModel: FavoriteViewModel) {
     self.viewModel.tappedHeaderOn = expandTable
+
+    self.viewModel.onFavoritesPrepared = {
+      DispatchQueue.main.async {
+        self.favoritesTableView.reloadData()
+      }
+    }
 
   }
 
@@ -72,20 +83,16 @@ class FavoriteViewController: UIViewController {
     constraints.activateAll()
   }
 
-  private func expandTable(isExpanding: Bool, section: Int) {
-    print("\(#function) \(isExpanding)")
-    //let indexPaths = Array(0...2).map { IndexPath(item: $0, section: section) }
-    /*
+  private func expandTable(isExpanding: Bool, indexPaths: [IndexPath]) {
+
     favoritesTableView.performBatchUpdates({
       isExpanding
         ? favoritesTableView.insertRows(at: indexPaths, with: .left)
         : favoritesTableView.deleteRows(at: indexPaths, with: .fade)
+    }) { end in }
 
-    }) { (end) in
-
-    }
-     */
   }
+  
 }
 
 // MARK: - Constaints
@@ -99,8 +106,11 @@ extension FavoriteViewController {
 
 // MARK: - UITableView delegate & dataSource
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return viewModel.numberOfSection()
+  }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 3
+    return viewModel.numberOfPhotos(in: section)
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -119,26 +129,20 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let title = viewModel.headerTitle(in: section) else { return nil }
+
     return FavoriteHeaderView(
-      input: .init(title: "test", section: section),
+      input: .init(title: title, section: section),
       output: .init(onTappedHeader: viewModel.onTappedHeader)
     )
   }
 
   private func inputForCell(at indexPath: IndexPath) -> PhotoFavoriteCell.Input {
+    let photo = viewModel.photo(at: indexPath)
+
     return .init(
       indexPath: indexPath,
-      photo: .init(
-        id: UUID().uuidString,
-        owner: "Kin",
-        secret: "Hi",
-        server: "Bye",
-        farm: 0,
-        title: "Demo cell",
-        ispublic: 0,
-        isfriend: 0,
-        isfamily: 0
-      )
+      photo: photo
     )
   }
 
