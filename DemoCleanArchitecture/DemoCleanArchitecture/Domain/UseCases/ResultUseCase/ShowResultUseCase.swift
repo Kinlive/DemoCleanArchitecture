@@ -9,18 +9,18 @@
 import Foundation
 
 protocol ShowResultUseCase {
-  func fetchResult() -> AppPassValues
+  typealias PassValues = HasResultValues
+  func fetchResult() -> PassValues
 }
 
 final class DefaultShowResultUseCase: ShowResultUseCase {
-
-  private let passValues: AppPassValues
+  private let passValues: PassValues
 
   init(passValues: AppPassValues) {
     self.passValues = passValues
   }
 
-  func fetchResult() -> AppPassValues {
+  func fetchResult() -> PassValues {
     return passValues
   }
 }

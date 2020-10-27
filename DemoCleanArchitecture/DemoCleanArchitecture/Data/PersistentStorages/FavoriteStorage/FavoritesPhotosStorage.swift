@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FavoritesPhotosStorage {
-  func save(response: SearchResponseDTO.PhotosDTO.PhotoDTO, completion: @escaping (CoreDataStorageError?) -> Void)
-  func fetchAllFavorite(completion: @escaping (Result<[Photo], CoreDataStorageError>) -> Void)
+  func save(response: SearchResponseDTO.PhotosDTO.PhotoDTO, of request: SearchRequestDTO, completion: @escaping (CoreDataStorageError?) -> Void)
+  func fetchAllFavorite(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void)
   func remove(response: SearchResponseDTO.PhotosDTO.PhotoDTO, completion: @escaping (CoreDataStorageError?) -> Void)
 }

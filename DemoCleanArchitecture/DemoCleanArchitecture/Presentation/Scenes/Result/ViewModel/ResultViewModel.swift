@@ -55,7 +55,10 @@ class DefaultResultViewModel: ResultViewModel {
     useCase.fetchFavoriteUseCase?.fetchFavorite(completion: { [weak self] result in
       switch result {
       case .success(let favorites):
-        self?.favoritePhotos = favorites
+
+        let searchText = self?.useCase.showResultUseCase?.fetchResult().resultQuery?.searchText ?? ""
+        self?.favoritePhotos = favorites[searchText]
+
         self?.photos = self?.useCase.showResultUseCase?.fetchResult().photos
         self?.onPhotosPrepared?("")
 
@@ -79,9 +82,11 @@ extension DefaultResultViewModel {
   }
 
   func addFavorite(of indexPath: IndexPath) {
-    guard let photo = photos?[indexPath.row] else { return }
 
-    useCase.saveFavoriteUseCase?.save(favorite: photo.toDTO()) { [weak self ] error in
+    guard let photo = photos?[indexPath.row],
+      let resultQuery = useCase.showResultUseCase?.fetchResult().resultQuery else { return }
+
+    useCase.saveFavoriteUseCase?.save(favorite: photo.toDTO(), of: .init(query: resultQuery)) { [weak self ] error in
 
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
 

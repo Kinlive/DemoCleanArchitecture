@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17189" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="SearchPhotoResponseEntity" representedClassName="SearchPhotoResponseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="farm" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="String"/>
@@ -11,6 +11,7 @@
         <attribute name="secret" optional="YES" attributeType="String"/>
         <attribute name="server" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchRequestEntity" inverseName="favoritePhoto" inverseEntity="SearchRequestEntity"/>
         <relationship name="searchPhotos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SearchPhotosResponseEntity" inverseName="photo" inverseEntity="SearchPhotosResponseEntity"/>
     </entity>
     <entity name="SearchPhotosResponseEntity" representedClassName="SearchPhotosResponseEntity" syncable="YES" codeGenerationType="class">
@@ -26,6 +27,7 @@
         <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="perPage" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="favoritePhoto" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SearchPhotoResponseEntity" inverseName="request" inverseEntity="SearchPhotoResponseEntity"/>
         <relationship name="response" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchResponseEntity" inverseName="request" inverseEntity="SearchResponseEntity"/>
     </entity>
     <entity name="SearchResponseEntity" representedClassName="SearchResponseEntity" syncable="YES" codeGenerationType="class">
@@ -34,9 +36,9 @@
         <relationship name="request" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SearchRequestEntity" inverseName="response" inverseEntity="SearchRequestEntity"/>
     </entity>
     <elements>
-        <element name="SearchPhotoResponseEntity" positionX="-127.8828125" positionY="383.84765625" width="128" height="208"/>
-        <element name="SearchPhotosResponseEntity" positionX="-327.23046875" positionY="261.8359375" width="128" height="133"/>
-        <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="118"/>
-        <element name="SearchResponseEntity" positionX="-479.109375" positionY="155.9296875" width="128" height="88"/>
+        <element name="SearchPhotoResponseEntity" positionX="-83.75" positionY="345.609375" width="128" height="223"/>
+        <element name="SearchPhotosResponseEntity" positionX="-329.83203125" positionY="218.27734375" width="128" height="133"/>
+        <element name="SearchRequestEntity" positionX="-718.90625" positionY="141.34375" width="128" height="133"/>
+        <element name="SearchResponseEntity" positionX="-540.32421875" positionY="278.51953125" width="128" height="88"/>
     </elements>
 </model>

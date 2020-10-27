@@ -10,6 +10,7 @@ import Foundation
 
 protocol HasResultValues {
   var photos: [Photo] { get }
+  var resultQuery: PhotosQuery? { get }
 }
 
 protocol HasFavoriteValues {
@@ -23,9 +24,11 @@ struct AppPassValues: HasResultValues, HasFavoriteValues, HasSearchRecordValues 
   let photos: [Photo]
   let favorite: [String]
   let photosQuery: [PhotosQuery]
+  let resultQuery: PhotosQuery?
 
-  init(photos: [Photo] = [], favorite: [String] = [], photosQuery: [PhotosQuery] = []) {
+  init(photos: [Photo] = [], resultQuery: PhotosQuery? = nil, favorite: [String] = [], photosQuery: [PhotosQuery] = []) {
     self.photos = photos
+    self.resultQuery = resultQuery
     self.favorite = favorite
     self.photosQuery = photosQuery
   }

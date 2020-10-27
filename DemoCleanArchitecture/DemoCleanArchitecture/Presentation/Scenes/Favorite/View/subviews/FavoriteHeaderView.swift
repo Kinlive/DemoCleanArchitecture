@@ -90,7 +90,8 @@ class FavoriteHeaderView: UIView {
   }
 
   @objc private func tapGesture(recognizer: UITapGestureRecognizer) {
-    output?.onTappedHeader(!isExpanding, input?.section ?? 1)
+    isExpanding = !isExpanding
+    output?.onTappedHeader(isExpanding, input?.section ?? 1)
   }
 
   private func configure() {

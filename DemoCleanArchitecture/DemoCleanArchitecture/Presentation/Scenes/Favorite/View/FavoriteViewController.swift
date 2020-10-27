@@ -49,6 +49,7 @@ class FavoriteViewController: UIViewController {
   }
 
   func bind(to viewModel: FavoriteViewModel) {
+    self.viewModel.tappedHeaderOn = expandTable
 
   }
 
@@ -69,6 +70,21 @@ class FavoriteViewController: UIViewController {
     constraints.table.bottom = favoritesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
 
     constraints.activateAll()
+  }
+
+  private func expandTable(isExpanding: Bool, section: Int) {
+    print("\(#function) \(isExpanding)")
+    //let indexPaths = Array(0...2).map { IndexPath(item: $0, section: section) }
+    /*
+    favoritesTableView.performBatchUpdates({
+      isExpanding
+        ? favoritesTableView.insertRows(at: indexPaths, with: .left)
+        : favoritesTableView.deleteRows(at: indexPaths, with: .fade)
+
+    }) { (end) in
+
+    }
+     */
   }
 }
 
@@ -105,25 +121,8 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     return FavoriteHeaderView(
       input: .init(title: "test", section: section),
-      output: .init(onTappedHeader: tappedHeader)
+      output: .init(onTappedHeader: viewModel.onTappedHeader)
     )
-  }
-
-  private func tappedHeader(_ isExpanding: Bool, _ section: Int) {
-    print(#function)
-
-    let indexPaths = Array(0...2).map { IndexPath(item: $0, section: section) }
-
-    /*
-    favoritesTableView.performBatchUpdates({
-      isExpanding
-        ? favoritesTableView.insertRows(at: indexPaths, with: .left)
-        : favoritesTableView.deleteRows(at: indexPaths, with: .fade)
-
-    }) { (end) in
-
-    }
-     */
   }
 
   private func inputForCell(at indexPath: IndexPath) -> PhotoFavoriteCell.Input {

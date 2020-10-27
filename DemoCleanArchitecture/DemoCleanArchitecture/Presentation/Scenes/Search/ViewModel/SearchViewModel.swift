@@ -10,7 +10,7 @@ import Foundation
 
 // ViewModel Actions which tells to coordinator when to present another views.
 struct SearchViewModelActions {
-  let showResult: ([Photo]) -> Void
+  let showResult: ([Photo], PhotosQuery) -> Void
 }
 
 protocol SearchViewModelInput {
@@ -84,8 +84,10 @@ extension DefaultSearchViewModel {
       }
       guard let photos = domain else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
 
-      self?.onRemotePhotosCompletion?(photos)
-      self?.actions?.showResult(photos.photo)
+      DispatchQueue.main.async {
+        self?.onRemotePhotosCompletion?(photos)
+        self?.actions?.showResult(photos.photo, query)
+      }
     })
   }
 
@@ -111,10 +113,10 @@ extension DefaultSearchViewModel {
         return
       }
 
-      guard let photos = photos else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
+      guard let photos = photos else { self?.fetchRemote(query: query); return } // It will never be called.
 
       DispatchQueue.main.async {
-        self?.actions?.showResult(photos.photo)
+        self?.actions?.showResult(photos.photo, query)
       }
 
     })

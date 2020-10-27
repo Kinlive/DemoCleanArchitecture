@@ -31,7 +31,8 @@ class FavoriteDIContainer: FavoriteDIContainerMakeFactory {
 
   func makeFavoriteViewModelUseCases() -> UseCases {
     return UseCases(removeFavoriteUseCase: DefaultRemoveFavoriteUseCase(repo: makeFavoriteRepository()),
-                    fetchFavoriteUseCase: DefaultFetchFavoriteUseCase(repo: makeFavoriteRepository()))
+                    fetchFavoriteUseCase: DefaultFetchFavoriteUseCase(repo: makeFavoriteRepository())
+    )
   }
 
   func makeFavoriteRepository() -> FavoriteRepository {
@@ -42,7 +43,7 @@ class FavoriteDIContainer: FavoriteDIContainerMakeFactory {
 
 extension FavoriteDIContainer: FavoriteCoordinatorDependencies {
   func makeFavoriteViewController(actions: FavoriteViewModelActions) -> FavoriteViewController {
-    let viewModel = DefaultFavoriteViewModel(actions: actions, testTitle: "I get Favorite string")
+    let viewModel = DefaultFavoriteViewModel(actions: actions, useCases: makeFavoriteViewModelUseCases())
 
     return FavoriteViewController.create(with: viewModel)
   }

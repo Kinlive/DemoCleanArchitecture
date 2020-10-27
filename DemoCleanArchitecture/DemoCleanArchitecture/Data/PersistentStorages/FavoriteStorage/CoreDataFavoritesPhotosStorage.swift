@@ -22,14 +22,41 @@ class CoreDataFavoritesPhotosStorage {
     return request
   }
 
-  private func deleteResponse(for response: SearchResponseDTO.PhotosDTO.PhotoDTO, in context: NSManagedObjectContext) throws {
+  private func deleteFavorite(for response: SearchResponseDTO.PhotosDTO.PhotoDTO, in context: NSManagedObjectContext) throws {
     let request = fetchAllRequest()
 
     do {
       let results = try context.fetch(request)
       results
         .filter { $0.id == response.id }
-        .forEach { context.delete($0) } // avoid repeat to write data
+        .forEach { $0.isFavorite = false }
+
+    } catch {
+      throw error
+    }
+  }
+
+  private func findSameRequest(for request: SearchRequestDTO, in context: NSManagedObjectContext) throws -> SearchRequestEntity? {
+    let fetchRequest: NSFetchRequest = SearchRequestEntity.fetchRequest()
+    do {
+      let results = try context.fetch(fetchRequest)
+      return results
+        .filter { $0.text == request.text }
+        .first ?? request.toEntity(in: context) // if not found same request on storaged then new one for it
+
+    } catch {
+      throw error
+    }
+  }
+
+  private func findSamePhoto(for response: SearchResponseDTO.PhotosDTO.PhotoDTO, in context: NSManagedObjectContext) throws -> SearchPhotoResponseEntity? {
+    let fetchRequest: NSFetchRequest = SearchPhotoResponseEntity.fetchRequest()
+
+    do {
+      let results = try context.fetch(fetchRequest)
+      return results
+        .filter { $0.id == response.id }
+        .first ?? response.toEntity(in: context)  // if not found same request on storaged then new one for it
 
     } catch {
       throw error
@@ -40,13 +67,18 @@ class CoreDataFavoritesPhotosStorage {
 
 extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
   func save(response: SearchResponseDTO.PhotosDTO.PhotoDTO,
+            of request: SearchRequestDTO,
             completion: @escaping (CoreDataStorageError?) -> Void) {
 
     coreDataStorage.performBackgroundTask { [weak self] context in
       do {
-        try self?.deleteResponse(for: response, in: context)
-        // write favorite data in context.
-        response.toFavoriteEntity(in: context)
+        // find storaged response who same with import's response that edit favorite in context.
+        let photoEntity = try self?.findSamePhoto(for: response, in: context)
+        // mark favorite
+        photoEntity?.isFavorite = true
+
+        // dependency with request
+        photoEntity?.request = try self?.findSameRequest(for: request, in: context)
 
         try context.save()
         completion(nil)
@@ -57,14 +89,28 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
     }
   }
 
-  func fetchAllFavorite(completion: @escaping (Result<[Photo], CoreDataStorageError>) -> Void) {
+  func fetchAllFavorite(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void) {
     coreDataStorage.performBackgroundTask { context in
       do {
         let fetchAllRequest = self.fetchAllRequest()
         let responseEntity = try context.fetch(fetchAllRequest)
-        let domainPhotos = responseEntity.compactMap { $0.toDTO() }.map { $0.toDomain() as Photo }
 
-        completion(.success(domainPhotos))
+        var dic: [String : [Photo]] = [:]
+
+        responseEntity
+          .map { ($0.request?.text, $0) }
+          .forEach { searchText, photoEntity in
+
+            guard let text = searchText else { return }
+            let photo = photoEntity.toDTO().toDomain() as Photo
+
+            dic[text] == nil
+              ? dic[text] = [photo]
+              : dic[text]?.append(photo)
+
+          }
+
+        completion(.success(dic))
 
       } catch {
         completion(.failure(CoreDataStorageError.readError(error)))
@@ -75,7 +121,7 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
   func remove(response: SearchResponseDTO.PhotosDTO.PhotoDTO, completion: @escaping (CoreDataStorageError?) -> Void) {
     coreDataStorage.performBackgroundTask { [weak self] context in
       do {
-        try self?.deleteResponse(for: response, in: context)
+        try self?.deleteFavorite(for: response, in: context)
         try context.save()
 
         completion(nil)
