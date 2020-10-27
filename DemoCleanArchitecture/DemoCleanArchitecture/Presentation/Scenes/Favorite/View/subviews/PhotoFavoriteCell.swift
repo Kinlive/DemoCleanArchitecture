@@ -42,6 +42,7 @@ class PhotoFavoriteCell: UITableViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.textColor = .black
     label.numberOfLines = 0
+    label.lineBreakMode = .byWordWrapping
 
     return label
   }()
@@ -81,8 +82,9 @@ class PhotoFavoriteCell: UITableViewCell {
 
     // title
     subviewsConstraint.title.left = titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15)
-    subviewsConstraint.title.centerY = titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-    subviewsConstraint.title.right = titleLabel.trailingAnchor.constraint(greaterThanOrEqualTo: photoImageView.leadingAnchor, constant: 10)
+    subviewsConstraint.title.top = titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+    subviewsConstraint.title.bottom = titleLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor, constant: -5)
+    subviewsConstraint.title.right = titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: photoImageView.leadingAnchor, constant: -10)
 
     subviewsConstraint.activateAll()
   }
@@ -93,6 +95,8 @@ class PhotoFavoriteCell: UITableViewCell {
 
     titleLabel.text = input.photo.title
 
+    let imageUrl = "https://farm\(input.photo.farm).staticflickr.com/\(input.photo.server ?? "")/\(input.photo.id)_\(input.photo.secret ?? "").jpg"
+    photoImageView.downloaded(from: imageUrl)
   }
 
 }
