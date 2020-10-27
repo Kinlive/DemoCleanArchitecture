@@ -28,6 +28,7 @@ class ResultCoordinator: BaseCoordinator {
 
   override func start() {
     let resultVC = dependencies.makeResultViewController(actions: ResultViewModelActions())
+    resultVC.navigationItem.title = "Result"
     navigationController?.pushViewController(resultVC, animated: true)
   }
 }

@@ -62,6 +62,10 @@ class FavoriteViewController: UIViewController {
       }
     }
 
+    self.viewModel.onFetchError = { error in
+      print(error)
+    }
+
   }
 
   // MARK: - Private mathods.

@@ -34,6 +34,7 @@ class SearchCoordinator: BaseCoordinator {
     )
 
     let searchVC = dependencies.makeSearchViewController(actions: searchActions)
+    searchVC.navigationItem.title = "Search photos"
     navigationController?.pushViewController(searchVC, animated: true)
 
   }

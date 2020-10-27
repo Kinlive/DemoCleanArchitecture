@@ -33,7 +33,7 @@ class PhotoFavoriteCell: UITableViewCell {
     let image = UIImageView()
     image.translatesAutoresizingMaskIntoConstraints = false
     image.contentMode = .scaleToFill
-    image.backgroundColor = .systemIndigo
+    image.backgroundColor = UIColor.systemPurple.withAlphaComponent(0.3)
     return image
   }()
 
@@ -76,8 +76,8 @@ class PhotoFavoriteCell: UITableViewCell {
   private func makeUIsConstraint() {
     // image
     subviewsConstraint.image.right = photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
-    subviewsConstraint.image.height = photoImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1)
-    subviewsConstraint.image.width = photoImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1)
+    subviewsConstraint.image.height = photoImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.95)
+    subviewsConstraint.image.width = photoImageView.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.95)
     subviewsConstraint.image.centerY = photoImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 
     // title

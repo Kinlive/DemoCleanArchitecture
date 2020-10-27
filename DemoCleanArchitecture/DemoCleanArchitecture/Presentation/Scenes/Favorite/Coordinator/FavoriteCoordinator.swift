@@ -28,7 +28,7 @@ class FavoriteCoordinator: BaseCoordinator {
   override func start() {
     let actions = FavoriteViewModelActions()
     let vc = dependencies.makeFavoriteViewController(actions: actions)
-
+    vc.navigationItem.title = "Favorite photos"
     navigationController?.pushViewController(vc, animated: true)
   }
 
