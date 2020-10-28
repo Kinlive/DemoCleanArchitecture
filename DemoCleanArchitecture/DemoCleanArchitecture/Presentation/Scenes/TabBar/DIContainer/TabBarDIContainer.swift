@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol TabBarDIContainerMakeScenesContainer {
+protocol TabBarDIContainerMakeFactory {
   func makeSearchContainer() -> SearchDIContainer
   func makeFavoriteContainer() -> FavoriteDIContainer
 }
 
-class TabBarDIContainer: TabBarDIContainerMakeScenesContainer {
+class TabBarDIContainer: TabBarDIContainerMakeFactory {
 
   typealias Dependencies = AppDependency
 

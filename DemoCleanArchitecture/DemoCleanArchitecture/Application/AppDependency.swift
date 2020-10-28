@@ -35,16 +35,19 @@ protocol HasCachedService {
 // MARK: - Handle all services by AppDependency.
 struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService, HasCachedService, HasFavoritesPhotosStorage, HasQuerysStorage {
 
-  /// HasSearchRemoteService dependencies.
+  /// HasSearchRemoteService dependency.
   var searchService: SearchService
 
-  /// HasCorDataService dependencies.
+  /// HasCorDataService dependency.
   var photosStorage: PhotosStorage
 
+  /// HasCachedService dependency.
   let cacheManager: CacheManager
 
+  /// HasFavoritesPhotosStorage dependency.
   let favoritesPhotosStorage: FavoritesPhotosStorage
 
+  /// HasQuerysStorage dependency
   let querysStorage: QuerysStorage
 
 
