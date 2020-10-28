@@ -86,7 +86,7 @@ extension DefaultResultViewModel {
     guard let photo = photos?[indexPath.row],
       let resultQuery = useCase.showResultUseCase?.fetchResult().resultQuery else { return }
 
-    useCase.saveFavoriteUseCase?.save(favorite: photo.toDTO(), of: .init(query: resultQuery)) { [weak self ] error in
+    useCase.saveFavoriteUseCase?.save(favorite: photo, of: resultQuery) { [weak self ] error in
 
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
 
@@ -100,7 +100,7 @@ extension DefaultResultViewModel {
 
     guard let photo = photos?[indexPath.row] else { return }
 
-    useCase.removeFavoriteUseCase?.remove(favorite: photo.toDTO(), completion: { [weak self] error in
+    useCase.removeFavoriteUseCase?.remove(favorite: photo, completion: { [weak self] error in
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
       // refresh data for update cells
       self?.fetchPhotosAndFavorites(indexPath: indexPath)

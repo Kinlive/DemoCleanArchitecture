@@ -123,7 +123,7 @@ extension DefaultFavoriteViewModel {
   func onDeleteFavorite(at indexPath: IndexPath) {
 
     let deletePhoto = fetchFavorites[indexPath.section].photos[indexPath.row]
-    useCases.removeFavoriteUseCase?.remove(favorite: deletePhoto.toDTO(), completion: { [weak self] error in
+    useCases.removeFavoriteUseCase?.remove(favorite: deletePhoto, completion: { [weak self] error in
       guard let error = error else { self?.viewWillAppear(); return }
       self?.onFetchError?(error.localizedDescription)
     })

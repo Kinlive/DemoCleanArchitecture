@@ -9,7 +9,7 @@
 import Foundation
 
 protocol RemoveFavoriteUseCase {
-  func remove(favorite: SearchResponseDTO.PhotosDTO.PhotoDTO, completion: @escaping (CoreDataStorageError?) -> Void)
+  func remove(favorite photo: Photo, completion: @escaping (CoreDataStorageError?) -> Void)
 }
 
 final class DefaultRemoveFavoriteUseCase: RemoveFavoriteUseCase {
@@ -19,10 +19,10 @@ final class DefaultRemoveFavoriteUseCase: RemoveFavoriteUseCase {
     self.repository = repo
   }
 
-  func remove(favorite: SearchResponseDTO.PhotosDTO.PhotoDTO,
+  func remove(favorite photo: Photo,
               completion: @escaping (CoreDataStorageError?) -> Void) {
 
-    repository.removeFavorite(photoDTO: favorite, completion: completion)
+    repository.removeFavorite(photo: photo, completion: completion)
   }
   
 }

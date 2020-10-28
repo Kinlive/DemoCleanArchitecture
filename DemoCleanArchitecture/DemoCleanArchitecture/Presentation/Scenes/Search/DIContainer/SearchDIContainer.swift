@@ -41,7 +41,7 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
   }
 
   func makeSearchRepository() -> SearchRepository {
-    return SearchRepository(dependencies: dependencies)
+    return DefaultSearchRepository(dependencies: dependencies)
   }
 }
 

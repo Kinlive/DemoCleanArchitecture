@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import Moya
 
-final class SearchRepository {
+final class DefaultSearchRepository: SearchRepository {
 
   typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasQuerysStorage
 
@@ -19,10 +18,9 @@ final class SearchRepository {
     self.dependencies = dependencies
   }
 
-  @discardableResult
-  func request(searchQuery: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable {
+  func request(searchQuery: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) {
 
-    return dependencies.searchService.request(targetType: .searchPhotos(parameter: searchQuery)) { [weak self] returnValues in
+    dependencies.searchService.request(targetType: .searchPhotos(parameter: searchQuery)) { [weak self] returnValues in
       // storage search response
       if let responseDTO = returnValues.domain?.toDTO() {
         self?.dependencies.photosStorage.save(

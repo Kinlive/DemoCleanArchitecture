@@ -16,3 +16,9 @@ struct PhotosQuery: Equatable {
   var createDate: Date?
 
 }
+
+extension PhotosQuery {
+  func toDTO() -> SearchRequestDTO {
+    return .init(query: self)
+  }
+}

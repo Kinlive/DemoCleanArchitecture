@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SaveFavoriteUseCase {
-  func save(favorite photoDTO: SearchResponseDTO.PhotosDTO.PhotoDTO,
-            of requestDTO: SearchRequestDTO,
+  func save(favorite photo: Photo,
+            of request: PhotosQuery,
             completion: @escaping (CoreDataStorageError?) -> Void)
 }
 
@@ -22,11 +22,11 @@ final class DefaultSaveFavoriteUseCase: SaveFavoriteUseCase {
     repository = repo
   }
 
-  func save(favorite photoDTO: SearchResponseDTO.PhotosDTO.PhotoDTO,
-            of requestDTO: SearchRequestDTO,
+  func save(favorite photo: Photo,
+            of request: PhotosQuery,
             completion: @escaping (CoreDataStorageError?) -> Void) {
-    
-    repository.save(favorite: photoDTO, request: requestDTO, completion: completion)
+
+    repository.save(favorite: photo, of: request, completion: completion)
   }
 
 }

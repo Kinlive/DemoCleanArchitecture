@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import Moya
 
 protocol SearchRemoteUseCase {
-  func search(query: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) -> Cancellable
+  func search(query: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void)
 
 }
 
@@ -22,8 +21,8 @@ final class DefaultSearchRemoteUseCase: SearchRemoteUseCase {
     self.repository = repo
   }
 
-  func search(query: PhotosQuery, completionHandler: (@escaping (Photos?, Error?) -> Void)) -> Cancellable {
-    return repository.request(searchQuery: query, completionHandler: completionHandler)
+  func search(query: PhotosQuery, completionHandler: (@escaping (Photos?, Error?) -> Void)) {
+    repository.request(searchQuery: query, completionHandler: completionHandler)
   }
 
 }

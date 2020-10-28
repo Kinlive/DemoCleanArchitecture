@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class FavoriteRepository {
+final class DefaultFavoriteRepository: FavoriteRepository {
 
   typealias Dependencies = HasFavoritesPhotosStorage
 
@@ -18,20 +18,20 @@ final class FavoriteRepository {
     self.dependencies = dependencies
   }
 
-  func save(favorite photoDTO: SearchResponseDTO.PhotosDTO.PhotoDTO,
-            request requestDTO: SearchRequestDTO,
+  func save(favorite photo: Photo,
+            of request: PhotosQuery,
             completion: @escaping (CoreDataStorageError?) -> Void) {
 
-    dependencies.favoritesPhotosStorage.save(response: photoDTO, of: requestDTO, completion: completion)
+    dependencies.favoritesPhotosStorage.save(response: photo.toDTO(), of: request.toDTO(), completion: completion)
   }
 
   func fetchAllFavorites(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void) {
     dependencies.favoritesPhotosStorage.fetchAllFavorite(completion: completion)
   }
 
-  func removeFavorite(photoDTO: SearchResponseDTO.PhotosDTO.PhotoDTO,
+  func removeFavorite(photo: Photo,
                       completion: @escaping (CoreDataStorageError?) -> Void) {
 
-    dependencies.favoritesPhotosStorage.remove(response: photoDTO, completion: completion)
+    dependencies.favoritesPhotosStorage.remove(response: photo.toDTO(), completion: completion)
   }
 }

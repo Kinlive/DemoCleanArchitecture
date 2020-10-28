@@ -39,7 +39,7 @@ final class ResultDIContainer: ResultDIContainerMakeFactory {
   }
 
   func makeFavoriteRepository() -> FavoriteRepository {
-    return FavoriteRepository(dependencies: dependencies)
+    return DefaultFavoriteRepository(dependencies: dependencies)
   }
 }
 
