@@ -20,16 +20,16 @@ final class DefaultSearchRepository: SearchRepository {
 
   func request(searchQuery: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) {
 
-    dependencies.searchService.request(targetType: .searchPhotos(parameter: searchQuery)) { [weak self] returnValues in
+    let _ = dependencies.searchService.request(targetType: .searchPhotos(parameter: searchQuery)) { [weak self] returnValues in
       // storage search response
-      if let responseDTO = returnValues.domain?.toDTO() {
+      if let responseDTO = returnValues.responseDTO as? SearchResponseDTO {
         self?.dependencies.photosStorage.save(
-          response: .init(photos: responseDTO, stat: "storaged"),
+          response: responseDTO,
           for: .init(query: searchQuery)
         )
       }
 
-      completionHandler(returnValues.domain, returnValues.error)
+      completionHandler(returnValues.responseDTO?.toDomain(), returnValues.error)
     }
   }
 

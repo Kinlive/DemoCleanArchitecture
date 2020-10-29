@@ -10,7 +10,6 @@ import Foundation
 
 /// Data transfer object of response
 protocol BaseResponseDTO: Decodable {
-  associatedtype DomainT: BaseEntities
   /// mapping to domain's entities
   func toDomain<T: BaseEntities>() -> T
 }

@@ -14,11 +14,10 @@ import Moya
     Create other service inherit the DefaultService that generic type to conform **Moya.TargetType**, **BaseResponseDTO**, **BaseEntities** to assign your query object, response data transfer objects and final converted domain objects
  */
 class DefaultService<TargetTypeT: TargetType,
-                     ResponseDTO: BaseResponseDTO,
-                         DomainT: BaseEntities>: BaseService {
+                     ResponseDTO: BaseResponseDTO>: BaseService {
 
   typealias TargetTypeBase = TargetTypeT
-  typealias ReturnValueBase = (domain: DomainT?, error: Error?)
+  typealias ReturnValueBase = (responseDTO: BaseResponseDTO?, error: Error?)
   typealias CancellableBase = Cancellable
 
   var provider: MoyaProvider<TargetTypeT>
@@ -42,7 +41,7 @@ class DefaultService<TargetTypeT: TargetType,
         let jsonPretty = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
         print(String(data: jsonPretty, encoding: .utf8) ?? "")
 
-        return (try response.map(ResponseDTO.self).toDomain(), nil)
+        return (try response.map(ResponseDTO.self), nil)
 
       } catch let error { return (nil, error) }
 
