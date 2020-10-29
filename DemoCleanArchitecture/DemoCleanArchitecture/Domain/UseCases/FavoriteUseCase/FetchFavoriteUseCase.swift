@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FetchFavoriteUseCase {
-  func fetchFavorite(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void)
+  func fetchFavorite(completion: @escaping (Result<[String : [Photo]], Error>) -> Void)
 }
 
 final class DefaultFetchFavoriteUseCase: FetchFavoriteUseCase {
@@ -20,7 +20,7 @@ final class DefaultFetchFavoriteUseCase: FetchFavoriteUseCase {
     repository = repo
   }
 
-  func fetchFavorite(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void) {
+  func fetchFavorite(completion: @escaping (Result<[String : [Photo]], Error>) -> Void) {
     repository.fetchAllFavorites(completion: completion)
   }
 }

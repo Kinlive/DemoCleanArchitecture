@@ -9,7 +9,7 @@
 import Foundation
 
 protocol RemoveFavoriteUseCase {
-  func remove(favorite photo: Photo, completion: @escaping (CoreDataStorageError?) -> Void)
+  func remove(favorite photo: Photo, completion: @escaping (Error?) -> Void)
 }
 
 final class DefaultRemoveFavoriteUseCase: RemoveFavoriteUseCase {
@@ -20,7 +20,7 @@ final class DefaultRemoveFavoriteUseCase: RemoveFavoriteUseCase {
   }
 
   func remove(favorite photo: Photo,
-              completion: @escaping (CoreDataStorageError?) -> Void) {
+              completion: @escaping (Error?) -> Void) {
 
     repository.removeFavorite(photo: photo, completion: completion)
   }

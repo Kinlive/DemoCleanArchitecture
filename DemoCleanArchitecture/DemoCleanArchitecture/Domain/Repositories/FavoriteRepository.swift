@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FavoriteRepository {
-  func save(favorite photo: Photo, of request: PhotosQuery, completion: @escaping (CoreDataStorageError?) -> Void)
-  func fetchAllFavorites(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void)
-  func removeFavorite(photo: Photo, completion: @escaping (CoreDataStorageError?) -> Void)
+  func save(favorite photo: Photo, of request: PhotosQuery, completion: @escaping (Error?) -> Void)
+  func fetchAllFavorites(completion: @escaping (Result<[String : [Photo]], Error>) -> Void)
+  func removeFavorite(photo: Photo, completion: @escaping (Error?) -> Void)
 }

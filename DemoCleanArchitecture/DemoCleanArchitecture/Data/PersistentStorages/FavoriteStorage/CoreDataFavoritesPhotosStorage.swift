@@ -89,20 +89,20 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
     }
   }
 
-  func fetchAllFavorite(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void) {
+  func fetchAllFavorite(completion: @escaping (Result<[String : [SearchResponseDTO.PhotosDTO.PhotoDTO]], CoreDataStorageError>) -> Void) {
     coreDataStorage.performBackgroundTask { context in
       do {
         let fetchAllRequest = self.fetchAllRequest()
         let responseEntity = try context.fetch(fetchAllRequest)
 
-        var dic: [String : [Photo]] = [:]
+        var dic: [String : [SearchResponseDTO.PhotosDTO.PhotoDTO]] = [:]
 
         responseEntity
           .map { ($0.request?.text, $0) }
           .forEach { searchText, photoEntity in
 
             guard let text = searchText else { return }
-            let photo = photoEntity.toDTO().toDomain() as Photo
+            let photo = photoEntity.toDTO()
 
             dic[text] == nil
               ? dic[text] = [photo]

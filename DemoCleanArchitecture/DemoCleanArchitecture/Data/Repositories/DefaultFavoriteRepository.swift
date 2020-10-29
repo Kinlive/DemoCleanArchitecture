@@ -20,17 +20,25 @@ final class DefaultFavoriteRepository: FavoriteRepository {
 
   func save(favorite photo: Photo,
             of request: PhotosQuery,
-            completion: @escaping (CoreDataStorageError?) -> Void) {
+            completion: @escaping (Error?) -> Void) {
 
     dependencies.favoritesPhotosStorage.save(response: photo.toDTO(), of: request.toDTO(), completion: completion)
   }
 
-  func fetchAllFavorites(completion: @escaping (Result<[String : [Photo]], CoreDataStorageError>) -> Void) {
-    dependencies.favoritesPhotosStorage.fetchAllFavorite(completion: completion)
+  func fetchAllFavorites(completion: @escaping (Result<[String : [Photo]], Error>) -> Void) {
+    dependencies.favoritesPhotosStorage.fetchAllFavorite { result in
+      switch result {
+      case .success(let dicDTO):
+        let transferToDomain: [String : [Photo]] = dicDTO.mapValues { $0.map { $0.toDomain() } }
+        completion(.success(transferToDomain))
+
+      case .failure(let error): completion(.failure(error))
+      }
+    }
   }
 
   func removeFavorite(photo: Photo,
-                      completion: @escaping (CoreDataStorageError?) -> Void) {
+                      completion: @escaping (Error?) -> Void) {
 
     dependencies.favoritesPhotosStorage.remove(response: photo.toDTO(), completion: completion)
   }

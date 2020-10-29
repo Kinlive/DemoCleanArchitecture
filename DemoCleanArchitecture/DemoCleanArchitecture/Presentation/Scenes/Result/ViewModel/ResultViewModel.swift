@@ -14,6 +14,7 @@ struct ResultViewModelActions {
 
 protocol ResultViewModelInput {
   func viewDidLoad()
+  func viewWillAppear()
   func addFavorite(of indexPath: IndexPath)
   func removeFavorite(of indexPath: IndexPath)
 }
@@ -59,7 +60,7 @@ class DefaultResultViewModel: ResultViewModel {
         let searchText = self?.useCase.showResultUseCase?.fetchResult().resultQuery?.searchText ?? ""
         self?.favoritePhotos = favorites[searchText]
 
-        self?.photos = self?.useCase.showResultUseCase?.fetchResult().photos
+        self?.photos = self?.useCase.showResultUseCase?.fetchResult().photos.sorted(by: { $0.id > $1.id })
         self?.onPhotosPrepared?("")
 
         // trigger when saved success.
@@ -77,7 +78,10 @@ class DefaultResultViewModel: ResultViewModel {
 // MARK: - INPUT. View event methods
 extension DefaultResultViewModel {
   func viewDidLoad() {
-    // photos
+
+  }
+
+  func viewWillAppear() {
     fetchPhotosAndFavorites()
   }
 

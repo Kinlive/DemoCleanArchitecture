@@ -44,6 +44,11 @@ class ResultViewController: UIViewController {
     viewModel.viewDidLoad()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.viewWillAppear()
+  }
+
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
     makeUIsConstraints()
