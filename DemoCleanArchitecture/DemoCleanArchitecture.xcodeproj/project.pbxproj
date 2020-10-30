@@ -74,7 +74,6 @@
 		FEDDF6CF25384FF300AC2294 /* ResultCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6CE25384FF300AC2294 /* ResultCoordinator.swift */; };
 		FEDDF6D12538500000AC2294 /* ResultDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */; };
 		FEDDF6D3253947E000AC2294 /* AppPassValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D2253947E000AC2294 /* AppPassValues.swift */; };
-		FEDDF6D625396C8000AC2294 /* ShowResultUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */; };
 		FEDDF6D925398C3600AC2294 /* NSConstraintLayoutSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6D825398C3600AC2294 /* NSConstraintLayoutSet.swift */; };
 		FEDDF6E725399D6D00AC2294 /* BaseAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6DF25399D6D00AC2294 /* BaseAccessoryView.swift */; };
 		FEFC2501254BF37D00EB79DA /* FavoritePhotoEntity+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFC2500254BF37D00EB79DA /* FavoritePhotoEntity+Mapping.swift */; };
@@ -152,7 +151,6 @@
 		FEDDF6CE25384FF300AC2294 /* ResultCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCoordinator.swift; sourceTree = "<group>"; };
 		FEDDF6D02538500000AC2294 /* ResultDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultDIContainer.swift; sourceTree = "<group>"; };
 		FEDDF6D2253947E000AC2294 /* AppPassValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPassValues.swift; sourceTree = "<group>"; };
-		FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowResultUseCase.swift; sourceTree = "<group>"; };
 		FEDDF6D825398C3600AC2294 /* NSConstraintLayoutSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSConstraintLayoutSet.swift; sourceTree = "<group>"; };
 		FEDDF6DF25399D6D00AC2294 /* BaseAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseAccessoryView.swift; sourceTree = "<group>"; };
 		FEFC2500254BF37D00EB79DA /* FavoritePhotoEntity+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoritePhotoEntity+Mapping.swift"; sourceTree = "<group>"; };
@@ -513,7 +511,6 @@
 			isa = PBXGroup;
 			children = (
 				FE897F6025144639008DC307 /* UseCases.swift */,
-				FEDDF6D425396C6C00AC2294 /* ResultUseCase */,
 				FEDDF6C725384D0000AC2294 /* FavoriteUseCase */,
 				FE4D251B252D5ED7007E4265 /* SearchUseCase */,
 			);
@@ -707,14 +704,6 @@
 			path = DIContainer;
 			sourceTree = "<group>";
 		};
-		FEDDF6D425396C6C00AC2294 /* ResultUseCase */ = {
-			isa = PBXGroup;
-			children = (
-				FEDDF6D525396C8000AC2294 /* ShowResultUseCase.swift */,
-			);
-			path = ResultUseCase;
-			sourceTree = "<group>";
-		};
 		FEDDF6D725398C3600AC2294 /* NSConstraintLayoutSet */ = {
 			isa = PBXGroup;
 			children = (
@@ -879,7 +868,6 @@
 				FE897F4E251349F2008DC307 /* Photos.swift in Sources */,
 				FE897F64251447A9008DC307 /* DefaultSearchRepository.swift in Sources */,
 				FE108DB32542B99E00D949FB /* PhotoFavoriteCell.swift in Sources */,
-				FEDDF6D625396C8000AC2294 /* ShowResultUseCase.swift in Sources */,
 				FE19371E252C452F003A6B04 /* CoreDataStorage.swift in Sources */,
 				FE86BD872512F84200234949 /* TabBarCoordinator.swift in Sources */,
 				FE311F542511C01A00EE8400 /* AppDIContainer.swift in Sources */,

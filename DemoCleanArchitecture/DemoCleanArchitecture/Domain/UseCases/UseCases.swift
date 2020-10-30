@@ -26,10 +26,6 @@ protocol HasPhotosLocalSearchUseCase {
   var searchLocalUseCase: SearchLocalUseCase? { get }
 }
 
-protocol HasShowResultUseCase {
-  var showResultUseCase: ShowResultUseCase? { get }
-}
-
 protocol HasSaveFavoriteUseCase {
   var saveFavoriteUseCase: SaveFavoriteUseCase? { get }
 }
@@ -48,10 +44,8 @@ protocol HasTestUseCase {
   var testString: String { get }
 }
 
-struct UseCases: HasPhotosRemoteSearchUseCase, HasPhotosLocalSearchUseCase, HasTestUseCase,
-  HasShowResultUseCase, HasSaveFavoriteUseCase, HasFetchFavoriteUseCase, HasSearchRecordUseCase, HasRemoveFavoriteUseCase {
+struct UseCases: HasPhotosRemoteSearchUseCase, HasPhotosLocalSearchUseCase, HasTestUseCase, HasSaveFavoriteUseCase, HasFetchFavoriteUseCase, HasSearchRecordUseCase, HasRemoveFavoriteUseCase {
 
-  var showResultUseCase: ShowResultUseCase?
   var saveFavoriteUseCase: SaveFavoriteUseCase?
   var fetchFavoriteUseCase: FetchFavoriteUseCase?
   var removeFavoriteUseCase: RemoveFavoriteUseCase?
@@ -63,7 +57,6 @@ struct UseCases: HasPhotosRemoteSearchUseCase, HasPhotosLocalSearchUseCase, HasT
 
   init(searchRemoteUseCase: DefaultSearchRemoteUseCase? = nil,
        searchLocalUseCase: DefaultSearchLocalUseCase? = nil,
-       showResultUseCase: DefaultShowResultUseCase? = nil,
        saveFavoriteUseCase: DefaultSaveFavoriteUseCase? = nil,
        removeFavoriteUseCase: DefaultRemoveFavoriteUseCase? = nil,
        fetchFavoriteUseCase: DefaultFetchFavoriteUseCase? = nil,
@@ -72,7 +65,6 @@ struct UseCases: HasPhotosRemoteSearchUseCase, HasPhotosLocalSearchUseCase, HasT
 
     self.searchRemoteUseCase = searchRemoteUseCase
     self.searchLocalUseCase = searchLocalUseCase
-    self.showResultUseCase = showResultUseCase
     self.saveFavoriteUseCase = saveFavoriteUseCase
     self.fetchFavoriteUseCase = fetchFavoriteUseCase
     self.removeFavoriteUseCase = removeFavoriteUseCase
