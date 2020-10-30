@@ -12,11 +12,9 @@ class CoreDataFavoritesPhotosStorage {
 
   private let coreDataStorage: CoreDataStorage = CoreDataStorage.shared
 
-  private func fetchAllRequest() -> NSFetchRequest<SearchPhotoResponseEntity> {
-    let request: NSFetchRequest = SearchPhotoResponseEntity.fetchRequest()
-    request.predicate = NSPredicate(
-      format: "%K = %@",
-      #keyPath(SearchPhotoResponseEntity.isFavorite), NSNumber(booleanLiteral: true))
+  private func fetchAllRequest() -> NSFetchRequest<FavoritePhotoEntity> {
+    let request: NSFetchRequest = FavoritePhotoEntity.fetchRequest()
+
     // Notice: If attribute was bool, must use NSNumber wrap of bool or use %d to compare int: true -> 1, false -> 0
 
     return request
@@ -29,7 +27,7 @@ class CoreDataFavoritesPhotosStorage {
       let results = try context.fetch(request)
       results
         .filter { $0.id == response.id }
-        .forEach { $0.isFavorite = false }
+        .forEach { context.delete($0) }
 
     } catch {
       throw error
@@ -49,14 +47,14 @@ class CoreDataFavoritesPhotosStorage {
     }
   }
 
-  private func findSamePhoto(for response: SearchResponseDTO.PhotosDTO.PhotoDTO, in context: NSManagedObjectContext) throws -> SearchPhotoResponseEntity? {
-    let fetchRequest: NSFetchRequest = SearchPhotoResponseEntity.fetchRequest()
+  private func findSamePhoto(for response: SearchResponseDTO.PhotosDTO.PhotoDTO, in context: NSManagedObjectContext) throws -> FavoritePhotoEntity? {
+    let fetchRequest: NSFetchRequest = FavoritePhotoEntity.fetchRequest()
 
     do {
       let results = try context.fetch(fetchRequest)
       return results
         .filter { $0.id == response.id }
-        .first ?? response.toEntity(in: context)  // if not found same request on storaged then new one for it
+        .first ?? response.toFavoriteEntity(in: context)  // if not found same request on storaged then new one for it
 
     } catch {
       throw error
@@ -74,8 +72,6 @@ extension CoreDataFavoritesPhotosStorage: FavoritesPhotosStorage {
       do {
         // find storaged response who same with import's response that edit favorite in context.
         let photoEntity = try self?.findSamePhoto(for: response, in: context)
-        // mark favorite
-        photoEntity?.isFavorite = true
 
         // dependency with request
         photoEntity?.request = try self?.findSameRequest(for: request, in: context)

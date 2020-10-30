@@ -10,7 +10,7 @@ import Foundation
 
 // ViewModel Actions which tells to coordinator when to present another views.
 struct SearchViewModelActions {
-  let showResult: ([Photo], PhotosQuery) -> Void
+  let showResult: (PhotosQuery) -> Void
 }
 
 protocol SearchViewModelInput {
@@ -35,7 +35,7 @@ final class DefaultSearchViewModel: SearchViewModel {
 
   // MARK: - Use cases
   // Tells viewModel which use case needs.
-  typealias SearchUseCases = HasPhotosLocalSearchUseCase & HasPhotosRemoteSearchUseCase & HasSearchRecordUseCase
+  typealias SearchUseCases = HasPhotosLocalSearchUseCase & HasSearchRecordUseCase
   private let useCases: SearchUseCases
 
   // MARK: - Actions
@@ -77,18 +77,7 @@ extension DefaultSearchViewModel {
 
   func fetchRemote(query: PhotosQuery) {
 
-    useCases.searchRemoteUseCase?.search(query: query, completionHandler: { [weak self] (domain, error) in
-      if let error = error {
-        self?.onSearchError?(error)
-        return
-      }
-      guard let photos = domain else { self?.onSearchError?(NSError(domain: "\(#function) nil", code: 0, userInfo: nil)); return }
-
-      DispatchQueue.main.async {
-        self?.onRemotePhotosCompletion?(photos)
-        self?.actions?.showResult(photos.photo, query)
-      }
-    })
+    actions?.showResult(query)
   }
 
   func fetchLocal(query: PhotosQuery) {
@@ -107,18 +96,6 @@ extension DefaultSearchViewModel {
   func onSelectedRecord(at indexPath: IndexPath) {
     guard let query = self.recordQuerys?[indexPath.row] else { return }
 
-    useCases.searchLocalUseCase?.search(query: query, completionHandler: { [weak self] (photos, error) in
-      if let error = error {
-        self?.onSearchError?(error)
-        return
-      }
-
-      guard let photos = photos else { self?.fetchRemote(query: query); return } // It will never be called.
-
-      DispatchQueue.main.async {
-        self?.actions?.showResult(photos.photo, query)
-      }
-
-    })
+    actions?.showResult(query)
   }
 }

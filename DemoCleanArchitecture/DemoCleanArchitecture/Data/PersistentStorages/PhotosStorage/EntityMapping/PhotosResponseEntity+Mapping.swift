@@ -41,8 +41,7 @@ extension SearchPhotoResponseEntity {
       title: title,
       ispublic: Int(ispublic),
       isfriend: Int(isfriend),
-      isfamily: Int(isfamily),
-      isFavorite: isFavorite
+      isfamily: Int(isfamily)
     )
   }
 }

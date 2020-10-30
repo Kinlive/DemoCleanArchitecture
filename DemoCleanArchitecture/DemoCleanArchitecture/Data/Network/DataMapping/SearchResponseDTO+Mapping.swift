@@ -37,7 +37,6 @@ extension SearchResponseDTO.PhotosDTO {
     let farm: Int
     let title: String?
     let ispublic, isfriend, isfamily: Int
-    var isFavorite: Bool?
   }
 }
 

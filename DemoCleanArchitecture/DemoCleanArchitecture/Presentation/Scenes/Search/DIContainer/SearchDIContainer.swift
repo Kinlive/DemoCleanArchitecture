@@ -21,7 +21,7 @@ protocol SearchDIContainerMakeFactory {
 
 final class SearchDIContainer: SearchDIContainerMakeFactory {
   // Define which depencies needed.
-  typealias Dependencies = HasSearchRemoteService & HasCoreDataService & HasFavoritesPhotosStorage & HasQuerysStorage
+  typealias Dependencies = AppDependency
 
   private let dependencies: Dependencies
 

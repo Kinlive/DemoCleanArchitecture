@@ -12,11 +12,12 @@ protocol ResultDIContainerMakeFactory {
   func makeResultCoordinator(at navigationController: UINavigationController?) -> ResultCoordinator
   func makeResultUseCase() -> UseCases
   func makeFavoriteRepository() -> FavoriteRepository
+  func makeSearchRepository() -> SearchRepository
 }
 
 final class ResultDIContainer: ResultDIContainerMakeFactory {
 
-  typealias Dependencies = HasFavoritesPhotosStorage
+  typealias Dependencies = AppDependency
 
   private let dependencies: Dependencies
   private let passValues: AppPassValues
@@ -32,7 +33,7 @@ final class ResultDIContainer: ResultDIContainerMakeFactory {
   }
 
   func makeResultUseCase() -> UseCases {
-    return UseCases(showResultUseCase: DefaultShowResultUseCase(passValues: passValues),
+    return UseCases(searchRemoteUseCase: DefaultSearchRemoteUseCase(repo: makeSearchRepository()),
                     saveFavoriteUseCase: DefaultSaveFavoriteUseCase(repo: makeFavoriteRepository()),
                     removeFavoriteUseCase: DefaultRemoveFavoriteUseCase(repo: makeFavoriteRepository()),
                     fetchFavoriteUseCase: DefaultFetchFavoriteUseCase(repo: makeFavoriteRepository()))
@@ -41,11 +42,15 @@ final class ResultDIContainer: ResultDIContainerMakeFactory {
   func makeFavoriteRepository() -> FavoriteRepository {
     return DefaultFavoriteRepository(dependencies: dependencies)
   }
+
+  func makeSearchRepository() -> SearchRepository {
+    return DefaultSearchRepository(dependencies: dependencies)
+  }
 }
 
 extension ResultDIContainer: ResultCoordinatorDependencies {
   func makeResultViewController(actions: ResultViewModelActions) -> ResultViewController {
-    let viewModel = DefaultResultViewModel(useCase: makeResultUseCase(), actions: actions)
+    let viewModel = DefaultResultViewModel(useCase: makeResultUseCase(), actions: actions, passValues: passValues)
     let resultVC = ResultViewController.create(with: viewModel)
 
     return resultVC

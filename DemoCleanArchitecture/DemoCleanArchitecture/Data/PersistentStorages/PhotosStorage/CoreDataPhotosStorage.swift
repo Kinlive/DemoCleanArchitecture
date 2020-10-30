@@ -36,6 +36,19 @@ final class CoreDataPhotosStorage {
     }
   }
 
+  private func findSameRequest(for requestDTO: SearchRequestDTO, in context: NSManagedObjectContext) throws -> SearchRequestEntity {
+    let request: NSFetchRequest = SearchRequestEntity.fetchRequest()
+
+    do {
+      return try context.fetch(request)
+        .filter { $0.text == requestDTO.text }
+        .first ?? requestDTO.toEntity(in: context)
+
+    } catch {
+      throw error
+    }
+  }
+
 }
 
 extension CoreDataPhotosStorage: PhotosStorage {
@@ -57,10 +70,16 @@ extension CoreDataPhotosStorage: PhotosStorage {
     coreDataStorage.performBackgroundTask { [weak self] context in
 
       do {
-        try self?.deleteResponse(for: requestDTO, in: context)
 
-        let requestEntity = requestDTO.toEntity(in: context)
-        requestEntity.response = response.toEntity(in: context)
+        let requestEntity = try self?.findSameRequest(for: requestDTO, in: context)
+        // if find save request and its response had old values.
+        // To avoid saved repeat response here will delete the old.
+        if let oldResponse = requestEntity?.response {
+          context.delete(oldResponse)
+          try context.save()
+        }
+        // And give the request new response.
+        requestEntity?.response = response.toEntity(in: context)
 
         try context.save()
 

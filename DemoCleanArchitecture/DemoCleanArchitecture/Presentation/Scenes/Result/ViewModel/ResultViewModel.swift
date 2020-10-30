@@ -33,10 +33,13 @@ protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
 class DefaultResultViewModel: ResultViewModel {
 
   typealias PassValues = HasResultValues
-  typealias ResultUseCase = HasSaveFavoriteUseCase & HasShowResultUseCase & HasFetchFavoriteUseCase & HasRemoveFavoriteUseCase
+  typealias ResultUseCase = HasSaveFavoriteUseCase & HasPhotosRemoteSearchUseCase & HasFetchFavoriteUseCase & HasRemoveFavoriteUseCase
   
   private let actions: ResultViewModelActions
   private let useCase: ResultUseCase
+  private let passValues: PassValues
+
+  private let dispatchGroup = DispatchGroup()
 
   // MARK: - OUTPUT
   var onPhotosPrepared: ((String) -> Void)?
@@ -46,22 +49,18 @@ class DefaultResultViewModel: ResultViewModel {
   var photos: [Photo]?
   var favoritePhotos: [Photo]?
 
-  init(useCase: ResultUseCase, actions: ResultViewModelActions) {
+  init(useCase: ResultUseCase, actions: ResultViewModelActions, passValues: PassValues) {
     self.useCase = useCase
     self.actions = actions
+    self.passValues = passValues
   }
 
-  private func fetchPhotosAndFavorites(indexPath: IndexPath? = nil) {
-
+  private func updateFavorites(of query: PhotosQuery, at indexPath: IndexPath? = nil) {
+    dispatchGroup.enter()
     useCase.fetchFavoriteUseCase?.fetchFavorite(completion: { [weak self] result in
       switch result {
       case .success(let favorites):
-
-        let searchText = self?.useCase.showResultUseCase?.fetchResult().resultQuery?.searchText ?? ""
-        self?.favoritePhotos = favorites[searchText]
-
-        self?.photos = self?.useCase.showResultUseCase?.fetchResult().photos.sorted(by: { $0.id > $1.id })
-        self?.onPhotosPrepared?("")
+        self?.favoritePhotos = favorites[query.searchText]
 
         // trigger when saved success.
         if let indexPath = indexPath {
@@ -70,8 +69,28 @@ class DefaultResultViewModel: ResultViewModel {
 
       case .failure(let error):
         self?.onFetchFavoritesError?(error)
+
       }
+      self?.dispatchGroup.leave()
     })
+  }
+
+  private func fetchPhotos(of query: PhotosQuery) {
+    dispatchGroup.enter()
+    useCase.searchRemoteUseCase?.search(query: query, completionHandler: { [ weak self] (photos, error) in
+      if let error = error {
+        self?.onFetchFavoritesError?(error)
+        self?.dispatchGroup.leave()
+        return
+      }
+      guard let photos = photos else {
+        self?.dispatchGroup.leave()
+        return
+      }
+      self?.photos = photos.photo.sorted(by: { $0.id > $1.id })
+      self?.dispatchGroup.leave()
+    })
+
   }
 }
 
@@ -82,32 +101,37 @@ extension DefaultResultViewModel {
   }
 
   func viewWillAppear() {
-    fetchPhotosAndFavorites()
+    guard let query = passValues.resultQuery else { return }
+    fetchPhotos(of: query)
+    updateFavorites(of: query)
+
+    dispatchGroup.notify(queue: .main) { [weak self] in
+      self?.onPhotosPrepared?("")
+    }
   }
 
   func addFavorite(of indexPath: IndexPath) {
 
     guard let photo = photos?[indexPath.row],
-      let resultQuery = useCase.showResultUseCase?.fetchResult().resultQuery else { return }
+      let query = passValues.resultQuery else { return }
 
-    useCase.saveFavoriteUseCase?.save(favorite: photo, of: resultQuery) { [weak self ] error in
+    useCase.saveFavoriteUseCase?.save(favorite: photo, of: query) { [weak self ] error in
 
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
 
       // refresh data
-      self?.fetchPhotosAndFavorites(indexPath: indexPath)
-
+      self?.updateFavorites(of: query, at: indexPath)
     }
   }
 
   func removeFavorite(of indexPath: IndexPath) {
 
-    guard let photo = photos?[indexPath.row] else { return }
+    guard let photo = photos?[indexPath.row], let query = passValues.resultQuery else { return }
 
     useCase.removeFavoriteUseCase?.remove(favorite: photo, completion: { [weak self] error in
       guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
       // refresh data for update cells
-      self?.fetchPhotosAndFavorites(indexPath: indexPath)
+      self?.updateFavorites(of: query, at: indexPath)
     })
   }
 }

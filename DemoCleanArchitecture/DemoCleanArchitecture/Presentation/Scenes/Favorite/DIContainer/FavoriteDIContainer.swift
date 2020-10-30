@@ -16,9 +16,9 @@ protocol FavoriteDIContainerMakeFactory {
 
 class FavoriteDIContainer: FavoriteDIContainerMakeFactory {
 
-  typealias Dependencies = HasFavoritesPhotosStorage
+  typealias Dependencies = AppDependency
 
-  private let dependencies: Dependencies
+  private let dependencies: AppDependency
 
   init(dependencies: Dependencies) {
     self.dependencies = dependencies

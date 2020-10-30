@@ -39,8 +39,8 @@ class SearchCoordinator: BaseCoordinator {
 
   }
 
-  private func showResult(_ photos: [Photo], query: PhotosQuery) {
-    let resultDIContainer = dependencies.makeResultDIContainer(passValues: AppPassValues(photos: photos, resultQuery: query))
+  private func showResult(of query: PhotosQuery) {
+    let resultDIContainer = dependencies.makeResultDIContainer(passValues: AppPassValues(resultQuery: query))
     let resultCoordinator = resultDIContainer.makeResultCoordinator(at: navigationController)
     resultCoordinator.start()
   }
