@@ -12,11 +12,14 @@ protocol SearchDIContainerMakeFactory {
   /// coordinator maker
   func makeSearchCoordinator(at navigationController: UINavigationController) -> SearchCoordinator
 
+  /// SearchRepository maker
+  func makeSearchRepository() -> SearchRepository
+
   /// SearchViewModel use cases maker
   func makeSearchViewModelUseCases() -> UseCases
 
-  /// SearchRepository maker
-  func makeSearchRepository() -> SearchRepository
+  /// SearchViewModel maker
+  func makeSearchViewModel(with action: SearchViewModelActions) -> SearchViewModel
 }
 
 final class SearchDIContainer: SearchDIContainerMakeFactory {
@@ -34,14 +37,19 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
     return SearchCoordinator(navigationController: navigationController, dependencies: self)
   }
 
+  func makeSearchRepository() -> SearchRepository {
+    return DefaultSearchRepository(dependencies: dependencies)
+  }
+
   func makeSearchViewModelUseCases() -> UseCases {
     return UseCases(searchRemoteUseCase: .init(repo: makeSearchRepository()),
                     searchLocalUseCase: .init(repo: makeSearchRepository()),
                     searchRecordUseCase: .init(repo: makeSearchRepository()))
   }
 
-  func makeSearchRepository() -> SearchRepository {
-    return DefaultSearchRepository(dependencies: dependencies)
+  func makeSearchViewModel(with action: SearchViewModelActions) -> SearchViewModel {
+    return DefaultSearchViewModel(actions: action,
+                                  useCases: makeSearchViewModelUseCases())
   }
 }
 
@@ -52,9 +60,7 @@ extension SearchDIContainer: SearchCoordinatorDependencies {
   }
 
   func makeSearchViewController(actions: SearchViewModelActions) -> SearchViewController {
-    let viewModel = DefaultSearchViewModel(actions: actions, useCases: makeSearchViewModelUseCases())
-
-    return SearchViewController.create(with: viewModel)
+    return SearchViewController.create(with: makeSearchViewModel(with: actions))
   }
 
 }
