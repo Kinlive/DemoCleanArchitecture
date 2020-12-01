@@ -8,6 +8,9 @@
 
 import UIKit
 import Moya
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 
 class SearchViewController: UIViewController {
@@ -17,6 +20,7 @@ class SearchViewController: UIViewController {
   class func create(with viewModel: SearchViewModel) -> SearchViewController {
       let vc = SearchViewController.instantiateViewController()
       vc.viewModel = viewModel
+      vc.bindViewModel()
       return vc
   }
 
@@ -27,7 +31,6 @@ class SearchViewController: UIViewController {
     btn.setTitle("抓取圖片", for: .normal)
     btn.setTitleColor(.black, for: .normal)
     btn.backgroundColor = .darkGray
-    btn.addTarget(self, action: #selector(remoteTapped), for: .touchUpInside)
     btn.translatesAutoresizingMaskIntoConstraints = false
     return btn
   }()
@@ -41,7 +44,6 @@ class SearchViewController: UIViewController {
     btn.layer.masksToBounds = true
     btn.layer.borderColor = UIColor.red.cgColor
     btn.layer.borderWidth = 1.5
-    btn.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
     btn.translatesAutoresizingMaskIntoConstraints = false
     return btn
   }()
@@ -100,7 +102,6 @@ class SearchViewController: UIViewController {
     let btn = UIButton()
     btn.setTitle("done", for: .normal)
     btn.setTitleColor(.blue, for: .normal)
-    btn.addTarget(self, action: #selector(onEdited(sender:)), for: .touchUpInside)
     return btn
   }()
 
@@ -108,21 +109,35 @@ class SearchViewController: UIViewController {
   lazy var recordTableView: UITableView = {
     let tableView = UITableView()
     tableView.separatorStyle = .none
-    tableView.delegate = self
-    tableView.dataSource = self
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.register(SearchRecordCell.self, forCellReuseIdentifier: SearchRecordCell.storyboardIdentifier)
     return tableView
   }()
 
   private let constraints: Constraints = Constraints()
+  private let bag = DisposeBag()
+
+  // tableView datasource
+  private let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, PhotosQuery>>(
+    configureCell: { dataSource, tableView, indexPath, item -> UITableViewCell in
+      let cell: SearchRecordCell = tableView.dequeueReusableCell(for: indexPath)
+      cell.configure(with: .init(recordQuery: item, indexPath: indexPath), and: .init())
+      return cell
+    },
+    titleForHeaderInSection: { sectionModels, section in
+      return sectionModels[section].model
+    })
 
   // MARK: - Life cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     addSubviews()
-    bindViewModel()
-    viewModel.viewDidLoad()
+    //bindViewModel()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
   }
 
   override func viewWillLayoutSubviews() {
@@ -135,34 +150,54 @@ class SearchViewController: UIViewController {
     makeUIs()
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.viewWillAppear()
-  }
-
   // Bind viewModel
   private func bindViewModel() {
-    self.viewModel.onLocalPhotosCompletion = { photos in
-      // refresh UIs
-      print("\n>>>>>>>>>>>>>>> Local >>>>>>>>>>>>>>>>>>\n \\(photos) \n")
-    }
 
-    self.viewModel.onRemotePhotosCompletion = { photos in
-      // refresh UIs
-      print("\n>>>>>>>>>>>>>>>> Remote >>>>>>>>>>>>>>>>>\n \(photos) \n")
-    }
+    let trigger = rx.viewWillAppear.asDriver().map { _ in }
 
-    self.viewModel.onSearchError = { error in
-      // show error message.
-      print("\n !!!!!!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!!\n \(error)\n")
-    }
+    let input = SearchViewModelInput(triggerReload: trigger, clear: clearButton.rx.tap.asDriver())
 
-    viewModel.onRecordQuerysCompletion = { [weak self] in
-      DispatchQueue.main.async {
-        self?.recordTableView.reloadData()
-      }
-    }
-    
+    recordTableView.rx.itemSelected
+      .do(onNext: { [weak self] indexPath in self?.recordTableView.deselectRow(at: indexPath, animated: false) })
+      .subscribe(input.selectedRecord)
+      .disposed(by: bag)
+
+    searchTextField.rx.text.orEmpty
+      .bind(to: input.searchText)
+      .disposed(by: bag)
+
+    perPageTextField.rx.text.orEmpty
+      .bind(to: input.perPage)
+      .disposed(by: bag)
+
+    pageTextField.rx.text.orEmpty
+      .bind(to: input.page)
+      .disposed(by: bag)
+
+    startFetchButton.rx.tap
+      .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+      .do(onNext: { [weak self] _ in self?.resignSubviewsFirstResponder() })
+      .bind(to: input.onTappedSearchButton)
+      .disposed(by: bag)
+
+    clearButton.rx.controlEvent(.touchUpInside)
+      .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] in
+        self?.searchTextField.text = nil
+        self?.perPageTextField.text = nil
+        self?.pageTextField.text = nil
+      })
+      .disposed(by: bag)
+
+    doneButton.rx.controlEvent(.touchUpInside)
+      .subscribe(onNext: { [weak self] in self?.onEdited()})
+      .disposed(by: bag)
+
+    let output = viewModel.convert(input: input)
+
+    output.reload
+      .drive(recordTableView.rx.items(dataSource: dataSource))
+      .disposed(by: bag)
   }
 
   // MARK: - UIs setup
@@ -252,28 +287,29 @@ class SearchViewController: UIViewController {
   }
 
   // MARK: - Actions viewModel.Input
-  @objc private func remoteTapped() {
-    resignSubviewsFirstResponder()
-    guard let searchText = searchTextField.text, !searchText.isEmpty else { return}
-    let perPage = Int(perPageTextField.text ?? "0") ?? 0
-    let page = Int(pageTextField.text ?? "0") ?? 0
-    let photoQuery = PhotosQuery(
-      searchText: searchText,
-      perPage: perPage,
-      page: page)
 
-    viewModel.fetchRemote(query: photoQuery)
+//  @objc private func remoteTapped() {
+//    resignSubviewsFirstResponder()
+//    guard let searchText = searchTextField.text, !searchText.isEmpty else { return}
+//    let perPage = Int(perPageTextField.text ?? "0") ?? 0
+//    let page = Int(pageTextField.text ?? "0") ?? 0
+//    let photoQuery = PhotosQuery(
+//      searchText: searchText,
+//      perPage: perPage,
+//      page: page)
+//
+//    viewModel.fetchRemote(query: photoQuery)
+//
+//  }
 
-  }
+//  @objc private func clearTapped() {
+//    searchTextField.text = nil
+//    perPageTextField.text = nil
+//    pageTextField.text = nil
+//
+//  }
 
-  @objc private func clearTapped() {
-    searchTextField.text = nil
-    perPageTextField.text = nil
-    pageTextField.text = nil
-
-  }
-
-  @objc private func onEdited(sender: UIButton) {
+  @objc private func onEdited() {
     switch true {
     case perPageTextField.isFirstResponder:
       pageTextField.becomeFirstResponder()
@@ -330,38 +366,6 @@ extension SearchViewController: UITextFieldDelegate {
 
     print(textField.text ?? "")
     return true
-  }
-
-}
-
-// MARK: - UITableView delegate & dataSource
-extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-  }
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.recordQuerys?.count ?? 0
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell: SearchRecordCell = tableView.dequeueReusableCell(for: indexPath)
-    if let query = viewModel.recordQuerys?[indexPath.row] {
-      cell.configure(
-        with: .init(recordQuery: query, indexPath: indexPath),
-        and: .init()
-      )
-    }
-    return cell
-  }
-
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 50
-  }
-
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    viewModel.onSelectedRecord(at: indexPath)
-    tableView.deselectRow(at: indexPath, animated: true)
-
   }
 
 }

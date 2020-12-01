@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+  private let bag = DisposeBag()
 
   let appDIContainer = AppDIContainer()
   var appFlowCoordinator: AppFlowCoordinator?
@@ -27,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.makeKeyAndVisible()
 
     appFlowCoordinator?.start()
+      .subscribe()
+      .disposed(by: bag)
+    
     return true
   }
 }

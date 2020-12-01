@@ -7,31 +7,31 @@
 //
 
 import UIKit
-
-
+import RxSwift
+import RxCocoa
 
 class AppFlowCoordinator: BaseCoordinator {
 
+  private let bag = DisposeBag()
+
   let appDIContainer: AppDIContainer
   weak var tabBarController: UITabBarController?
-  // dependency
-
 
   init(tabBarController: UITabBarController, appDIContainer: AppDIContainer) {
     self.tabBarController = tabBarController
     self.appDIContainer = appDIContainer
   }
 
-  override func start() {
+  override func start() -> Completable {
 
     let tabBarContainer = appDIContainer.makeTabBarContainer()
     let tabBarCoordinator = TabBarCoordinator(rootViewController: tabBarController, tabBarDIContainer: tabBarContainer)
 
-    tabBarCoordinator.start()
+    coordinator(to: tabBarCoordinator)
+      .subscribe()
+      .disposed(by: bag)
+
+    return .never()
   }
-
-  
-
-
 }
 

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol FavoriteCoordinatorDependencies {
   func makeFavoriteViewController(actions: FavoriteViewModelActions) -> FavoriteViewController
@@ -15,6 +17,7 @@ protocol FavoriteCoordinatorDependencies {
 }
 
 class FavoriteCoordinator: BaseCoordinator {
+  private let bag = DisposeBag()
 
   weak var navigationController: UINavigationController?
   let dependencies: FavoriteCoordinatorDependencies
@@ -25,11 +28,20 @@ class FavoriteCoordinator: BaseCoordinator {
 
   }
 
-  override func start() {
+  override func start() -> Completable {
+    let subject = PublishSubject<Void>()
+
     let actions = FavoriteViewModelActions()
     let vc = dependencies.makeFavoriteViewController(actions: actions)
     vc.navigationItem.title = "Favorite photos"
     navigationController?.pushViewController(vc, animated: true)
+
+    navigationController?.rx.delegate.sentMessage(#selector(UINavigationControllerDelegate.navigationController(_:didShow:animated:)))
+      .map { _ in }
+      .bind(to: subject)
+      .disposed(by: bag)
+    
+    return subject.ignoreElements()
   }
 
 

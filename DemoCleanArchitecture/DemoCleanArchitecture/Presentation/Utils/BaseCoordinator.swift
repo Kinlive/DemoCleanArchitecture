@@ -7,14 +7,14 @@
 //
 
 import Foundation
-
+import RxSwift
 
 class BaseCoordinator: NSObject {
 
   private var childCoordinators: [UUID : BaseCoordinator] = [:]
   private let identifier = UUID()
 
-  func start() {
+  func start() -> Completable {
     fatalError("\(#function) method should be implemented.")
   }
 
@@ -26,9 +26,9 @@ class BaseCoordinator: NSObject {
     childCoordinators[coordinator.identifier] = nil
   }
 
-//  func coordinator(to coordinator: BaseCoordinator) {
-//    store(coordinator: coordinator)
-//
-//    start()
-//  }
+  func coordinator(to coordinator: BaseCoordinator) -> Completable {
+    store(coordinator: coordinator)
+
+    return coordinator.start()
+  }
 }
