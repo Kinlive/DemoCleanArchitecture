@@ -7,28 +7,29 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 struct ResultViewModelActions {
 
 }
 
-protocol ResultViewModelInput {
-  func viewDidLoad()
-  func viewWillAppear()
-  func addFavorite(of indexPath: IndexPath)
-  func removeFavorite(of indexPath: IndexPath)
+struct ResultInput {
+  let triggerFetch: Driver<Void>
+  let photoSelected: PublishSubject<(Bool, IndexPath)>
 }
 
-protocol ResultViewModelOutput {
-  var onPhotosPrepared: ((String) -> Void)? { get set }
-  var onPhotoSaved: ((IndexPath) -> Void)? { get set }
-  var onPhotoSavedError: ((String) -> Void)? { get set }
-
-  var photos: [Photo]? { get set }
-  var favoritePhotos: [Photo]? { get set }
+typealias ResultCellSection = SectionModel<String, PhotosResultCellViewModel>
+struct ResultOutput {
+  let saved: Observable<IndexPath>
+  let sectionOfCells: Observable<[ResultCellSection]>
+  let removed: Observable<Void>
 }
 
-protocol ResultViewModel: ResultViewModelInput, ResultViewModelOutput { }
+protocol ResultViewModel {
+  func transform(input: ResultInput) -> ResultOutput
+}
 
 class DefaultResultViewModel: ResultViewModel {
 
@@ -39,99 +40,110 @@ class DefaultResultViewModel: ResultViewModel {
   private let useCase: ResultUseCase
   private let passValues: PassValues
 
-  private let dispatchGroup = DispatchGroup()
-
-  // MARK: - OUTPUT
-  var onPhotosPrepared: ((String) -> Void)?
-  var onPhotoSaved: ((IndexPath) -> Void)?
-  var onPhotoSavedError: ((String) -> Void)?
-  var onFetchFavoritesError: ((Error) -> Void)?
-  var photos: [Photo]?
-  var favoritePhotos: [Photo]?
-
   init(useCase: ResultUseCase, actions: ResultViewModelActions, passValues: PassValues) {
     self.useCase = useCase
     self.actions = actions
     self.passValues = passValues
   }
 
-  private func updateFavorites(of query: PhotosQuery, at indexPath: IndexPath? = nil) {
-    dispatchGroup.enter()
-    useCase.fetchFavoriteUseCase?.fetchFavorite(completion: { [weak self] result in
-      switch result {
-      case .success(let favorites):
-        self?.favoritePhotos = favorites[query.searchText]
+  func transform(input: ResultInput) -> ResultOutput {
 
-        // trigger when saved success.
-        if let indexPath = indexPath {
-          self?.onPhotoSaved?(indexPath)
+    let triggerShare = input.triggerFetch.asObservable().share()
+    let cellButtonTapped = input.photoSelected.share()
+
+    // search photos by query
+    let search = triggerShare
+      .flatMap { [weak self] in self?.searchRemoteCase() ?? .empty() }
+
+    // fetch favorites photos of user selected
+    let favor = Observable.of( // 沒有最新
+        triggerShare,
+        // 有可能因為點擊同時觸發 save 跟 fetchFavor，只是這邊比較早做所以提早刷新時，還尚未儲存到。
+        cellButtonTapped.map { _ in }.delay(.seconds(1), scheduler: MainScheduler.instance)
+      )
+      .merge()
+      .flatMap { [weak self] in self?.fetchFavoriteCase() ?? .empty() }
+
+    // transfrom to sectionModel with search and favorite
+    let cellViewModelSections = Observable.combineLatest(search, favor)
+      .flatMapLatest { photos, favorites -> Observable<[PhotosResultCellViewModel]> in
+        let viewModels = photos.photo.map { photo -> PhotosResultCellViewModel in
+          let isFavor = favorites[self.passValues.resultQuery?.searchText ?? ""]?.contains(photo) ?? false
+          return PhotosResultCellViewModel(photo: photo, wasFavorite: isFavor)
+        }
+        return Observable.just(viewModels)
+      }
+      .map { [ResultCellSection(model: "A section", items: $0)] }
+      .share()
+
+    let selectedCellViewModel = cellButtonTapped.withLatestFrom(cellViewModelSections)
+    { photoSelected, sections -> ((Bool, IndexPath), PhotosResultCellViewModel) in
+        let (_, indexPath) = photoSelected
+        let cellViewModel = sections[indexPath.section].items[indexPath.row]
+        return (photoSelected, cellViewModel)
+     }
+      .share()
+
+    // handle add favorite action
+    let saveCase = selectedCellViewModel
+      .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
+      .filter { (selected, cellViewModel) in selected.0 == false }
+      .flatMap { [weak self] (selected, cellViewModel) -> Observable<IndexPath> in
+        return (self?.saveFavoriteUseCase(of: cellViewModel.photo) ?? .empty())
+          .map { _ in selected.1 }
+      }
+      .observeOn(MainScheduler.instance)
+
+      let removeCase = selectedCellViewModel
+        .filter { (selected, cellViewModel) in selected.0 }
+        .flatMapLatest { [weak self] (selected, cellViewModel) in
+          self?.useCase.removeFavoriteUseCase?
+            .rx_remove(favorite: cellViewModel.photo)
+            .observeOn(ConcurrentDispatchQueueScheduler.init(qos: .background)) ?? .empty()
         }
 
-      case .failure(let error):
-        self?.onFetchFavoritesError?(error)
-
-      }
-      self?.dispatchGroup.leave()
-    })
+    return ResultOutput(
+      saved: saveCase,
+      sectionOfCells: cellViewModelSections,
+      removed: removeCase)
   }
 
-  private func fetchPhotos(of query: PhotosQuery) {
-    dispatchGroup.enter()
-    useCase.searchRemoteUseCase?.search(query: query, completionHandler: { [ weak self] (photos, error) in
-      if let error = error {
-        self?.onFetchFavoritesError?(error)
-        self?.dispatchGroup.leave()
-        return
-      }
-      guard let photos = photos else {
-        self?.dispatchGroup.leave()
-        return
-      }
-      self?.photos = photos.photo.sorted(by: { $0.id > $1.id })
-      self?.dispatchGroup.leave()
-    })
+  private func searchRemoteCase() -> Observable<Photos> {
+    guard let query = self.passValues.resultQuery,
+      let useCase = useCase.searchRemoteUseCase else {
+        return .error(NSError(
+          domain: "query or useCase not found",
+          code: -990,
+          userInfo: nil))
+    }
 
+    return useCase.rx_search(query: query)
+  }
+
+  private func fetchFavoriteCase() -> Observable<[String: [Photo]]> {
+    return useCase.fetchFavoriteUseCase?.rx_fetchFavorite() ?? .empty()
+  }
+
+  private func saveFavoriteUseCase(of photo: Photo) -> Observable<Void> {
+
+    guard let query = passValues.resultQuery,
+      let useCase = useCase.saveFavoriteUseCase else { return .empty() }
+
+    return useCase.rx_save(favorite: photo, of: query)
   }
 }
 
-// MARK: - INPUT. View event methods
-extension DefaultResultViewModel {
-  func viewDidLoad() {
+// MARK: - Cell View Model
+class PhotosResultCellViewModel {
 
+  let photo: Photo
+  var imageUrl: String?
+  var wasFavorite: Bool
+
+  init(photo: Photo, wasFavorite: Bool) {
+    self.photo = photo
+    imageUrl = "https://farm\(photo.farm).staticflickr.com/\(photo.server ?? "")/\(photo.id)_\(photo.secret ?? "").jpg"
+    self.wasFavorite = wasFavorite
   }
 
-  func viewWillAppear() {
-    guard let query = passValues.resultQuery else { return }
-    fetchPhotos(of: query)
-    updateFavorites(of: query)
-
-    dispatchGroup.notify(queue: .main) { [weak self] in
-      self?.onPhotosPrepared?("")
-    }
-  }
-
-  func addFavorite(of indexPath: IndexPath) {
-
-    guard let photo = photos?[indexPath.row],
-      let query = passValues.resultQuery else { return }
-
-    useCase.saveFavoriteUseCase?.save(favorite: photo, of: query) { [weak self ] error in
-
-      guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
-
-      // refresh data
-      self?.updateFavorites(of: query, at: indexPath)
-    }
-  }
-
-  func removeFavorite(of indexPath: IndexPath) {
-
-    guard let photo = photos?[indexPath.row], let query = passValues.resultQuery else { return }
-
-    useCase.removeFavoriteUseCase?.remove(favorite: photo, completion: { [weak self] error in
-      guard error == nil else { self?.onPhotoSavedError?(error.debugDescription); return }
-      // refresh data for update cells
-      self?.updateFavorites(of: query, at: indexPath)
-    })
-  }
 }

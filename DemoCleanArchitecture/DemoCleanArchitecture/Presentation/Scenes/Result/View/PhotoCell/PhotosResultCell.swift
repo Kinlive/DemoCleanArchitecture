@@ -7,17 +7,12 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 extension PhotosResultCell {
-  struct Input {
-    var photo: Photo
-    var indexPath: IndexPath
-    var wasFavorite: Bool
-  }
-
-  struct Output {
-    var onFavoriteSelected: ((Input) -> Void)?
-    var onFavoriteCanceled: ((Input) -> Void)?
+  struct Action {
+    //let favoriteSelected: PublishSubject<IndexPath>
   }
 
   private struct Constraints: LayoutConstraints {
@@ -31,6 +26,8 @@ extension PhotosResultCell {
 }
 
 class PhotosResultCell: UICollectionViewCell {
+
+  var bag = DisposeBag()
 
   // MARK: - Subviews
   lazy var photoImageView: UIImageView = {
@@ -58,7 +55,6 @@ class PhotosResultCell: UICollectionViewCell {
   lazy var favoriteButton: UIButton = {
     let btn = UIButton()
     btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.addTarget(self, action: #selector(onFavoriteTapped(sender:)), for: .touchUpInside)
     btn.setImage(UIImage(named: "addFavorite"), for: .normal)
     btn.setImage(UIImage(named: "favorited"), for: .selected)
 
@@ -66,8 +62,6 @@ class PhotosResultCell: UICollectionViewCell {
   }()
 
   // MARK: - Properties
-  private var input: Input?
-  private var output: Output?
   private var subviewsConstraints = Constraints()
 
   override init(frame: CGRect) {
@@ -84,6 +78,7 @@ class PhotosResultCell: UICollectionViewCell {
     super.prepareForReuse()
     photoImageView.image = nil
     favoriteButton.isSelected = false
+    bag = DisposeBag()
   }
   override func layoutSubviews() {
     super.layoutSubviews()
@@ -127,29 +122,13 @@ class PhotosResultCell: UICollectionViewCell {
     subviewsConstraints.activateAll()
   }
 
-  // MARK: - Configures.
-  func configure(input: Input, output: Output) {
-    self.input = input
-    self.output = output
-
-    titleLabel.text = input.photo.title
-
-    let imageUrl = "https://farm\(input.photo.farm).staticflickr.com/\(input.photo.server ?? "")/\(input.photo.id)_\(input.photo.secret ?? "").jpg"
-    //print(imageUrl)
-    photoImageView.downloaded(from: imageUrl)
-
-    favoriteButton.isSelected = input.wasFavorite
-
-  }
-
-  @objc private func onFavoriteTapped(sender: UIButton) {
-    guard let input = input else { return }
-
-    switch sender.isSelected {
-    case true: output?.onFavoriteCanceled?(input)
-    case false: output?.onFavoriteSelected?(input)
+  func bindViewModel(_ viewModel: PhotosResultCellViewModel, action: Action, at indexPath: IndexPath) {
+    titleLabel.text = viewModel.photo.title
+    if let imageUrl = viewModel.imageUrl {
+      photoImageView.downloaded(from: imageUrl)
     }
+    favoriteButton.isSelected = viewModel.wasFavorite
 
   }
-
 }
+
