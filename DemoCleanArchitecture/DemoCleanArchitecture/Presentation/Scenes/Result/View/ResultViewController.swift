@@ -61,6 +61,10 @@ class ResultViewController: UIViewController {
     makeUIs()
   }
 
+    deinit {
+        print("ResultViewController deinit")
+    }
+
   // MARK: - Make UIs
   private func addSubviews() {
     view.addSubview(photosCollectionView)

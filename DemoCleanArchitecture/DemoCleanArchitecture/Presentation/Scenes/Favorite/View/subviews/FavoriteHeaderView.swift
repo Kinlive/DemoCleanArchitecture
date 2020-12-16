@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 extension FavoriteHeaderView {
   struct Input {
     let title: String
     let section: Int
+    let isExpand: Bool
   }
 
   struct Output {
@@ -20,20 +23,31 @@ extension FavoriteHeaderView {
 
   private struct Constraints: LayoutConstraints {
     let title = NSLayoutConstraintSet()
+    var tappedSpace = NSLayoutConstraintSet()
 
-    var all: [NSLayoutConstraintSet] { [title] }
+    var all: [NSLayoutConstraintSet] { [title, tappedSpace] }
   }
 }
 
-class FavoriteHeaderView: UIView {
+class FavoriteHeaderView: UITableViewHeaderFooterView {
+
+  var bag = DisposeBag()
 
   // MARK: - Subviews
-  lazy var titleLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = .black
-    return label
-  }()
+//  lazy var titleLabel: UILabel = {
+//    let label = UILabel()
+//    label.translatesAutoresizingMaskIntoConstraints = false
+//    label.textColor = .black
+//    return label
+//  }()
+
+    lazy var tappedButton: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = .clear
+        btn.addTarget(self, action: #selector(tapGesture(recognizer:)), for: .touchUpInside)
+        return btn
+    }()
 
   // MARK: - Properties
   private let subviewConstraints = Constraints()
@@ -42,18 +56,22 @@ class FavoriteHeaderView: UIView {
   private var isExpanding: Bool = true
 
   // MARK: - Initialize
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-
-  convenience init(input: Input, output: Output) {
-    self.init(frame: .zero)
-
-    self.input = input
-    self.output = output
-
+  override init(reuseIdentifier: String?) {
+    super.init(reuseIdentifier: reuseIdentifier)
     addSubviews()
     makeUIsBehavior()
+
+  }
+
+  override func prepareForReuse() {
+    super.prepareForReuse()
+
+    bag = DisposeBag()
+  }
+
+  public func configure(input: Input, output: Output) {
+    self.input = input
+    self.output = output
     configure()
   }
 
@@ -69,32 +87,44 @@ class FavoriteHeaderView: UIView {
 
   // MARK: - Make UIs
   private func addSubviews() {
-    addSubview(titleLabel)
+    //addSubview(titleLabel)
+    contentView.addSubview(tappedButton)
   }
 
   private func makeUIsBehavior() {
     isUserInteractionEnabled = true
     let tap = UITapGestureRecognizer(target: self, action: #selector(tapGesture(recognizer:)))
-    addGestureRecognizer(tap)
+    contentView.addGestureRecognizer(tap)
   }
 
   private func makeUIs() {
-    backgroundColor = .lightGray
+    //backgroundColor = .lightGray
+    let colorView = UIView()
+    colorView.backgroundColor = .lightGray
+    backgroundView = colorView
   }
 
   private func makeUIsConstraints() {
-    subviewConstraints.title.centerY = titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-    subviewConstraints.title.left = titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15)
+//    subviewConstraints.title.centerY = titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+//    subviewConstraints.title.left = titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15)
+
+    subviewConstraints.tappedSpace.top = tappedButton.topAnchor.constraint(equalTo: contentView.topAnchor)
+    subviewConstraints.tappedSpace.left = tappedButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+    subviewConstraints.tappedSpace.right = tappedButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    subviewConstraints.tappedSpace.bottom = tappedButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 
     subviewConstraints.activateAll()
   }
 
   @objc private func tapGesture(recognizer: UITapGestureRecognizer) {
-    isExpanding = !isExpanding
-    output?.onTappedHeader(isExpanding, input?.section ?? 1)
+    isExpanding.toggle()
+    let toggled = isExpanding
+    output?.onTappedHeader(toggled, input?.section ?? 1)
   }
 
   private func configure() {
-    titleLabel.text = input?.title
+    self.textLabel?.text = input?.title
+    self.isExpanding = input?.isExpand ?? true
+   // titleLabel.text = input?.title
   }
 }

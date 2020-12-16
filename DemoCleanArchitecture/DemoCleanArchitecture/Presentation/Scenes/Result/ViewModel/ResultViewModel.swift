@@ -46,6 +46,11 @@ class DefaultResultViewModel: ResultViewModel {
     self.passValues = passValues
   }
 
+
+    deinit {
+        print("ResultViewModel deinit")
+    }
+
   func transform(input: ResultInput) -> ResultOutput {
 
     let triggerShare = input.triggerFetch.asObservable().share()

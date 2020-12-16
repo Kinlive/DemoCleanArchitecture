@@ -52,6 +52,12 @@ extension StoryboardIdentifiable where Self: UITableViewCell {
     }
 }
 
+extension StoryboardIdentifiable where Self: UITableViewHeaderFooterView {
+  static var storyboardIdentifier: String {
+    return String(describing: self)
+  }
+}
+
 extension StoryboardIdentifiable where Self: UICollectionReusableView {
     static var storyboardIdentifier: String {
         return String(describing: self)
@@ -61,6 +67,7 @@ extension StoryboardIdentifiable where Self: UICollectionReusableView {
 extension UIViewController: StoryboardIdentifiable { }
 extension UIViewController: StoryboardInstantiable { }
 extension UITableViewCell: StoryboardIdentifiable { }
+extension UITableViewHeaderFooterView: StoryboardIdentifiable { }
 extension UICollectionReusableView: StoryboardIdentifiable { }
 
 extension UIStoryboard {
@@ -127,6 +134,13 @@ extension UITableView {
         }
         return cell
     }
+
+  func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>() -> T {
+    guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: T.storyboardIdentifier) as? T else {
+      fatalError("Could not find header footer view with identifier \(T.storyboardIdentifier)")
+    }
+    return headerFooterView
+  }
 }
 
 /// Use in view controllers:

@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import RxDataSources
+import RxCocoa
+import RxSwift
 
 class FavoriteViewController: UIViewController {
+
+  private let bag = DisposeBag()
     
   var viewModel: FavoriteViewModel!
 
@@ -23,9 +28,10 @@ class FavoriteViewController: UIViewController {
     let table = UITableView()
     table.translatesAutoresizingMaskIntoConstraints = false
     table.register(PhotoFavoriteCell.self, forCellReuseIdentifier: PhotoFavoriteCell.storyboardIdentifier)
+    table.register(FavoriteHeaderView.self, forHeaderFooterViewReuseIdentifier: FavoriteHeaderView.storyboardIdentifier)
     table.separatorStyle = .none
-    table.delegate = self
-    table.dataSource = self
+    //table.delegate = self
+    //table.dataSource = self
     table.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.9)
 
     return table
@@ -33,18 +39,19 @@ class FavoriteViewController: UIViewController {
 
   // MARK: - Properties
   private let constraints: Constraints = Constraints()
+  private var cacheHeaders: [Int: FavoriteHeaderView] = [:]
 
   // MARK: - Life cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     addSubviews()
     bind(to: viewModel)
-    viewModel.viewDidLoad()
+    //viewModel.viewDidLoad()
   }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.viewWillAppear()
+    //viewModel.viewWillAppear()
   }
 
   override func viewWillLayoutSubviews() {
@@ -54,18 +61,65 @@ class FavoriteViewController: UIViewController {
   }
 
   func bind(to viewModel: FavoriteViewModel) {
-    self.viewModel.tappedHeaderOn = expandTable
 
-    self.viewModel.onFavoritesPrepared = {
-      DispatchQueue.main.async {
-        self.favoritesTableView.reloadData()
-      }
+    let deleteFavorite = PublishSubject<IndexPath>()
+    let triggerReload = PublishSubject<Bool>()
+
+    rx.viewWillAppear
+      .bind(to: triggerReload)
+      .disposed(by: bag)
+
+    let input = FavoriteInput(
+      viewWillAppear: triggerReload,
+      deleteFavorite: deleteFavorite)
+
+    let dataSources = RxTableViewSectionedAnimatedDataSource<FavoriteSection>(
+      configureCell: { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+        let cell: PhotoFavoriteCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.configure(
+          input: .init(indexPath: indexPath, photo: item),
+          output: .init()
+        )
+        return cell
+      },
+      // 與 tableViewDelegate.tableView(_:viewForHeaderInSection:) -> UIView? 可共用，此處設置的title為 UITableViewHeaderFooterView.textLabel。若兩邊皆有設置title，最後會以此處為準
+      titleForHeaderInSection: { (dataSource, section) -> String? in
+        return dataSource.sectionModels[section].model
+      },
+      // [Notice]: - 要搭配 tableView.rx.itemDeleted/item other actions 一起使用
+      canEditRowAtIndexPath: { dataSource, indexPath -> Bool in
+        return true
+      })
+
+    dataSources.decideViewTransition = { ds, tv, changest in
+        print(changest)
+        return .animated
     }
 
-    self.viewModel.onFetchError = { error in
-      print(error)
-    }
+    favoritesTableView.rx
+      .setDelegate(self)
+      .disposed(by: bag)
 
+    favoritesTableView.rx.itemDeleted
+      .bind(to: deleteFavorite)
+      .disposed(by: bag)
+
+    let output = viewModel.transform(input: input)
+
+    output.sectionModels
+      .asDriver(onErrorJustReturn: [])
+      .drive(favoritesTableView.rx.items(dataSource: dataSources))
+      .disposed(by: bag)
+
+    output.removeFavorite
+      .map { _ in true }
+      .bind(to: triggerReload)
+      .disposed(by: bag)
+
+//    favoritesTableView.rx.headerEvent
+//    .subscribe(onNext: { any in print(any) })
+//    .disposed(by: bag)
+    
   }
 
   // MARK: - Private mathods.
@@ -109,21 +163,7 @@ extension FavoriteViewController {
 }
 
 // MARK: - UITableView delegate & dataSource
-extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return viewModel.numberOfSection()
-  }
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.numberOfPhotos(in: section)
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell: PhotoFavoriteCell = tableView.dequeueReusableCell(for: indexPath)
-    cell.configure(input: inputForCell(at: indexPath),
-                   output: outputForCell(at: indexPath))
-    return cell
-  }
-
+extension FavoriteViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 90
   }
@@ -133,37 +173,19 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
   }
 
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    guard let title = viewModel.headerTitle(in: section) else { return nil }
-
-    return FavoriteHeaderView(
-      input: .init(title: title, section: section),
-      output: .init(onTappedHeader: viewModel.onTappedHeader)
-    )
-  }
-
-  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return true
-  }
-
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    switch editingStyle {
-    case .delete:
-      viewModel.onDeleteFavorite(at: indexPath)
-    default: break
+    if let view = cacheHeaders[section] {
+        return view
     }
-  }
 
-  private func inputForCell(at indexPath: IndexPath) -> PhotoFavoriteCell.Input {
-    let photo = viewModel.photo(at: indexPath)
-
-    return .init(
-      indexPath: indexPath,
-      photo: photo
-    )
-  }
-
-  private func outputForCell(at indexPath: IndexPath) -> PhotoFavoriteCell.Output {
-    return .init()
+    let header: FavoriteHeaderView = tableView.dequeueReusableHeaderFooterView()
+    header.configure(
+        input: .init(title: "Alllll", section: section, isExpand: viewModel.expandsIndex[section] ?? true),
+      output: .init(onTappedHeader: { [weak self] (isExpanding, index) in
+        print("tapped on \(index) now isExpanding: \(isExpanding)")
+        self?.viewModel.sectionHeaderTapped.onNext((isExpanding, index))
+      }))
+    cacheHeaders[section] = header
+    return header
   }
 
 }

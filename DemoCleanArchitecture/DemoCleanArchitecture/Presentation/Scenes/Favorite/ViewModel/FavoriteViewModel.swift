@@ -7,30 +7,39 @@
 //
 
 import Foundation
+import RxSwift
+import RxDataSources
+extension Photo: IdentifiableType {
+    var identity: String {
+        return id
+    }
 
+    typealias Identity = String
+
+}
+
+typealias FavoriteSection = AnimatableSectionModel<String, Photo>
 struct FavoriteViewModelActions {
 
 }
 
-protocol FavoriteViewModelInput {
-  func viewDidLoad()
-  func viewWillAppear()
-  func onTappedHeader(isExpanding: Bool, of section: Int)
-  func onDeleteFavorite(at indexPath: IndexPath)
+struct FavoriteInput {
+  let viewWillAppear: Observable<Bool>
+  let tappedHeader = PublishSubject<(isExpanding: Bool, section: Int)>()
+  let deleteFavorite: Observable<IndexPath>
 }
 
-protocol FavoriteViewModelOutput {
-  var tappedHeaderOn: ((_ isExpanding: Bool, _ indexPaths: [IndexPath]) -> Void)? { get set }
-  var onFetchError: ((String) -> Void)? { get set }
-  var onFavoritesPrepared: (() -> Void)? { get set }
+struct FavoriteOutput {
+  let sectionModels: Observable<[FavoriteSection]>
+  let removeFavorite: Observable<Photo>
 
-  func photo(at indexPath: IndexPath) -> Photo
-  func numberOfPhotos(in section: Int) -> Int
-  func numberOfSection() -> Int
-  func headerTitle(in section: Int) -> String?
 }
 
-protocol FavoriteViewModel: FavoriteViewModelInput, FavoriteViewModelOutput { }
+protocol FavoriteViewModel {
+  var sectionHeaderTapped: PublishSubject<(Bool, Int)> { set get }
+  var expandsIndex: [Int: Bool] { get set }
+  func transform(input: FavoriteInput) -> FavoriteOutput
+}
 
 class DefaultFavoriteViewModel: FavoriteViewModel {
 
@@ -41,91 +50,87 @@ class DefaultFavoriteViewModel: FavoriteViewModel {
   var onFetchError: ((String) -> Void)?
   var onFavoritesPrepared: (() -> Void)?
 
+  var sectionHeaderTapped: PublishSubject<(Bool, Int)> = PublishSubject()
+
   // MARK: - Properties
   private let useCases: UseCases
   private let actions: FavoriteViewModelActions
 
   private var fetchFavorites: [(title: String, photos: [Photo])] = []
-  private var expandsIndex: [Int : Bool] = [:]
+  var expandsIndex: [Int : Bool] = [:]
+  private let expandsIndexSubject = PublishSubject<[Int: Bool]>()
 
   init(actions: FavoriteViewModelActions, useCases: UseCases) {
     self.actions = actions
     self.useCases = useCases
+
+    sectionHeaderTapped.subscribe(onNext: { [weak self] (isExpand, index) in
+      self?.expandsIndex[index] = isExpand
+      }).disposed(by: bag)
   }
 
-  // MARK: - Output methods.
-  func photo(at indexPath: IndexPath) -> Photo {
-    return fetchFavorites[indexPath.section].photos[indexPath.row]
+  func transform(input: FavoriteInput) -> FavoriteOutput {
+
+    //let favorFetch = input.viewWillAppear
+    let favorFetch = Observable.merge(
+      input.viewWillAppear.map { _ in },
+        sectionHeaderTapped.map { _ in }
+      )
+      .flatMap { [weak self] _ in self?.fetchFavoriteUseCase() ?? .empty() }
+      .map { [weak self] sections in
+        sections.enumerated().map { index, element -> FavoriteSection in
+          if self?.expandsIndex[index] ?? false { //? ???
+            return element
+          } else {
+            return FavoriteSection(model: element.model, items: [])
+          }
+        }
+      }
+      .share()
+
+    let removedCase = input.deleteFavorite
+      .withLatestFrom(favorFetch) { indexPath, sections in
+        sections[indexPath.section].items[indexPath.row]
+      }
+      .flatMap { [weak self] photo in
+        self?.deleteFavoriteUseCase(deleted: photo)
+          .map { photo } ?? .empty()
+      }
+      .do(afterNext: { _ in  })
+      .share()
+
+    return FavoriteOutput(
+      sectionModels: favorFetch,
+      removeFavorite: removedCase)
   }
 
-  func headerTitle(in section: Int) -> String? {
-    return fetchFavorites[section].title
-  }
+  let bag = DisposeBag()
 
-  func numberOfPhotos(in section: Int) -> Int {
-    guard let isExpanding = expandsIndex[section] else { return 0 }
-
-    return isExpanding ? fetchFavorites[section].photos.count : 0
-  }
-
-  func numberOfSection() -> Int {
-    return fetchFavorites.count
-  }
-
-}
-
-// MARK: - INPUT. View event methods
-extension DefaultFavoriteViewModel {
-  func viewDidLoad() {
-  }
-
-  func viewWillAppear() {
-    useCases.fetchFavoriteUseCase?.fetchFavorite(completion: { [weak self] result in
-
-      // clear first
-      self?.fetchFavorites.removeAll()
-      self?.expandsIndex.removeAll()
-
-      switch result {
-      case .success(let photos):
-
-        photos
+  private func fetchFavoriteUseCase() -> Observable<[FavoriteSection]> {
+    guard let useCase = useCases.fetchFavoriteUseCase else { return .empty() }
+    return useCase.rx_fetchFavorite()
+      .map { values -> [FavoriteSection] in
+        values
           .sorted(by: { $0.key > $1.key })
-          .enumerated()
-          .forEach { (index, element ) in
+          .map { key, photos in FavoriteSection(model: key, items: photos) }
+      }
+      .do(onNext: { [weak self] sections in
 
-            self?.fetchFavorites.append((element.key, element.value))
-            // according count of photos, base set each to false.
-            self?.expandsIndex[index] = true
+        if sections.count == self?.expandsIndex.count {
+            return
         }
 
-        // trigger favorites prepared for reload table.
-        self?.onFavoritesPrepared?()
-
-      case .failure(let error):
-        self?.onFetchError?(error.localizedDescription)
-      }
-    })
-
+        sections
+          .enumerated()
+          .forEach { [weak self] index, _ in
+            self?.expandsIndex[index] = true
+        }
+      })
   }
 
-  func onTappedHeader(isExpanding: Bool, of section: Int) {
-    // cache section
-    expandsIndex[section] = isExpanding
-    let indexPathCount = fetchFavorites[section].photos.count
-
-    let indexPaths = (0..<indexPathCount)
-      .map { IndexPath(item: $0, section: section) }
-
-    tappedHeaderOn?(isExpanding, indexPaths)
+  private func deleteFavoriteUseCase(deleted photo: Photo) -> Observable<Void> {
+    guard let useCase = useCases.removeFavoriteUseCase else { return .empty() }
+    return useCase.rx_remove(favorite: photo)
   }
 
-  func onDeleteFavorite(at indexPath: IndexPath) {
-
-    let deletePhoto = fetchFavorites[indexPath.section].photos[indexPath.row]
-    useCases.removeFavoriteUseCase?.remove(favorite: deletePhoto, completion: { [weak self] error in
-      guard let error = error else { self?.viewWillAppear(); return }
-      self?.onFetchError?(error.localizedDescription)
-    })
-  }
 }
