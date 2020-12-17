@@ -55,12 +55,12 @@ struct UseCases: HasPhotosRemoteSearchUseCase, HasPhotosLocalSearchUseCase, HasT
 
   var testString: String
 
-  init(searchRemoteUseCase: DefaultSearchRemoteUseCase? = nil,
-       searchLocalUseCase: DefaultSearchLocalUseCase? = nil,
-       saveFavoriteUseCase: DefaultSaveFavoriteUseCase? = nil,
-       removeFavoriteUseCase: DefaultRemoveFavoriteUseCase? = nil,
-       fetchFavoriteUseCase: DefaultFetchFavoriteUseCase? = nil,
-       searchRecordUseCase: DefaultSearchRecordUseCase? = nil,
+  init(searchRemoteUseCase: SearchRemoteUseCase? = nil,
+       searchLocalUseCase: SearchLocalUseCase? = nil,
+       saveFavoriteUseCase: SaveFavoriteUseCase? = nil,
+       removeFavoriteUseCase: RemoveFavoriteUseCase? = nil,
+       fetchFavoriteUseCase: FetchFavoriteUseCase? = nil,
+       searchRecordUseCase: SearchRecordUseCase? = nil,
       test: String = "") {
 
     self.searchRemoteUseCase = searchRemoteUseCase

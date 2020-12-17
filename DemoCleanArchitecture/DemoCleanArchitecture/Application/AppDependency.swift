@@ -9,7 +9,7 @@
 import Foundation
 
 protocol HasSearchRemoteService {
-  var searchService: SearchService { get }
+  var searchService: SearchService? { get }
 }
 
 protocol HasCoreDataService {
@@ -36,7 +36,7 @@ protocol HasCachedService {
 struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService, HasCachedService, HasFavoritesPhotosStorage, HasQuerysStorage {
 
   /// HasSearchRemoteService dependency.
-  var searchService: SearchService
+  var searchService: SearchService?
 
   /// HasCorDataService dependency.
   var photosStorage: PhotosStorage
@@ -51,7 +51,7 @@ struct AppDependency: HasSearchRemoteService, HasCoreDataService, HasSQLService,
   let querysStorage: QuerysStorage
 
 
-  init(remoteService: SearchService) {
+  init(remoteService: SearchService? = nil) {
     searchService = remoteService
 
     photosStorage = CoreDataPhotosStorage()

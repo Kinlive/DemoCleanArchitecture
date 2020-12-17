@@ -42,9 +42,9 @@ final class SearchDIContainer: SearchDIContainerMakeFactory {
   }
 
   func makeSearchViewModelUseCases() -> UseCases {
-    return UseCases(searchRemoteUseCase: .init(repo: makeSearchRepository()),
-                    searchLocalUseCase: .init(repo: makeSearchRepository()),
-                    searchRecordUseCase: .init(repo: makeSearchRepository()))
+    return UseCases(searchRemoteUseCase: DefaultSearchRemoteUseCase(repo: makeSearchRepository()),
+                    searchLocalUseCase: DefaultSearchLocalUseCase(repo: makeSearchRepository()),
+                    searchRecordUseCase: DefaultSearchRecordUseCase(repo: makeSearchRepository()))
   }
 
   func makeSearchViewModel(with action: SearchViewModelActions) -> SearchViewModel {
