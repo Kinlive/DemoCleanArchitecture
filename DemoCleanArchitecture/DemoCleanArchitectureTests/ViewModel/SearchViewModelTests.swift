@@ -21,7 +21,6 @@ class SearchViewModelTests: XCTestCase {
     var testScheduler: TestScheduler!
 
     // prepare something.
-    private let voidAction: Action<PhotosQuery, Void> = Action { _ in return .empty() }
     private var useCase: DefaultSearchViewModel.SearchUseCases!
 
     override func setUpWithError() throws {
@@ -32,33 +31,17 @@ class SearchViewModelTests: XCTestCase {
             searchRecordUseCase: MockFetchRecordsUseCase()
         )
 
-        viewModel = DefaultSearchViewModel(
-            actions: .init(showResult: voidAction),
-            useCases: useCase
-        )
-
         //scheduler = ConcurrentDispatchQueueScheduler(qos: .default)
         testScheduler = TestScheduler(initialClock: 0)
     }
 
     override func tearDownWithError() throws {
+        viewModel = nil
+        testScheduler = nil
+
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    /*
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-     */
-
+    
     func test_fetchRecords_correctly() throws {
         let bag = DisposeBag()
 
@@ -72,6 +55,7 @@ class SearchViewModelTests: XCTestCase {
 
         let unuseClear = Observable.just(()).asDriver(onErrorJustReturn: ())
 
+        viewModel = viewModel()
         let output = viewModel.convert(input: .init(triggerReload: trigger, clear: unuseClear))
 
         output.reload.asObservable()
@@ -94,4 +78,65 @@ class SearchViewModelTests: XCTestCase {
             Stubs().searchQuerys.map { $0.searchText }
         )
     }
+
+    func test_inputSearchTexts_to_triggerAction() throws {
+
+        // arrange
+        let bag = DisposeBag()
+        let trigger = Observable.just(()).asDriver(onErrorJustReturn: ())
+        let clean = Observable.just(()).asDriver(onErrorJustReturn: ())
+
+        let observer = testScheduler.createObserver(PhotosQuery.self)
+
+        let action: Action<PhotosQuery, Void> = Action { query in
+            print("Here get query: \(query)")
+            observer.onNext(query)
+            return .empty()
+        }
+
+       viewModel = viewModel(with: action)
+
+        let triggerSearch = testScheduler.createHotObservable([
+            .next(100, "Cat"), .next(200, "Dog"), .next(300, "Doraemon")
+        ])
+
+        let triggerPerPage: TestableObservable<String> = testScheduler.createHotObservable([
+            .next(100, "100")
+        ])
+
+        let triggerPage = testScheduler.createHotObservable([
+            .next(100, "2"), .next(200, "5")
+        ])
+
+        let triggerTapped = testScheduler.createHotObservable([
+            .next(100, ()), .next(200, ()), .next(300, ())
+        ])
+
+        let input = SearchViewModelInput(triggerReload: trigger, clear: clean)
+
+        // bind to inputs
+        triggerSearch.bind(to: input.searchText).disposed(by: bag)
+        triggerPerPage.bind(to: input.perPage).disposed(by: bag)
+        triggerPage.bind(to: input.page).disposed(by: bag)
+        triggerTapped.bind(to: input.onTappedSearchButton).disposed(by: bag)
+
+        let _ = viewModel.convert(input: input)
+
+        // action
+        testScheduler.start()
+
+        let result = observer.events
+
+        // assert
+        XCTAssertEqual(result.count, 3) // tap 3 times with 3 query passed
+        XCTAssertEqual(result[2].value.element?.searchText, "Doraemon")
+
+    }
+
+    private func viewModel(
+        with action: Action<PhotosQuery, Void> = Action { _ in return .empty() })
+    -> SearchViewModel {
+        return DefaultSearchViewModel(actions: .init(showResult: action), useCases: useCase)
+    }
+
 }
