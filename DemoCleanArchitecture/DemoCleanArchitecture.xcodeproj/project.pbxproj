@@ -73,6 +73,7 @@
 		FED39015258B04A6001D6FDD /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED39014258B04A6001D6FDD /* SearchViewModelTests.swift */; };
 		FED39047258B3DAB001D6FDD /* MockUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED39046258B3DAB001D6FDD /* MockUseCases.swift */; };
 		FED3904B258B3DC3001D6FDD /* Stubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED3904A258B3DC3001D6FDD /* Stubs.swift */; };
+		FED3905C25909E05001D6FDD /* ResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED3905B25909E05001D6FDD /* ResultViewModelTests.swift */; };
 		FEDDC6682570D14B003A669F /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDC6672570D14B003A669F /* UIViewController+Rx.swift */; };
 		FEDDF6C62538480300AC2294 /* DefaultFavoriteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6C52538480300AC2294 /* DefaultFavoriteRepository.swift */; };
 		FEDDF6C925384D2300AC2294 /* SaveFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDDF6C825384D2300AC2294 /* SaveFavoriteUseCase.swift */; };
@@ -170,6 +171,7 @@
 		FED39014258B04A6001D6FDD /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		FED39046258B3DAB001D6FDD /* MockUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUseCases.swift; sourceTree = "<group>"; };
 		FED3904A258B3DC3001D6FDD /* Stubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubs.swift; sourceTree = "<group>"; };
+		FED3905B25909E05001D6FDD /* ResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModelTests.swift; sourceTree = "<group>"; };
 		FEDDC6672570D14B003A669F /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		FEDDF6C52538480300AC2294 /* DefaultFavoriteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFavoriteRepository.swift; sourceTree = "<group>"; };
 		FEDDF6C825384D2300AC2294 /* SaveFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFavoriteUseCase.swift; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 			isa = PBXGroup;
 			children = (
 				FED39014258B04A6001D6FDD /* SearchViewModelTests.swift */,
+				FED3905B25909E05001D6FDD /* ResultViewModelTests.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 				FED39047258B3DAB001D6FDD /* MockUseCases.swift in Sources */,
 				FED39015258B04A6001D6FDD /* SearchViewModelTests.swift in Sources */,
 				FED3904B258B3DC3001D6FDD /* Stubs.swift in Sources */,
+				FED3905C25909E05001D6FDD /* ResultViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1149,7 +1153,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1203,7 +1207,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1260,7 +1264,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PVK56R4YSC;
 				INFOPLIST_FILE = DemoCleanArchitectureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1283,7 +1287,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PVK56R4YSC;
 				INFOPLIST_FILE = DemoCleanArchitectureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

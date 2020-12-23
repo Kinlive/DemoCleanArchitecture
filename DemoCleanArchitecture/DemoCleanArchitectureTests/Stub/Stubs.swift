@@ -31,4 +31,9 @@ struct Stubs {
             Photo(id: "55555555", owner: "I'm 5555", secret: "eeeeeeee", server: "5555", farm: 5, title: "Doraemon 5555", ispublic: 1, isfriend: 0, isfamily: 0)
         ]
     )
+
+    let localFavorites: [Photo] = [
+        Photo(id: "11111111", owner: "I'm 1111", secret: "aaaaaaa", server: "1111", farm: 1, title: "Favorited Doraemon 1111", ispublic: 1, isfriend: 0, isfamily: 0),
+        Photo(id: "222222", owner: "I'm 2222", secret: "bbbbbbb", server: "2222", farm: 2, title: "Favorited Doraemon 2222", ispublic: 2, isfriend: 0, isfamily: 0)
+    ]
 }

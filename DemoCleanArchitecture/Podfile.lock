@@ -2,7 +2,7 @@ PODS:
   - Action (4.2.0):
     - RxCocoa (< 7.0, >= 5.0)
     - RxSwift (< 7.0, >= 5.0)
-  - Alamofire (5.2.2)
+  - Alamofire (5.4.1)
   - Differentiator (4.0.1)
   - Moya (14.0.0):
     - Moya/Core (= 14.0.0)
@@ -47,7 +47,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Action: 5dc2194f7a0b77857c82a677b0da655f197c005f
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RxBlocking: 5f700a78cad61ce253ebd37c9a39b5ccc76477b4

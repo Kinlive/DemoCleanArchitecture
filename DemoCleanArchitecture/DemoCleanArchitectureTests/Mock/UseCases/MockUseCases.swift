@@ -28,3 +28,53 @@ class MockSearchLocalUseCase: SearchLocalUseCase {
         completionHandler(Stubs().photos, nil)
     }
 }
+
+
+// Result viewModel tests
+class MockSearchRemoteUseCase: SearchRemoteUseCase {
+    func search(query: PhotosQuery, completionHandler: @escaping (Photos?, Error?) -> Void) {
+
+    }
+
+    func rx_search(query: PhotosQuery) -> Observable<Photos> {
+
+        return Observable.just(Stubs().photos)
+    }
+}
+
+class MockFetchFavoriteUseCase: FetchFavoriteUseCase {
+    func fetchFavorite(completion: @escaping (Result<[String : [Photo]], Error>) -> Void) {
+
+    }
+
+    func rx_fetchFavorite() -> Observable<[String : [Photo]]> {
+
+        return .just(["Test favorite" : Stubs().localFavorites])
+    }
+}
+
+class MockRemoveFavoriteUseCase: RemoveFavoriteUseCase {
+    func remove(favorite photo: Photo, completion: @escaping (Error?) -> Void) {
+
+    }
+
+
+    func rx_remove(favorite photo: Photo) -> Observable<Void> {
+
+        print("Remove favorite photo: \(photo.id) success")
+        return .empty()
+    }
+}
+
+class MockSaveFavoriteUseCase: SaveFavoriteUseCase {
+
+    func save(favorite photo: Photo, of request: PhotosQuery, completion: @escaping (Error?) -> Void) {
+
+    }
+
+
+    func rx_save(favorite photo: Photo, of request: PhotosQuery) -> Observable<Void> {
+        print("Sava photo:\(photo.id) with request: \(request.searchText) success !")
+        return .empty()
+    }
+}
